@@ -1,4 +1,21 @@
 
+:root {
+    --silk-red: #8b1d1d;
+    --silk-bright: #cc2b2b;
+    --void-black: #0a0a0a;
+    --pale-silk: #e2d1c3;
+    --amber-glow: #ffb443;
+}
+
+body {
+    background-color: var(--void-black);
+    background-image:
+        radial-gradient(circle at 50% 50%, #1a0a0a 0%, #050505 100%);
+    color: var(--pale-silk);
+    font-family: 'IM Fell English', serif;
+    overflow-x: hidden;
+}
+
 @keyframes fade-in {
   from { opacity: 0; transform: translateY(10px); }
   to { opacity: 1; transform: translateY(0); }
@@ -7,3 +24,35 @@
 .animate-fade-in {
   animation: fade-in 0.8s ease-out forwards;
 }
+
+/* Mobile menu animation */
+        .mobile-menu {
+            transform: translateX(100%);
+            transition: transform 0.3s ease-in-out;
+        }
+        
+        .mobile-menu.active {
+            transform: translateX(0);
+        }
+        
+        /* Hamburger animation */
+        .hamburger span {
+            display: block;
+            width: 25px;
+            height: 3px;
+            background: #ffb443;
+            margin: 5px 0;
+            transition: all 0.3s ease;
+        }
+        
+        .hamburger.active span:nth-child(1) {
+            transform: rotate(45deg) translate(8px, 8px);
+        }
+        
+        .hamburger.active span:nth-child(2) {
+            opacity: 0;
+        }
+        
+        .hamburger.active span:nth-child(3) {
+            transform: rotate(-45deg) translate(7px, -6px);
+        }

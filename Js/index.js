@@ -1,8 +1,4 @@
-
-import { GoogleGenAI } from "@google/genai";
-
 $(document).ready(function() {
-    const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
     const $form = $('#contact-form');
     const $formContainer = $('#form-container');
     const $resultView = $('#result-view');

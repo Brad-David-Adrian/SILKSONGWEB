@@ -5,23 +5,89 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Contact Us</title>
-    <link rel="stylesheet" href="../Css/Contact.css">
+    <link rel="stylesheet" href="../Css/Index.css">
 </head>
 
 <body>
+    <!-- Navigation -->
+    <nav class="position-fixed top-0 start-0 w-100" style="z-index: 100; background: rgba(0, 0, 0, 0.95); backdrop-filter: blur(4px);" class="border-bottom border-[#8b1d1d] px-3 py-2">
+        <div class="container-xl mx-auto d-flex justify-content-between align-items-center">
+            <!-- Logo/Brand -->
+            <div class="cinzel fs-5 fw-bold tracking-[0.3em] text-[#8b1d1d] glow-hover cursor-default">
+                WEAVER'S SANCTUM
+            </div>
+
+            <!-- Desktop Navigation Links -->
+            <div class="d-none d-md-flex align-items-center gap-3 fs-6 text-uppercase fw-bold tracking-[0.2em]">
+                <a href="#hero" class="nav-link hover:text-[#ffb443]">Sanctum</a>
+                <a href="#lore" class="nav-link hover:text-[#ffb443]">Lore</a>
+                <a href="#features" class="nav-link hover:text-[#ffb443]">Threads</a>
+                <a href="Html/Galery.html" class="nav-link hover:text-[#ffb443]">Explore Pharloom</a>
+                <a href="Html/Map.html" class="nav-link hover:text-[#ffb443]">Map</a>
+                <a href="Html/Contact.html" class="nav-link hover:text-[#ffb443]">Bind Your Song</a>
+                <a href="#" class="text-[#ffb443] fs-5 hover:scale-110 transition-transform">🔔</a>
+            </div>
+
+
+        </div>
+    </nav>
+
+
+
+    <!-- Spacer so content doesn't hide under fixed nav -->
+    <div class="h-20"></div>
+
         <!-- Contact Section (The Loom) -->
-    <section id="contact" class="min-h-screen flex flex-col items-center justify-center py-24 px-4">
-        <header class="mb-12 text-center z-10 max-w-2xl">
-            <h3 class="text-3xl md:text-5xl font-bold tracking-[0.2em] text-[#8b1d1d] mb-4 uppercase cinzel">
+    <section id="contact" class="min-vh-100 d-flex flex-column align-items-center justify-content-center py-5 px-3">
+        <header class="mb-5 text-center" style="z-index: 10; max-width: 33.333333%;">
+            <h3 class="fs-2 fs-md-1 fw-bold tracking-[0.2em] text-[#8b1d1d] mb-4 text-uppercase cinzel">
                 Bind Your Song
             </h3>
-            <p class="text-lg italic text-[#e2d1c3] opacity-60 tracking-widest">
+            <p class="fs-5 fst-italic text-[#e2d1c3] opacity-60 tracking-widest">
                 Commit your message to the Weaver's thread
             </p>
         </header>
 
-        <div id="form-container" class="w-full max-w-3xl silksong-border p-8 md:p-16 relative overflow-hidden">
+        <div id="form-container" class="w-100" style="max-width: 50rem;" class="silksong-border p-4 p-md-5 position-relative overflow-hidden">
 
-        </body>
->
+<script>
+    // Get elements
+    const hamburger = document.getElementById('hamburger');
+    const mobileMenu = document.getElementById('mobileMenu');
+    const backdrop = document.getElementById('backdrop');
+    const mobileLinks = mobileMenu.querySelectorAll('a');
+
+    // Toggle menu function
+    function toggleMenu() {
+        hamburger.classList.toggle('active');
+        mobileMenu.classList.toggle('active');
+        backdrop.classList.toggle('hidden');
+        
+        // Prevent body scroll when menu is open
+        document.body.style.overflow = mobileMenu.classList.contains('active') ? 'hidden' : '';
+    }
+
+    // Open/close menu on hamburger click
+    hamburger.addEventListener('click', toggleMenu);
+
+    // Close menu when backdrop is clicked
+    backdrop.addEventListener('click', toggleMenu);
+
+    // Close menu when a link is clicked
+    mobileLinks.forEach(link => {
+        link.addEventListener('click', () => {
+            if (mobileMenu.classList.contains('active')) {
+                toggleMenu();
+            }
+        });
+    });
+
+    // Close menu on window resize to desktop size
+    window.addEventListener('resize', () => {
+        if (window.innerWidth >= 768 && mobileMenu.classList.contains('active')) {
+            toggleMenu();
+        }
+    });
+</script>
+</body>
 </html>

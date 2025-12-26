@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>The Weaver's Sanctum | Pharloom</title>
-    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -183,82 +183,117 @@
             animation: fade-in 1s ease-out forwards;
         }
     </style>
-
-</script>
 </head>
-<body class="antialiased">
-
-    <!--Html links -->
-    <header class="bg-black py-4 px-6 border-b border-[#8b
-1d1d] mb-12">
-        <div class="max-w-6xl mx-auto flex justify-between items-center">
-            <div class="cinzel text-xl font-bold tracking-[0.3em] text-[#8b1d1d] glow-hover cursor-default">
-                WEAVER'S SANCTUM
-            </div>
-            <div class="text-sm uppercase tracking-[0.2em]">
-                <a href="Html/Contact.html" class="hover:text-[#ffb443]">Bind Your Song</a>
-                <a href="index.html" class="ml-8 hover:text-[#ffb443]">Return to Sanctum</a>
-                <a href="Html/Galery.html" class="ml-8 hover:text-[#ffb443]">Explore Pharloom</a>
-                <a href="Html/Map.html" class="ml-8 hover:text-[#ffb443]">Visit the map Lady</a>
-                <a href="#" class="ml-8 hover:text-[#ffb443]">🔔</a>
-            </div>
-        </div>
-
-
-
+<body class="antialiased bg-dark text-light">
 
     <!-- Navigation -->
-    <nav class="fixed top-0 left-0 w-full z-[100] px-6 py-4 flex justify-between items-center">
-        <div class="cinzel text-xl font-bold tracking-[0.3em] text-[#8b1d1d] glow-hover cursor-default">
-            WEAVER'S SANCTUM
+    <nav class="position-fixed top-0 start-0 w-100" style="z-index: 100; background: rgba(10, 10, 10, 0.95); backdrop-filter: blur(10px);" class="border-bottom border-[#8b1d1d] px-3 py-2">
+        <div class="container-xl mx-auto d-flex justify-content-between align-items-center">
+            <!-- Logo/Brand -->
+            <div class="cinzel fs-5 fw-bold tracking-[0.3em] text-[#8b1d1d] glow-hover cursor-default">
+                WEAVER'S SANCTUM
+            </div>
+
+            <!-- Desktop Navigation Links -->
+            <div class="d-none d-md-flex align-items-center gap-3 fs-6 text-uppercase fw-bold tracking-[0.2em]">
+                <a href="#hero" class="nav-link hover:text-[#ffb443]">Sanctum</a>
+                <a href="#lore" class="nav-link hover:text-[#ffb443]">Lore</a>
+                <a href="#features" class="nav-link hover:text-[#ffb443]">Threads</a>
+                <a href="Html/Galery.html" class="nav-link hover:text-[#ffb443]">Explore Pharloom</a>
+                <a href="Html/Map.html" class="nav-link hover:text-[#ffb443]">Map</a>
+                <a href="Html/Contact.html" class="nav-link hover:text-[#ffb443]">Bind Your Song</a>
+                <a href="#" class="text-[#ffb443] fs-5 hover:scale-110 transition-transform">🔔</a>
+            </div>
+
+
         </div>
-        <div class="hidden md:flex gap-12 text-xs uppercase font-bold tracking-[0.2em]">
-            <a href="#hero" class="nav-link">Sanctum</a>
-            <a href="#lore" class="nav-link">Lore</a>
-            <a href="#features" class="nav-link">Threads</a>
-            <a href="#contact" class="nav-link">Bind Song</a>
-        </div>
-        <div class="text-[#ffb443] text-xl">🔔</div>
     </nav>
 
+
+
+    <!-- Add spacing so content doesn't hide under fixed nav -->
+    <div class="h-5"></div>
+
+<script>
+    // Get elements
+    const hamburger = document.getElementById('hamburger');
+    const mobileMenu = document.getElementById('mobileMenu');
+    const backdrop = document.getElementById('backdrop');
+    const mobileLinks = mobileMenu.querySelectorAll('a');
+
+    // Toggle menu function
+    function toggleMenu() {
+        hamburger.classList.toggle('active');
+        mobileMenu.classList.toggle('active');
+        backdrop.classList.toggle('hidden');
+        
+        // Prevent body scroll when menu is open
+        document.body.style.overflow = mobileMenu.classList.contains('active') ? 'hidden' : '';
+    }
+
+    // Open/close menu on hamburger click
+    hamburger.addEventListener('click', toggleMenu);
+
+    // Close menu when backdrop is clicked
+    backdrop.addEventListener('click', toggleMenu);
+
+    // Close menu when a link is clicked
+    mobileLinks.forEach(link => {
+        link.addEventListener('click', () => {
+            if (mobileMenu.classList.contains('active')) {
+                toggleMenu();
+            }
+        });
+    });
+
+    // Close menu on window resize to desktop size
+    window.addEventListener('resize', () => {
+        if (window.innerWidth >= 768 && mobileMenu.classList.contains('active')) {
+            toggleMenu();
+        }
+    });
+</script>
+
     <!-- Hero Section -->
-    <section id="hero" class="min-h-screen flex flex-col items-center justify-center pt-24 text-center px-4">
+    <section id="hero" class="vh-100 d-flex flex-column align-items-center justify-content-center pt-5 text-center px-3">
         <div class="animate-fade-in">
-            <h2 class="text-[#8b1d1d] text-sm md:text-xl uppercase tracking-[0.8em] mb-4 cinzel font-bold">Pilgrimage to the Peak</h2>
-            <h1 class="text-6xl md:text-9xl font-bold tracking-[0.2em] text-[#8b1d1d] mb-8 uppercase leading-tight cinzel" style="text-shadow: 0 0 30px rgba(139, 29, 29, 0.5);">
+            <h2 class="text-[#8b1d1d] fs-6 fs-md-5 text-uppercase tracking-[0.8em] mb-3 cinzel fw-bold">Pilgrimage to the Peak</h2>
+            <h1 class="display-1 fw-bold tracking-[0.2em] text-[#8b1d1d] mb-4 text-uppercase leading-tight cinzel" style="text-shadow: 0 0 30px rgba(139, 29, 29, 0.5);">
                 PHARLOOM
             </h1>
-            <p class="max-w-xl mx-auto text-lg md:text-2xl italic text-[#e2d1c3] opacity-70 mb-12 tracking-widest leading-relaxed">
+            <p class="container mx-auto fs-5 fs-md-1 fst-italic text-[#e2d1c3] opacity-75 mb-5 tracking-widest leading-relaxed">
                 "Where silk binds the song, and every needle tells a story of the deep docks."
             </p>
-            <a href="#contact" class="cta-btn text-lg">
+            <a href="#contact" class="cta-btn fs-5">
                 Descend into the Loom
             </a>
         </div>
-        <div class="mt-24 floating opacity-20 text-6xl">🪡</div>
+        <div class="mt-5 floating opacity-25 fs-1">🪡</div>
     </section>
 
     <!-- Section Divider -->
     <div class="section-divider"></div>
 
     <!-- Lore Section -->
-    <section id="lore" class="max-w-6xl mx-auto px-6 py-24 grid grid-cols-1 md:grid-cols-2 gap-16 items-center">
-        <div class="space-y-8">
-            <h3 class="cinzel text-4xl text-[#8b1d1d] tracking-widest uppercase font-bold">The Silk Road</h3>
-            <p class="text-xl leading-relaxed opacity-80">
-                In the heart of Pharloom, the Weavers have practiced the ancient art of binding fate since the first bell tolled in the Citadel. Here, your messages aren't just sent; they are woven into the very fabric of the kingdom.
-            </p>
-            <p class="text-xl leading-relaxed opacity-80 italic">
-                Whether you seek passage through the Deep Docks or an audience with the Citadel's masters, your song must be clear, and your silk must be strong.
-            </p>
-            <div class="flex gap-4">
-                <span class="text-[#ffb443] text-2xl">🕷️</span>
-                <span class="text-[#ffb443] text-2xl">🕸️</span>
-                <span class="text-[#ffb443] text-2xl">🪡</span>
+    <section id="lore" class="container-xl mx-auto px-3 py-5">
+        <div class="row g-5 align-items-center">
+            <div class="col-12 col-md-6 d-flex flex-column gap-4">
+                <h3 class="cinzel fs-2 text-[#8b1d1d] tracking-widest text-uppercase fw-bold">The Silk Road</h3>
+                <p class="fs-5 leading-relaxed opacity-75">
+                    In the heart of Pharloom, the Weavers have practiced the ancient art of binding fate since the first bell tolled in the Citadel. Here, your messages aren't just sent; they are woven into the very fabric of the kingdom.
+                </p>
+                <p class="fs-5 leading-relaxed opacity-75 fst-italic">
+                    Whether you seek passage through the Deep Docks or an audience with the Citadel's masters, your song must be clear, and your silk must be strong.
+                </p>
+                <div class="d-flex gap-3">
+                    <span class="text-[#ffb443] fs-3">🕷️</span>
+                    <span class="text-[#ffb443] fs-3">🕸️</span>
+                    <span class="text-[#ffb443] fs-3">🪡</span>
+                </div>
             </div>
-        </div>
-        <div class="silksong-border aspect-square w-full bg-[#1a0a0a] flex items-center justify-center">
-            <div class="text-[12rem] opacity-10 floating">🕸️</div>
+            <div class="col-12 col-md-6 silksong-border ratio-1 w-100 bg-[#1a0a0a] d-flex align-items-center justify-content-center">
+                <div class="opacity-10 floating" style="font-size: 12rem;">🕸️</div>
+            </div>
         </div>
     </section>
 
@@ -266,26 +301,26 @@
     <div class="section-divider"></div>
 
     <!-- Features Section -->
-    <section id="features" class="max-w-6xl mx-auto px-6 py-24 text-center">
-        <h3 class="cinzel text-4xl text-[#8b1d1d] tracking-widest uppercase font-bold mb-16">The Three Pillars</h3>
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+    <section id="features" class="container-xl mx-auto px-3 py-5 text-center">
+        <h3 class="cinzel fs-2 text-[#8b1d1d] tracking-widest text-uppercase fw-bold mb-5">The Three Pillars</h3>
+        <div class="row g-4">
             <!-- Feature 1 -->
-            <div class="silksong-border p-10 space-y-6 hover:translate-y-[-10px] transition-transform">
-                <div class="text-4xl text-[#ffb443]">🪡</div>
-                <h4 class="cinzel text-xl text-[#ffb443] tracking-widest uppercase">The Needle</h4>
-                <p class="opacity-70">Precise and unwavering. Our needles ensure your intent reaches the highest peaks of the Citadel.</p>
+            <div class="col-12 col-md-4 silksong-border p-4 hover:translate-y-[-10px] transition-transform">
+                <div class="fs-1 text-[#ffb443] mb-3">🪡</div>
+                <h4 class="cinzel fs-5 text-[#ffb443] tracking-widest text-uppercase mb-3">The Needle</h4>
+                <p class="opacity-75">Precise and unwavering. Our needles ensure your intent reaches the highest peaks of the Citadel.</p>
             </div>
             <!-- Feature 2 -->
-            <div class="silksong-border p-10 space-y-6 hover:translate-y-[-10px] transition-transform">
-                <div class="text-4xl text-[#ffb443]">🔔</div>
-                <h4 class="cinzel text-xl text-[#ffb443] tracking-widest uppercase">The Song</h4>
-                <p class="opacity-70">A resonance that echoes through Pharloom. We amplify your voice to reach even the most distant docks.</p>
+            <div class="col-12 col-md-4 silksong-border p-4 hover:translate-y-[-10px] transition-transform">
+                <div class="fs-1 text-[#ffb443] mb-3">🔔</div>
+                <h4 class="cinzel fs-5 text-[#ffb443] tracking-widest text-uppercase mb-3">The Song</h4>
+                <p class="opacity-75">A resonance that echoes through Pharloom. We amplify your voice to reach even the most distant docks.</p>
             </div>
             <!-- Feature 3 -->
-            <div class="silksong-border p-10 space-y-6 hover:translate-y-[-10px] transition-transform">
-                <div class="text-4xl text-[#ffb443]">🕸️</div>
-                <h4 class="cinzel text-xl text-[#ffb443] tracking-widest uppercase">The Silk</h4>
-                <p class="opacity-70">Indestructible binding. Your secrets are woven into Pharloom's tapestry with absolute loyalty.</p>
+            <div class="col-12 col-md-4 silksong-border p-4 hover:translate-y-[-10px] transition-transform">
+                <div class="fs-1 text-[#ffb443] mb-3">🕸️</div>
+                <h4 class="cinzel fs-5 text-[#ffb443] tracking-widest text-uppercase mb-3">The Silk</h4>
+                <p class="opacity-75">Indestructible binding. Your secrets are woven into Pharloom's tapestry with absolute loyalty.</p>
             </div>
         </div>
     </section>
@@ -294,53 +329,53 @@
     <div class="section-divider"></div>
 
             <!-- Silk Threads (JS populated) -->
-            <div id="thread-loom" class="absolute inset-0 pointer-events-none z-40"></div>
+            <div id="thread-loom" class="position-absolute top-0 start-0 w-100 h-100 pointer-events-none" style="z-index: 40;"></div>
 
-            <form id="contact-form" class="space-y-8 relative z-50">
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-                    <div class="flex flex-col">
-                        <label class="text-xs uppercase tracking-[0.3em] text-[#8b1d1d] mb-2 font-bold">The Pilgrim's Name</label>
+            <form id="contact-form" class="d-flex flex-column gap-4 relative" style="z-index: 50;">
+                <div class="row g-4">
+                    <div class="col-12 col-md-6 d-flex flex-column">
+                        <label class="fs-6 text-uppercase tracking-[0.3em] text-[#8b1d1d] mb-2 fw-bold">The Pilgrim's Name</label>
                         <input type="text" id="name" name="name" required placeholder="Ex: Hornet">
                     </div>
-                    <div class="flex flex-col">
-                        <label class="text-xs uppercase tracking-[0.3em] text-[#8b1d1d] mb-2 font-bold">Soul's Address</label>
+                    <div class="col-12 col-md-6 d-flex flex-column">
+                        <label class="fs-6 text-uppercase tracking-[0.3em] text-[#8b1d1d] mb-2 fw-bold">Soul's Address</label>
                         <input type="email" id="email" name="email" required placeholder="hornet@citadel.com">
                     </div>
                 </div>
 
-                <div class="flex flex-col">
-                    <label class="text-xs uppercase tracking-[0.3em] text-[#8b1d1d] mb-2 font-bold">The Song's Topic</label>
+                <div class="d-flex flex-column">
+                    <label class="fs-6 text-uppercase tracking-[0.3em] text-[#8b1d1d] mb-2 fw-bold">The Song's Topic</label>
                     <input type="text" id="subject" name="subject" placeholder="A request for the Weavers">
                 </div>
 
-                <div class="flex flex-col">
-                    <label class="text-xs uppercase tracking-[0.3em] text-[#8b1d1d] mb-2 font-bold">The Request</label>
+                <div class="d-flex flex-column">
+                    <label class="fs-6 text-uppercase tracking-[0.3em] text-[#8b1d1d] mb-2 fw-bold">The Request</label>
                     <textarea id="message" name="message" rows="5" required class="resize-none" placeholder="Speak your truth into the loom..."></textarea>
                 </div>
 
-                <button type="submit" class="cta-btn w-full text-lg mt-4">
-                    <span class="flex items-center justify-center gap-3">
+                <button type="submit" class="cta-btn w-100 fs-5 mt-4">
+                    <span class="d-flex align-items-center justify-content-center gap-3">
                         Bind with Silk
-                        <span class="text-xl">🪡</span>
+                        <span class="fs-4">🪡</span>
                     </span>
                 </button>
             </form>
 
             <!-- Result View (Hidden) -->
-            <div id="result-view" class="hidden flex flex-col items-center justify-center py-12 text-center animate-fade-in space-y-8 relative z-50">
-                <div class="text-6xl text-[#ffb443] filter drop-shadow(0 0 15px #ffb443)">🔔</div>
-                <h2 class="text-3xl font-bold uppercase tracking-widest text-[#ffb443] cinzel">Message Bound</h2>
-                <div id="ai-reply" class="p-8 border border-[#8b1d1d] bg-[#1a0a0a] italic text-xl leading-relaxed text-[#e2d1c3] max-w-lg">
+            <div id="result-view" class="d-none d-flex flex-column align-items-center justify-content-center py-5 text-center animate-fade-in relative z-50">
+                <div class="fs-1 text-[#ffb443] filter drop-shadow(0 0 15px #ffb443)">🔔</div>
+                <h2 class="fs-4 fw-bold text-uppercase tracking-widest text-[#ffb443] cinzel">Message Bound</h2>
+                <div id="ai-reply" class="p-4 border border-[#8b1d1d] bg-[#1a0a0a] fst-italic fs-5 leading-relaxed text-[#e2d1c3] container mx-auto">
                     <!-- Reply goes here -->
                 </div>
-                <button id="reset-btn" class="cta-btn text-sm">
+                <button id="reset-btn" class="cta-btn fs-6">
                     Consult the Loom Again
                 </button>
             </div>
 
             <!-- Loading Overlay -->
-            <div id="loading-overlay" class="absolute inset-0 bg-black/80 flex items-center justify-center z-[60] hidden">
-                <div class="text-[#ffb443] animate-pulse tracking-[0.6em] uppercase text-sm font-bold">Weaving Fate...</div>
+            <div id="loading-overlay" class="position-absolute top-0 start-0 w-100 h-100 d-flex align-items-center justify-content-center d-none" style="background: rgba(0, 0, 0, 0.8); z-index: 60;">
+                <div class="text-[#ffb443] animate-pulse tracking-[0.6em] text-uppercase fs-6 fw-bold">Weaving Fate...</div>
             </div>
         </div>
     </section>
@@ -351,33 +386,34 @@
     </div>
 
     <!-- Footer -->
-    <footer class="bg-black py-20 px-6 border-t border-[#8b1d1d]">
-        <div class="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-12 text-center md:text-left">
-            <div>
-                <h5 class="cinzel text-[#8b1d1d] text-lg tracking-widest mb-6">THE CITADEL</h5>
-                <ul class="space-y-3 text-sm opacity-50 tracking-wider uppercase">
+    <footer class="bg-black py-5 px-3 border-top border-[#8b1d1d]">
+        <div class="container-xl mx-auto row g-5 text-center text-md-start">
+            <div class="col-12 col-md-4">
+                <h5 class="cinzel text-[#8b1d1d] fs-5 tracking-widest mb-4">THE CITADEL</h5>
+                <ul class="list-unstyled d-flex flex-column gap-3 fs-6 opacity-50 tracking-wider text-uppercase">
                     <li><a href="#" class="hover:text-[#ffb443]">Deep Docks</a></li>
                     <li><a href="#" class="hover:text-[#ffb443]">The Bone Bottom</a></li>
                     <li><a href="#" class="hover:text-[#ffb443]">Greymoor</a></li>
                 </ul>
             </div>
-            <div>
-                <h5 class="cinzel text-[#8b1d1d] text-lg tracking-widest mb-6">WEAVER'S TOOLS</h5>
-                <ul class="space-y-3 text-sm opacity-50 tracking-wider uppercase">
+            <div class="col-12 col-md-4">
+                <h5 class="cinzel text-[#8b1d1d] fs-5 tracking-widest mb-4">WEAVER'S TOOLS</h5>
+                <ul class="list-unstyled d-flex flex-column gap-3 fs-6 opacity-50 tracking-wider text-uppercase">
                     <li><a href="#" class="hover:text-[#ffb443]">Silk Binding</a></li>
                     <li><a href="#" class="hover:text-[#ffb443]">Song Amplification</a></li>
                     <li><a href="#" class="hover:text-[#ffb443]">Needle Casting</a></li>
                 </ul>
             </div>
-            <div class="flex flex-col items-center md:items-end">
-                <div class="text-4xl text-[#8b1d1d] mb-6">🕷️</div>
-                <p class="text-xs uppercase tracking-[0.4em] opacity-30 text-[#e2d1c3]">
+            <div class="col-12 col-md-4 d-flex flex-column align-items-center align-items-md-end">
+                <div class="fs-1 text-[#8b1d1d] mb-4">🕷️</div>
+                <p class="fs-6 text-uppercase tracking-[0.4em] opacity-30 text-[#e2d1c3]">
                     &copy; 1884 Pharloom Correspondence
                 </p>
             </div>
         </div>
     </footer>
 
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script type="module" src="../Js/index.js"></script>
 </body>
 </html>
