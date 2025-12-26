@@ -200,16 +200,34 @@
                 <a href="#lore" class="nav-link hover:text-[#ffb443]">Lore</a>
                 <a href="#features" class="nav-link hover:text-[#ffb443]">Threads</a>
                 <a href="Html/Galery.html" class="nav-link hover:text-[#ffb443]">Explore Pharloom</a>
-                <a href="Html/Map.html" class="nav-link hover:text-[#ffb443]">Map</a>
+                <a href="Html/Map.Html" class="nav-link hover:text-[#ffb443]">Map</a>
                 <a href="Html/Contact.html" class="nav-link hover:text-[#ffb443]">Bind Your Song</a>
                 <a href="#" class="text-[#ffb443] fs-5 hover:scale-110 transition-transform">🔔</a>
             </div>
 
-
+            <!-- Mobile Hamburger Button -->
+            <button id="hamburger" class="d-md-none hamburger" style="z-index: 102;">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
         </div>
     </nav>
 
+    <!-- Mobile Menu -->
+    <div id="mobileMenu" class="d-md-none position-fixed top-0 start-0 w-100 h-100 d-none" style="z-index: 101; background: rgba(10, 10, 10, 0.95); backdrop-filter: blur(10px);">
+        <div class="container-xl mx-auto d-flex flex-column align-items-center justify-content-center h-100 gap-5">
+            <a href="#hero" class="nav-link fs-3">Sanctum</a>
+            <a href="#lore" class="nav-link fs-3">Lore</a>
+            <a href="#features" class="nav-link fs-3">Threads</a>
+            <a href="Html/Galery.html" class="nav-link fs-3">Explore Pharloom</a>
+            <a href="Html/Map.Html" class="nav-link fs-3">Map</a>
+            <a href="Html/Contact.html" class="nav-link fs-3">Bind Your Song</a>
+        </div>
+    </div>
 
+    <!-- Backdrop -->
+    <div id="backdrop" class="d-md-none position-fixed top-0 start-0 w-100 h-100 d-none" style="z-index: 99; background: rgba(0, 0, 0, 0.5);"></div>
 
     <!-- Add spacing so content doesn't hide under fixed nav -->
     <div class="h-5"></div>
@@ -327,58 +345,6 @@
 
     <!-- Section Divider -->
     <div class="section-divider"></div>
-
-            <!-- Silk Threads (JS populated) -->
-            <div id="thread-loom" class="position-absolute top-0 start-0 w-100 h-100 pointer-events-none" style="z-index: 40;"></div>
-
-            <form id="contact-form" class="d-flex flex-column gap-4 relative" style="z-index: 50;">
-                <div class="row g-4">
-                    <div class="col-12 col-md-6 d-flex flex-column">
-                        <label class="fs-6 text-uppercase tracking-[0.3em] text-[#8b1d1d] mb-2 fw-bold">The Pilgrim's Name</label>
-                        <input type="text" id="name" name="name" required placeholder="Ex: Hornet">
-                    </div>
-                    <div class="col-12 col-md-6 d-flex flex-column">
-                        <label class="fs-6 text-uppercase tracking-[0.3em] text-[#8b1d1d] mb-2 fw-bold">Soul's Address</label>
-                        <input type="email" id="email" name="email" required placeholder="hornet@citadel.com">
-                    </div>
-                </div>
-
-                <div class="d-flex flex-column">
-                    <label class="fs-6 text-uppercase tracking-[0.3em] text-[#8b1d1d] mb-2 fw-bold">The Song's Topic</label>
-                    <input type="text" id="subject" name="subject" placeholder="A request for the Weavers">
-                </div>
-
-                <div class="d-flex flex-column">
-                    <label class="fs-6 text-uppercase tracking-[0.3em] text-[#8b1d1d] mb-2 fw-bold">The Request</label>
-                    <textarea id="message" name="message" rows="5" required class="resize-none" placeholder="Speak your truth into the loom..."></textarea>
-                </div>
-
-                <button type="submit" class="cta-btn w-100 fs-5 mt-4">
-                    <span class="d-flex align-items-center justify-content-center gap-3">
-                        Bind with Silk
-                        <span class="fs-4">🪡</span>
-                    </span>
-                </button>
-            </form>
-
-            <!-- Result View (Hidden) -->
-            <div id="result-view" class="d-none d-flex flex-column align-items-center justify-content-center py-5 text-center animate-fade-in relative z-50">
-                <div class="fs-1 text-[#ffb443] filter drop-shadow(0 0 15px #ffb443)">🔔</div>
-                <h2 class="fs-4 fw-bold text-uppercase tracking-widest text-[#ffb443] cinzel">Message Bound</h2>
-                <div id="ai-reply" class="p-4 border border-[#8b1d1d] bg-[#1a0a0a] fst-italic fs-5 leading-relaxed text-[#e2d1c3] container mx-auto">
-                    <!-- Reply goes here -->
-                </div>
-                <button id="reset-btn" class="cta-btn fs-6">
-                    Consult the Loom Again
-                </button>
-            </div>
-
-            <!-- Loading Overlay -->
-            <div id="loading-overlay" class="position-absolute top-0 start-0 w-100 h-100 d-flex align-items-center justify-content-center d-none" style="background: rgba(0, 0, 0, 0.8); z-index: 60;">
-                <div class="text-[#ffb443] animate-pulse tracking-[0.6em] text-uppercase fs-6 fw-bold">Weaving Fate...</div>
-            </div>
-        </div>
-    </section>
 
     <!-- Final Decorative Section -->
     <div class="py-24 text-center opacity-20 text-4xl">

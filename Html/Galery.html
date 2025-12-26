@@ -3,38 +3,61 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Contact Us</title>
+    <title>Explore Pharloom | Pharloom</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=IM+Fell+English:ital@0;1&family=Cinzel:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="../Css/Index.css">
 </head>
 <body>
     <!-- Navigation -->
-    <nav class="position-fixed top-0 start-0 w-100" style="z-index: 100; background: rgba(10, 10, 10, 0.95); backdrop-filter: blur(10px);" class="border-bottom border-[#8b1d1d] px-3 py-3">
+    <nav class="position-fixed top-0 start-0 w-100" style="z-index: 100; background: rgba(10, 10, 10, 0.95); backdrop-filter: blur(10px);" class="border-bottom border-[#8b1d1d] px-3 py-2">
         <div class="container-xl mx-auto d-flex justify-content-between align-items-center">
             <!-- Logo/Brand -->
-            <div class="cinzel fs-4 fw-bold tracking-[0.3em] text-[#8b1d1d] glow-hover cursor-default">
+            <div class="cinzel fs-5 fw-bold tracking-[0.3em] text-[#8b1d1d] glow-hover cursor-default">
                 WEAVER'S SANCTUM
             </div>
 
             <!-- Desktop Navigation Links -->
             <div class="d-none d-md-flex align-items-center gap-3 fs-6 text-uppercase fw-bold tracking-[0.2em]">
-                <a href="#hero" class="nav-link hover:text-[#ffb443]">Sanctum</a>
-                <a href="#lore" class="nav-link hover:text-[#ffb443]">Lore</a>
-                <a href="#features" class="nav-link hover:text-[#ffb443]">Threads</a>
-                <a href="Html/Galery.html" class="nav-link hover:text-[#ffb443]">Explore Pharloom</a>
-                <a href="Html/Map.html" class="nav-link hover:text-[#ffb443]">Map</a>
-                <a href="Html/Contact.html" class="nav-link hover:text-[#ffb443]">Bind Your Song</a>
-                <a href="#" class="text-[#ffb443] fs-4 hover:scale-110 transition-transform">🔔</a>
+                <a href="../index.html#hero" class="nav-link hover:text-[#ffb443]">Sanctum</a>
+                <a href="../index.html#lore" class="nav-link hover:text-[#ffb443]">Lore</a>
+                <a href="../index.html#features" class="nav-link hover:text-[#ffb443]">Threads</a>
+                <a href="Galery.html" class="nav-link hover:text-[#ffb443]">Explore Pharloom</a>
+                <a href="Map.Html" class="nav-link hover:text-[#ffb443]">Map</a>
+                <a href="Contact.html" class="nav-link hover:text-[#ffb443]">Bind Your Song</a>
+                <a href="#" class="text-[#ffb443] fs-5 hover:scale-110 transition-transform">🔔</a>
             </div>
 
-
+            <!-- Mobile Hamburger Button -->
+            <button id="hamburger" class="d-md-none hamburger" style="z-index: 102;">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
         </div>
     </nav>
 
+    <!-- Mobile Menu -->
+    <div id="mobileMenu" class="d-md-none position-fixed top-0 start-0 w-100 h-100 d-none" style="z-index: 101; background: rgba(10, 10, 10, 0.95); backdrop-filter: blur(10px);">
+        <div class="container-xl mx-auto d-flex flex-column align-items-center justify-content-center h-100 gap-5">
+            <a href="../index.html#hero" class="nav-link fs-3">Sanctum</a>
+            <a href="../index.html#lore" class="nav-link fs-3">Lore</a>
+            <a href="../index.html#features" class="nav-link fs-3">Threads</a>
+            <a href="Galery.html" class="nav-link fs-3">Explore Pharloom</a>
+            <a href="Map.Html" class="nav-link fs-3">Map</a>
+            <a href="Contact.html" class="nav-link fs-3">Bind Your Song</a>
+        </div>
+    </div>
 
+    <!-- Backdrop -->
+    <div id="backdrop" class="d-md-none position-fixed top-0 start-0 w-100 h-100 d-none" style="z-index: 99; background: rgba(0, 0, 0, 0.5);"></div>
 
     <!-- Spacer so content doesn't hide under fixed nav -->
-    <div style="height: 5rem;"></div>
+    <div class="h-20"></div>
+    <!-- Gallery content will go here -->
 
 <script>
     // Get elements
@@ -75,6 +98,7 @@
         }
     });
 </script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 
 </html>
