@@ -274,16 +274,92 @@
 </head>
 <body>
 
-    <nav class="position-fixed top-0 start-0 w-100 py-2">
-        <div class="container-xl d-flex justify-content-between align-items-center px-3">
-            <div class="cinzel fs-5 fw-bold text-[#8b1d1d]">WEAVER'S SANCTUM</div>
-            <div class="d-none d-md-flex gap-3 align-items-center">
-                <a href="../index.html#hero" class="nav-link">Sanctum</a>
-                <a href="Map.Html" class="nav-link">Map</a>
-                <a href="Video.html" class="nav-link text-warning fw-bold">Videos</a>
+    <!-- Navigation -->
+    <nav class="position-fixed top-0 start-0 w-100" style="z-index: 100; background: rgba(10, 10, 10, 0.95); backdrop-filter: blur(10px);" class="border-bottom border-[#8b1d1d] px-3 py-2">
+        <div class="container-xl mx-auto d-flex justify-content-between align-items-center">
+            <!-- Logo/Brand -->
+            <div class="cinzel fs-5 fw-bold tracking-[0.3em] text-[#8b1d1d] glow-hover cursor-default">
+                WEAVER'S SANCTUM
             </div>
+
+            <!-- Desktop Navigation Links -->
+            <div class="d-none d-md-flex align-items-center gap-3 fs-6 text-uppercase fw-bold tracking-[0.2em]">
+                <a href="../index.html" class="nav-link hover:text-[#ffb443]"><i class="fas fa-home me-1"></i>Sanctum</a>
+                <a href="../Html/Lore.html" class="nav-link hover:text-[#ffb443]"><i class="fas fa-book me-1"></i>Lore</a>
+                <a href="../Html/Galery.html" class="nav-link hover:text-[#ffb443]"><i class="fas fa-images me-1"></i>Explore Pharloom</a>
+                <a href="../Html/Map.html" class="nav-link hover:text-[#ffb443]"><i class="fas fa-map me-1"></i>Map</a>
+                <a href="../Html/Video.html" class="nav-link hover:text-[#ffb443]"><i class="fas fa-video me-1"></i>Videos</a>
+                <a href="../Html/Contact.html" class="nav-link hover:text-[#ffb443]"><i class="fas fa-envelope me-1"></i>Bind Your Song</a>
+                <a href="#" class="text-[#ffb443] fs-5 hover:scale-110 transition-transform">🔔</a>
+            </div>
+
+            <!-- Mobile Hamburger Button -->
+            <button id="hamburger" class="d-md-none hamburger" style="z-index: 102;">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
         </div>
     </nav>
+
+    <!-- Mobile Menu -->
+    <div id="mobileMenu" class="d-md-none position-fixed top-0 start-0 w-100 h-100 d-none" style="z-index: 101; background: rgba(10, 10, 10, 0.95); backdrop-filter: blur(10px);">
+        <div class="container-xl mx-auto d-flex flex-column align-items-center justify-content-center h-100 gap-5">
+            <a href="../index.html" class="nav-link fs-3">Sanctum</a>
+            <a href="../Html/Lore.html" class="nav-link fs-3">Lore</a>
+            <a href="../Html/Galery.html" class="nav-link fs-3">Explore Pharloom</a>
+            <a href="../Html/Map.html" class="nav-link fs-3">Map</a>
+            <a href="../Html/Video.html" class="nav-link fs-3">Videos</a>
+            <a href="../Html/Contact.html" class="nav-link fs-3">Bind Your Song</a>
+        </div>
+    </div>
+
+    <!-- Backdrop -->
+    <div id="backdrop" class="d-md-none position-fixed top-0 start-0 w-100 h-100 d-none" style="z-index: 99; background: rgba(0, 0, 0, 0.5);"></div>
+
+       <!-- Add hamburger and mobile menu CSS -->
+       <style>
+           .hamburger {
+               width: 30px;
+               height: 20px;
+               position: relative;
+               cursor: pointer;
+               background: none;
+               border: none;
+               padding: 0;
+               display: flex;
+               flex-direction: column;
+               justify-content: space-between;
+           }
+
+           .hamburger span {
+               display: block;
+               width: 100%;
+               height: 2px;
+               background-color: #ffb443;
+               transition: all 0.3s ease;
+           }
+
+           .hamburger.active span:nth-child(1) {
+               transform: translateY(9px) rotate(45deg);
+           }
+
+           .hamburger.active span:nth-child(2) {
+               opacity: 0;
+           }
+
+           .hamburger.active span:nth-child(3) {
+               transform: translateY(-9px) rotate(-45deg);
+           }
+
+           #mobileMenu {
+               display: none;
+           }
+
+           #mobileMenu.active {
+               display: flex;
+           }
+       </style>
 
     <main style="padding-top:80px; padding-bottom:40px;">
         <div class="container-xl">
@@ -358,7 +434,7 @@
     function toggleMenu() {
         hamburger.classList.toggle('active');
         mobileMenu.classList.toggle('active');
-        backdrop.classList.toggle('hidden');
+        backdrop.classList.toggle('d-none');
 
         // Prevent body scroll when menu is open
         document.body.style.overflow = mobileMenu.classList.contains('active') ? 'hidden' : '';

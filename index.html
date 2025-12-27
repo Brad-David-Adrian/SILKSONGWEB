@@ -184,25 +184,53 @@
         .animate-fade-in {
             animation: fade-in 1s ease-out forwards;
         }
+
+        @keyframes animatedBackground {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .hero-background {
+            background: linear-gradient(-45deg, rgba(0,0,0,0.7), rgba(26,10,10,0.7), rgba(0,0,0,0.7));
+            background-size: 400% 400%;
+            animation: animatedBackground 15s ease infinite;
+        }
     </style>
 </head>
 <body class="antialiased bg-dark text-light">
+    <!-- Floating Silk Threads -->
+    <div class="silk-thread" style="top: 20%; left: 10%; width: 200px; height: 2px;"></div>
+    <div class="silk-thread" style="top: 40%; right: 15%; width: 150px; height: 2px;"></div>
+    <div class="silk-thread" style="top: 60%; left: 20%; width: 180px; height: 2px;"></div>
+    <div class="silk-thread" style="top: 80%; right: 10%; width: 220px; height: 2px;"></div>
+    <div class="silk-thread" style="top: 30%; left: 70%; width: 160px; height: 2px;"></div>
+
+    <!-- Floating Particles -->
+    <div class="particle" style="left: 10%; animation-delay: 0s;"></div>
+    <div class="particle" style="left: 20%; animation-delay: 1s;"></div>
+    <div class="particle" style="left: 30%; animation-delay: 2s;"></div>
+    <div class="particle" style="left: 40%; animation-delay: 3s;"></div>
+    <div class="particle" style="left: 50%; animation-delay: 4s;"></div>
+    <div class="particle" style="left: 60%; animation-delay: 5s;"></div>
+    <div class="particle" style="left: 70%; animation-delay: 6s;"></div>
+    <div class="particle" style="left: 80%; animation-delay: 7s;"></div>
+    <div class="particle" style="left: 90%; animation-delay: 8s;"></div>
 
     <!-- Navigation -->
     <nav class="position-fixed top-0 start-0 w-100" style="z-index: 100; background: rgba(10, 10, 10, 0.95); backdrop-filter: blur(10px);" class="border-bottom border-[#8b1d1d] px-3 py-2">
         <div class="container-xl mx-auto d-flex justify-content-between align-items-center">
             <!-- Logo/Brand -->
-            <div class="cinzel fs-5 fw-bold tracking-[0.3em] text-[#8b1d1d] glow-hover cursor-default">
+            <div class="cinzel fs-5 fw-bold tracking-[0.3em] text-[#8b1d1d] glow-hover cursor-default glow-text">
                 WEAVER'S SANCTUM
             </div>
 
             <!-- Desktop Navigation Links -->
             <div class="d-none d-md-flex align-items-center gap-3 fs-6 text-uppercase fw-bold tracking-[0.2em]">
-                <a href="#hero" class="nav-link hover:text-[#ffb443]"><i class="fas fa-home me-1"></i>Sanctum</a>
-                <a href="#lore" class="nav-link hover:text-[#ffb443]"><i class="fas fa-book me-1"></i>Lore</a>
-                <a href="#features" class="nav-link hover:text-[#ffb443]"><i class="fas fa-spider me-1"></i>Threads</a>
+                <a href="index.html" class="nav-link hover:text-[#ffb443]"><i class="fas fa-home me-1"></i>Sanctum</a>
+                <a href="Html/Lore.html" class="nav-link hover:text-[#ffb443]"><i class="fas fa-book me-1"></i>Lore</a>
                 <a href="Html/Galery.html" class="nav-link hover:text-[#ffb443]"><i class="fas fa-images me-1"></i>Explore Pharloom</a>
-                <a href="Html/Map.Html" class="nav-link hover:text-[#ffb443]"><i class="fas fa-map me-1"></i>Map</a>
+                <a href="Html/Map.html" class="nav-link hover:text-[#ffb443]"><i class="fas fa-map me-1"></i>Map</a>
                 <a href="Html/Video.html" class="nav-link hover:text-[#ffb443]"><i class="fas fa-video me-1"></i>Videos</a>
                 <a href="Html/Contact.html" class="nav-link hover:text-[#ffb443]"><i class="fas fa-envelope me-1"></i>Bind Your Song</a>
                 <a href="#" class="text-[#ffb443] fs-5 hover:scale-110 transition-transform">🔔</a>
@@ -220,9 +248,8 @@
     <!-- Mobile Menu -->
     <div id="mobileMenu" class="d-md-none position-fixed top-0 start-0 w-100 h-100 d-none" style="z-index: 101; background: rgba(10, 10, 10, 0.95); backdrop-filter: blur(10px);">
         <div class="container-xl mx-auto d-flex flex-column align-items-center justify-content-center h-100 gap-5">
-            <a href="#hero" class="nav-link fs-3">Sanctum</a>
-            <a href="#lore" class="nav-link fs-3">Lore</a>
-            <a href="#features" class="nav-link fs-3">Threads</a>
+            <a href="index.html" class="nav-link fs-3">Sanctum</a>
+            <a href="Html/Lore.html" class="nav-link fs-3">Lore</a>
             <a href="Html/Galery.html" class="nav-link fs-3">Explore Pharloom</a>
             <a href="Html/Map.Html" class="nav-link fs-3">Map</a>
             <a href="Html/Video.html" class="nav-link fs-3">Videos</a>
@@ -247,7 +274,7 @@
     function toggleMenu() {
         hamburger.classList.toggle('active');
         mobileMenu.classList.toggle('active');
-        backdrop.classList.toggle('hidden');
+           backdrop.classList.toggle('d-none');
         
         // Prevent body scroll when menu is open
         document.body.style.overflow = mobileMenu.classList.contains('active') ? 'hidden' : '';
@@ -289,109 +316,67 @@
 
     <!-- Hero Section -->
     <section id="hero" class="vh-100 position-relative overflow-hidden">
-        <div id="heroCarousel" class="carousel slide vh-100" data-bs-ride="carousel">
-            <div class="carousel-inner vh-100">
-                <div class="carousel-item active vh-100">
-                    <div class="d-flex align-items-center justify-content-center vh-100 bg-dark" style="background-image: url('ImgGaleria/hollow_knight_silksong_launch_10_2b733987-8b57-44de-bf19-1536f6b40913.jpg'); background-size: cover; background-position: center;">
-                        <div class="text-center text-white animate-fade-in">
-                            <h3 class="text-[#ffb443] fs-4 fs-md-3 text-uppercase tracking-[0.8em] mb-3 cinzel fw-bold">Pilgrimage to the Peak</h3>
-                            <h1 class="display-1 fw-bold tracking-[0.2em] text-[#8b1d1d] mb-4 text-uppercase leading-tight cinzel" style="text-shadow: 0 0 30px rgba(139, 29, 29, 0.5);">
-                                PHARLOOM
-                            </h1>
-                            <a href="#contact" class="cta-btn fs-5">
-                                Descend into the Loom
-                            </a>
-                        </div>
-                    </div>
-                </div>
-                <div class="carousel-item vh-100">
-                    <div class="d-flex align-items-center justify-content-center vh-100 bg-dark" style="background-image: url('ImgGaleria/Hollow_Knight_Silksong_Main_06-scaled.webp'); background-size: cover; background-position: center;">
-                        <div class="text-center text-white animate-fade-in">
-                            <h3 class="text-[#ffb443] fs-4 fs-md-3 text-uppercase tracking-[0.8em] mb-3 cinzel fw-bold">Explore the Depths</h3>
-                            <h1 class="display-1 fw-bold tracking-[0.2em] text-[#8b1d1d] mb-4 text-uppercase leading-tight cinzel" style="text-shadow: 0 0 30px rgba(139, 29, 29, 0.5);">
-                                SILKSONG
-                            </h1>
-                            <a href="#lore" class="cta-btn fs-5">
-                                Discover the Lore
-                            </a>
-                        </div>
-                    </div>
-                </div>
-                <div class="carousel-item vh-100">
-                    <div class="d-flex align-items-center justify-content-center vh-100 bg-dark" style="background-image: url('ImgGaleria/hollow-knight-silksong-parrying.avif'); background-size: cover; background-position: center;">
-                        <div class="text-center text-white animate-fade-in">
-                            <h3 class="text-[#ffb443] fs-4 fs-md-3 text-uppercase tracking-[0.8em] mb-3 cinzel fw-bold">Bind Your Fate</h3>
-                            <h1 class="display-1 fw-bold tracking-[0.2em] text-[#8b1d1d] mb-4 text-uppercase leading-tight cinzel" style="text-shadow: 0 0 30px rgba(139, 29, 29, 0.5);">
-                                WEAVER'S SANCTUM
-                            </h1>
-                            <a href="#features" class="cta-btn fs-5">
-                                Learn the Threads
-                            </a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <button class="carousel-control-prev" type="button" data-bs-target="#heroCarousel" data-bs-slide="prev">
-                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                <span class="visually-hidden">Previous</span>
-            </button>
-            <button class="carousel-control-next" type="button" data-bs-target="#heroCarousel" data-bs-slide="next">
-                <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                <span class="visually-hidden">Next</span>
-            </button>
+        <div class="d-flex align-items-center justify-content-center vh-100 hero-background">
+            <img src="Logo/7B_AItYrfpa8hohQZe2OiAnQ6dVpn4BBmwMhKz6KnFyJDzA8Lc8RFCBezkap4wmXQpQfUCY0l01V8XtDin_dpw.webp" alt="Hollow Knight Silksong Logo" class="img-fluid animate-fade-in" style="max-width: 50%; max-height: 50%;">
         </div>
     </section>
 
     <!-- Section Divider -->
     <div class="section-divider"></div>
 
-    <!-- Lore Section -->
-    <section id="lore" class="container-xl mx-auto px-3 py-5">
-        <div class="row g-5 align-items-center">
-            <div class="col-12 col-md-6 d-flex flex-column gap-4">
-                <h3 class="cinzel fs-2 text-[#8b1d1d] tracking-widest text-uppercase fw-bold">The Silk Road</h3>
-                <p class="fs-5 leading-relaxed opacity-75">
-                    In the heart of Pharloom, the Weavers have practiced the ancient art of binding fate since the first bell tolled in the Citadel. Here, your messages aren't just sent; they are woven into the very fabric of the kingdom.
-                </p>
-                <p class="fs-5 leading-relaxed opacity-75 fst-italic">
-                    Whether you seek passage through the Deep Docks or an audience with the Citadel's masters, your song must be clear, and your silk must be strong.
-                </p>
-                <div class="d-flex gap-3">
-                    <span class="text-[#ffb443] fs-3">🕷️</span>
-                    <span class="text-[#ffb443] fs-3">🕸️</span>
-                    <span class="text-[#ffb443] fs-3">🪡</span>
+    <!-- Carousel Section -->
+            <div class="col-12 col-md-6 silksong-border w-100 bg-[#1a0a0a] position-relative" style="min-height: 600px;">
+                <div id="heroCarousel" class="carousel slide position-absolute top-0 start-0 w-100 h-100" data-bs-ride="carousel">
+                    <div class="carousel-inner h-100">
+                        <div class="carousel-item active h-100">
+                            <div class="d-flex align-items-center justify-content-center h-100 bg-dark" style="background-image: url('ImgGaleria/hollow_knight_silksong_launch_10_2b733987-8b57-44de-bf19-1536f6b40913.jpg'); background-size: cover; background-position: center; background-repeat: no-repeat;">
+                                <div class="text-center text-white animate-fade-in">
+                                    <h3 class="text-[#ffb443] fs-6 text-uppercase tracking-[0.5em] mb-2 cinzel fw-bold">Pilgrimage to the Peak</h3>
+                                    <h1 class="fs-3 fw-bold tracking-[0.1em] text-[#8b1d1d] mb-3 text-uppercase cinzel" style="text-shadow: 0 0 15px rgba(139, 29, 29, 0.5);">
+                                        PHARLOOM
+                                    </h1>
+                                    <a href="#contact" class="cta-btn fs-6">
+                                        Descend into the Loom
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="carousel-item h-100">
+                            <div class="d-flex align-items-center justify-content-center h-100 bg-dark" style="background-image: url('ImgGaleria/Hollow_Knight_Silksong_Main_06-scaled.webp'); background-size: cover; background-position: center; background-repeat: no-repeat;">
+                                <div class="text-center text-white animate-fade-in">
+                                    <h3 class="text-[#ffb443] fs-6 text-uppercase tracking-[0.5em] mb-2 cinzel fw-bold">Explore the Depths</h3>
+                                    <h1 class="fs-3 fw-bold tracking-[0.1em] text-[#8b1d1d] mb-3 text-uppercase cinzel" style="text-shadow: 0 0 15px rgba(139, 29, 29, 0.5);">
+                                        SILKSONG
+                                    </h1>
+                                    <a href="#lore" class="cta-btn fs-6">
+                                        Discover the Lore
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="carousel-item h-100">
+                            <div class="d-flex align-items-center justify-content-center h-100 bg-dark" style="background-image: url('ImgGaleria/hollow-knight-silksong-parrying.avif'); background-size: cover; background-position: center; background-repeat: no-repeat;">
+                                <div class="text-center text-white animate-fade-in">
+                                    <h3 class="text-[#ffb443] fs-6 text-uppercase tracking-[0.5em] mb-2 cinzel fw-bold">Bind Your Fate</h3>
+                                    <h1 class="fs-3 fw-bold tracking-[0.1em] text-[#8b1d1d] mb-3 text-uppercase cinzel" style="text-shadow: 0 0 15px rgba(139, 29, 29, 0.5);">
+                                        WEAVER'S SANCTUM
+                                    </h1>
+                                    <a href="#features" class="cta-btn fs-6">
+                                        Learn the Threads
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <button class="carousel-control-prev" type="button" data-bs-target="#heroCarousel" data-bs-slide="prev">
+                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Previous</span>
+                    </button>
+                    <button class="carousel-control-next" type="button" data-bs-target="#heroCarousel" data-bs-slide="next">
+                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Next</span>
+                    </button>
                 </div>
-            </div>
-            <div class="col-12 col-md-6 silksong-border ratio-1 w-100 bg-[#1a0a0a] d-flex align-items-center justify-content-center">
-                <div class="opacity-10 floating" style="font-size: 12rem;">🕸️</div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Section Divider -->
-    <div class="section-divider"></div>
-
-    <!-- Features Section -->
-    <section id="features" class="container-xl mx-auto px-3 py-5 text-center">
-        <h3 class="cinzel fs-2 text-[#8b1d1d] tracking-widest text-uppercase fw-bold mb-5">The Three Pillars</h3>
-        <div class="row g-4">
-            <!-- Feature 1 -->
-            <div class="col-12 col-md-4 silksong-border p-4 hover:translate-y-[-10px] transition-transform">
-                <div class="fs-1 text-[#ffb443] mb-3">🪡</div>
-                <h4 class="cinzel fs-5 text-[#ffb443] tracking-widest text-uppercase mb-3">The Needle</h4>
-                <p class="opacity-75">Precise and unwavering. Our needles ensure your intent reaches the highest peaks of the Citadel.</p>
-            </div>
-            <!-- Feature 2 -->
-            <div class="col-12 col-md-4 silksong-border p-4 hover:translate-y-[-10px] transition-transform">
-                <div class="fs-1 text-[#ffb443] mb-3">🔔</div>
-                <h4 class="cinzel fs-5 text-[#ffb443] tracking-widest text-uppercase mb-3">The Song</h4>
-                <p class="opacity-75">A resonance that echoes through Pharloom. We amplify your voice to reach even the most distant docks.</p>
-            </div>
-            <!-- Feature 3 -->
-            <div class="col-12 col-md-4 silksong-border p-4 hover:translate-y-[-10px] transition-transform">
-                <div class="fs-1 text-[#ffb443] mb-3">🕸️</div>
-                <h4 class="cinzel fs-5 text-[#ffb443] tracking-widest text-uppercase mb-3">The Silk</h4>
-                <p class="opacity-75">Indestructible binding. Your secrets are woven into Pharloom's tapestry with absolute loyalty.</p>
             </div>
         </div>
     </section>

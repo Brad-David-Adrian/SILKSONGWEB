@@ -14,8 +14,82 @@ body {
     color: var(--pale-silk);
     font-family: 'IM Fell English', serif;
     overflow-x: hidden;
+    position: relative;
 }
 
+body::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image:
+        radial-gradient(circle at 20% 80%, rgba(139, 29, 29, 0.1) 0%, transparent 50%),
+        radial-gradient(circle at 80% 20%, rgba(255, 180, 67, 0.1) 0%, transparent 50%),
+        radial-gradient(circle at 40% 40%, rgba(139, 29, 29, 0.05) 0%, transparent 50%);
+    pointer-events: none;
+    z-index: -1;
+    animation: backgroundShift 20s ease-in-out infinite;
+}
+
+@keyframes backgroundShift {
+    0%, 100% { opacity: 0.3; }
+    50% { opacity: 0.6; }
+}
+
+/* Floating Silk Threads */
+.silk-thread {
+    position: absolute;
+    background: linear-gradient(90deg, transparent, var(--silk-red), transparent);
+    pointer-events: none;
+    z-index: 1;
+    opacity: 0.6;
+    animation: floatSilk 8s ease-in-out infinite;
+}
+
+.silk-thread:nth-child(odd) {
+    animation-delay: -2s;
+}
+
+.silk-thread:nth-child(even) {
+    animation-delay: -4s;
+}
+
+@keyframes floatSilk {
+    0%, 100% {
+        transform: translateY(0px) rotate(0deg);
+        opacity: 0.3;
+    }
+    25% {
+        transform: translateY(-20px) rotate(1deg);
+        opacity: 0.6;
+    }
+    50% {
+        transform: translateY(-40px) rotate(0deg);
+        opacity: 0.8;
+    }
+    75% {
+        transform: translateY(-20px) rotate(-1deg);
+        opacity: 0.6;
+    }
+}
+
+/* Glowing Effects */
+.glow-text {
+    text-shadow: 0 0 10px var(--amber-glow), 0 0 20px var(--amber-glow), 0 0 30px var(--amber-glow);
+}
+
+.glow-border {
+    box-shadow: 0 0 20px rgba(139, 29, 29, 0.3), inset 0 0 20px rgba(0, 0, 0, 0.8);
+}
+
+.glow-hover:hover {
+    text-shadow: 0 0 15px var(--amber-glow), 0 0 25px var(--amber-glow);
+    transition: text-shadow 0.3s ease;
+}
+
+/* Enhanced Animations */
 @keyframes fade-in {
   from { opacity: 0; transform: translateY(10px); }
   to { opacity: 1; transform: translateY(0); }
@@ -25,16 +99,63 @@ body {
   animation: fade-in 0.8s ease-out forwards;
 }
 
+@keyframes pulse-glow {
+    0%, 100% { box-shadow: 0 0 5px var(--silk-red); }
+    50% { box-shadow: 0 0 20px var(--silk-red), 0 0 30px var(--silk-red); }
+}
+
+.pulse-glow {
+    animation: pulse-glow 3s ease-in-out infinite;
+}
+
+/* Particle Effects */
+.particle {
+    position: absolute;
+    width: 2px;
+    height: 2px;
+    background: var(--amber-glow);
+    border-radius: 50%;
+    pointer-events: none;
+    animation: particleFloat 10s linear infinite;
+}
+
+.particle:nth-child(3n) {
+    background: var(--silk-red);
+    animation-duration: 8s;
+}
+
+.particle:nth-child(5n) {
+    background: var(--pale-silk);
+    animation-duration: 12s;
+}
+
+@keyframes particleFloat {
+    0% {
+        transform: translateY(100vh) translateX(0px);
+        opacity: 0;
+    }
+    10% {
+        opacity: 1;
+    }
+    90% {
+        opacity: 1;
+    }
+    100% {
+        transform: translateY(-100px) translateX(100px);
+        opacity: 0;
+    }
+}
+
 /* Mobile menu animation */
         .mobile-menu {
             transform: translateX(100%);
             transition: transform 0.3s ease-in-out;
         }
-        
+
         .mobile-menu.active {
             transform: translateX(0);
         }
-        
+
         /* Hamburger animation */
         .hamburger span {
             display: block;
@@ -44,15 +165,15 @@ body {
             margin: 5px 0;
             transition: all 0.3s ease;
         }
-        
+
         .hamburger.active span:nth-child(1) {
             transform: rotate(45deg) translate(8px, 8px);
         }
-        
+
         .hamburger.active span:nth-child(2) {
             opacity: 0;
         }
-        
+
         .hamburger.active span:nth-child(3) {
             transform: rotate(-45deg) translate(7px, -6px);
         }

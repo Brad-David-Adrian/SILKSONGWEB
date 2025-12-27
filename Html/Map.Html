@@ -23,8 +23,8 @@
         .hamburger.active span:nth-child(1) { transform: translateY(9px) rotate(45deg); }
         .hamburger.active span:nth-child(2) { opacity: 0; }
         .hamburger.active span:nth-child(3) { transform: translateY(-9px) rotate(-45deg); }
-        #mobileMenu { transform: translateX(-100%); transition: transform 0.3s ease-in-out; }
-        #mobileMenu.active { transform: translateX(0); }
+        #mobileMenu { display: none; }
+        #mobileMenu.active { display: flex; }
 
         /* Cursor personalizado para indicar que se puede mover */
         #mapWrapper { cursor: grab; }
@@ -38,8 +38,12 @@
             <div class="cinzel fs-5 fw-bold text-[#8b1d1d] glow-hover">WEAVER'S SANCTUM</div>
             
             <div class="d-none d-md-flex align-items-center gap-3 fs-6 text-uppercase fw-bold tracking-[0.2em]">
-                <a href="../index.html#hero" class="nav-link hover:text-[#ffb443]">Sanctum</a>
-                <a href="Map.Html" class="nav-link hover:text-[#ffb443]">Map</a>
+                <a href="../index.html" class="nav-link hover:text-[#ffb443]"><i class="fas fa-home me-1"></i>Sanctum</a>
+                <a href="../Html/Lore.html" class="nav-link hover:text-[#ffb443]"><i class="fas fa-book me-1"></i>Lore</a>
+                <a href="../Html/Galery.html" class="nav-link hover:text-[#ffb443]"><i class="fas fa-images me-1"></i>Explore Pharloom</a>
+                <a href="../Html/Map.html" class="nav-link hover:text-[#ffb443]"><i class="fas fa-map me-1"></i>Map</a>
+                <a href="../Html/Video.html" class="nav-link hover:text-[#ffb443]"><i class="fas fa-video me-1"></i>Videos</a>
+                <a href="../Html/Contact.html" class="nav-link hover:text-[#ffb443]"><i class="fas fa-envelope me-1"></i>Bind Your Song</a>
                 <a href="#" class="text-[#ffb443] fs-5 hover:scale-110 transition-transform">🔔</a>
             </div>
             
@@ -49,11 +53,17 @@
 
     <div id="mobileMenu" class="d-md-none position-fixed top-0 start-0 w-100 h-100 d-none" style="z-index: 99; background: rgba(10, 10, 10, 0.98);">
         <div class="container-xl mx-auto d-flex flex-column align-items-center justify-content-center h-100 gap-5">
-            <a href="../index.html#hero" class="nav-link fs-3">Sanctum</a>
-            <a href="Map.Html" class="nav-link fs-3">Map</a>
-            <a href="Video.html" class="nav-link fs-3">Videos</a>
+            <a href="../index.html" class="nav-link fs-3">Sanctum</a>
+            <a href="../Html/Lore.html" class="nav-link fs-3">Lore</a>
+            <a href="../Html/Galery.html" class="nav-link fs-3">Explore Pharloom</a>
+            <a href="../Html/Map.html" class="nav-link fs-3">Map</a>
+            <a href="../Html/Video.html" class="nav-link fs-3">Videos</a>
+            <a href="../Html/Contact.html" class="nav-link fs-3">Bind Your Song</a>
         </div>
     </div>
+
+    <!-- Backdrop -->
+    <div id="backdrop" class="d-md-none position-fixed top-0 start-0 w-100 h-100 d-none" style="z-index: 98; background: rgba(0, 0, 0, 0.5);"></div>
 
     <div id="mapWrapper" style="position:fixed; top:60px; left:0; width:100vw; height:calc(100vh - 60px); z-index:1; background:#050505; overflow:hidden;">
         <svg id="pharloomMap" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1000" style="width:100%; height:100%; display:block; touch-action: none;">
@@ -315,7 +325,39 @@
         // Toggle Menú Móvil
         const hb = document.getElementById('hamburger');
         const mm = document.getElementById('mobileMenu');
-        hb.addEventListener('click', () => { hb.classList.toggle('active'); mm.classList.toggle('active'); });
+        const backdrop = document.getElementById('backdrop');
+        const mobileLinks = mm.querySelectorAll('a');
+
+        function toggleMenu() {
+            hb.classList.toggle('active');
+            mm.classList.toggle('active');
+            backdrop.classList.toggle('d-none');
+
+            // Prevent body scroll when menu is open
+            document.body.style.overflow = mm.classList.contains('active') ? 'hidden' : '';
+        }
+
+        // Open/close menu on hamburger click
+        hb.addEventListener('click', toggleMenu);
+
+        // Close menu when backdrop is clicked
+        backdrop.addEventListener('click', toggleMenu);
+
+        // Close menu when a link is clicked
+        mobileLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                if (mm.classList.contains('active')) {
+                    toggleMenu();
+                }
+            });
+        });
+
+        // Close menu on window resize to desktop size
+        window.addEventListener('resize', () => {
+            if (window.innerWidth >= 768 && mm.classList.contains('active')) {
+                toggleMenu();
+            }
+        });
 
         // Add simple zoom controls for testing/backup
         const controls = document.createElement('div');
