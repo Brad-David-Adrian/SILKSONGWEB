@@ -4,20 +4,146 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <title>Videos | Weaver's Sanctum</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=IM+Fell+English:ital@0;1&family=Cinzel:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="../Css/Index.css">
     <style>
-        body { background:#070707; color:#eee; font-family:'IM Fell English', serif; margin:0; }
-        .cinzel { font-family: 'Cinzel', serif; }
-        nav { z-index:100; background:rgba(10,10,10,0.95); backdrop-filter: blur(8px); border-bottom:1px solid #222; }
-        .video-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); gap:18px; }
-        .video-card { background:linear-gradient(180deg,#0b0b0b,#0f0f0f); padding:12px; border:1px solid #222; border-radius:8px; transition: all 0.3s ease; }
-        .video-card video { width:100%; border-radius:6px; display:block; }
-        .muted-note { color:#999; font-size:13px; }
+        body {
+            background: radial-gradient(ellipse at center, #0a0a0a 0%, #050505 70%);
+            color: var(--pale-silk);
+            font-family: 'IM Fell English', serif;
+            margin: 0;
+            overflow-x: hidden;
+            min-height: 3000px;
+        }
 
+        .cinzel { font-family: 'Cinzel', serif; }
+
+        nav {
+            z-index: 100;
+            background: rgba(10, 10, 10, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--silk-red);
+            box-shadow: 0 2px 10px rgba(139, 29, 29, 0.1);
+        }
+
+        /* Silk thread background pattern */
+        main::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image:
+                radial-gradient(circle at 20% 80%, rgba(139, 29, 29, 0.03) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(255, 180, 67, 0.02) 0%, transparent 50%),
+                radial-gradient(circle at 40% 40%, rgba(139, 29, 29, 0.02) 0%, transparent 50%);
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .video-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 2rem;
+            padding: 2rem 0;
+        }
+
+        .video-card {
+            background: linear-gradient(145deg, #0d0d0d, #0a0a0a);
+            border: 1px solid rgba(139, 29, 29, 0.3);
+            border-radius: 12px;
+            padding: 1.5rem;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+            box-shadow:
+                0 4px 20px rgba(0, 0, 0, 0.3),
+                inset 0 1px 0 rgba(255, 255, 255, 0.05);
+        }
+
+        .video-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, var(--silk-red), var(--amber-glow), var(--silk-red));
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .video-card video {
+            width: 100%;
+            border-radius: 8px;
+            display: block;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+            transition: box-shadow 0.3s ease;
+        }
+
+        .video-card:hover video {
+            box-shadow: 0 8px 25px rgba(139, 29, 29, 0.2);
+        }
+
+        .video-title {
+            margin-top: 1rem;
+            color: var(--pale-silk);
+            font-size: 1.1rem;
+            font-weight: 600;
+            text-align: center;
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+            letter-spacing: 0.5px;
+        }
+
+        .muted-note {
+            color: rgba(226, 209, 195, 0.7);
+            font-size: 1rem;
+            text-align: center;
+            max-width: 600px;
+            margin: 0 auto;
+            line-height: 1.6;
+        }
+
+        .video-card:hover {
+            transform: translateY(-8px) scale(1.02);
+            box-shadow:
+                0 20px 40px rgba(139, 29, 29, 0.15),
+                0 0 30px rgba(255, 180, 67, 0.1);
+            border-color: var(--amber-glow);
+        }
+
+        .video-card:hover::before {
+            opacity: 1;
+        }
+
+        /* Enhanced header styling */
+        header h1 {
+            background: linear-gradient(135deg, var(--silk-red), var(--amber-glow));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-shadow: 0 0 30px rgba(139, 29, 29, 0.3);
+            margin-bottom: 1rem;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .video-grid {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+                padding: 1rem 0;
+            }
+
+            .video-card {
+                padding: 1rem;
+            }
+        }
+
+        /* Loading spinner (keeping for potential future use) */
         .loading-spinner {
             width: 50px;
             height: 50px;
@@ -33,9 +159,116 @@
             100% { transform: rotate(360deg); }
         }
 
-        .video-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 20px rgba(139, 29, 29, 0.3);
+        /* Image card styles */
+        .image-card {
+            background: linear-gradient(145deg, #0d0d0d, #0a0a0a);
+            border: 1px solid rgba(139, 29, 29, 0.3);
+            border-radius: 12px;
+            padding: 1.5rem;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+            box-shadow:
+                0 4px 20px rgba(0, 0, 0, 0.3),
+                inset 0 1px 0 rgba(255, 255, 255, 0.05);
+        }
+
+        .image-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, var(--silk-red), var(--amber-glow), var(--silk-red));
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .image-card img {
+            width: 100%;
+            border-radius: 8px;
+            display: block;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+            transition: box-shadow 0.3s ease;
+        }
+
+        .image-card:hover img {
+            box-shadow: 0 8px 25px rgba(139, 29, 29, 0.2);
+        }
+
+        .image-title {
+            color: var(--pale-silk);
+            font-size: 1.1rem;
+            font-weight: 600;
+            text-align: center;
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+            letter-spacing: 0.5px;
+        }
+
+        .image-description {
+            color: rgba(226, 209, 195, 0.8);
+            font-size: 0.9rem;
+            line-height: 1.5;
+            text-align: center;
+        }
+
+        .image-card:hover {
+            transform: translateY(-8px) scale(1.02);
+            box-shadow:
+                0 20px 40px rgba(139, 29, 29, 0.15),
+                0 0 30px rgba(255, 180, 67, 0.1);
+            border-color: var(--amber-glow);
+        }
+
+        .image-card:hover::before {
+            opacity: 1;
+        }
+
+        /* Mobile Banner */
+        .mobile-banner {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(10, 10, 10, 0.95);
+            backdrop-filter: blur(10px);
+            border-top: 1px solid var(--silk-red);
+            padding: 1rem;
+            z-index: 1000;
+            display: none;
+        }
+
+        .mobile-banner.show {
+            display: block;
+        }
+
+        .banner-content {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .banner-text {
+            color: var(--pale-silk);
+            font-size: 0.9rem;
+            margin: 0;
+        }
+
+        .banner-close {
+            background: none;
+            border: none;
+            color: var(--amber-glow);
+            font-size: 1.5rem;
+            cursor: pointer;
+            padding: 0;
+            margin-left: 1rem;
+        }
+
+        @media (max-width: 768px) {
+            .mobile-banner {
+                display: block;
+            }
         }
     </style>
 </head>
@@ -59,16 +292,44 @@
                 <p class="muted-note fs-5">Witness the threads of fate woven into motion. Explore video content from the depths of Pharloom.</p>
             </header>
 
-            <section id="gallery" class="animate-fade-in">
-                <div id="loadingIndicator" class="text-center py-5">
-                    <div class="loading-spinner"></div>
-                    <p class="mt-3 text-muted">Weaving videos from the void...</p>
+            <section id="videos" class="animate-fade-in">
+                <div class="video-grid">
+                    <div class="video-card">
+                        <video id="video1" controls muted preload="metadata">
+                            <source src="../Videos/YTDown.com_YouTube_Citadel-Cutscene-Hollow-Knight-Silksong_Media_hiY-OTuHPlo_001_1080p.mp4" type="video/mp4">
+                            Your browser does not support the video tag.
+                        </video>
+                        <h3 class="video-title">Citadel Cutscene - Hollow Knight: Silksong</h3>
+                        <p class="video-description">Experience the majestic Citadel in this cinematic cutscene from Hollow Knight: Silksong. Witness the grandeur of Pharloom's highest peaks and the intricate weaving of fate.</p>
+                    </div>
+                    <div class="video-card">
+                        <video id="video2" controls muted preload="metadata">
+                            <source src="../Videos/YTDown.com_YouTube_Hollow-Knight-Silksong-Release-Trailer_Media_6XGeJwsUP9c_001_1080p.mp4" type="video/mp4">
+                            Your browser does not support the video tag.
+                        </video>
+                        <h3 class="video-title">Release Trailer - Hollow Knight: Silksong</h3>
+                        <p class="video-description">Dive into the world of Silksong with this official release trailer. Explore the lush landscapes, meet new characters, and uncover the mysteries of the Weaver's domain.</p>
+                    </div>
                 </div>
-                <div id="videoGrid" class="video-grid" style="display: none;"></div>
-                <div id="noVideosMessage" class="text-center py-5" style="display: none;">
-                    <div class="fs-1 mb-3" style="color: var(--silk-red);">📹</div>
-                    <h3 class="cinzel">No Videos Found</h3>
-                    <p class="muted-note">Place video files in the Videos folder to see them here.</p>
+            </section>
+
+            <section id="images" class="animate-fade-in mt-5">
+                <h2 class="text-center cinzel fs-2 fw-bold text-uppercase tracking-widest mb-4" style="color: var(--silk-red);">Gallery</h2>
+                <div class="row g-4">
+                    <div class="col-12 col-md-6">
+                        <div class="image-card">
+                            <img src="../ImgGaleria/hollow_knight_silksong_launch_10_2b733987-8b57-44de-bf19-1536f6b40913.jpg" alt="Silksong Launch Art" class="img-fluid rounded">
+                            <h4 class="image-title mt-3">Silksong Launch Artwork</h4>
+                            <p class="image-description">Official launch artwork showcasing the vibrant world of Silksong. The colors and details bring the lush environments to life.</p>
+                        </div>
+                    </div>
+                    <div class="col-12 col-md-6">
+                        <div class="image-card">
+                            <img src="../ImgGaleria/Hollow_Knight_Silksong_Main_06-scaled.webp" alt="Silksong Main Scene" class="img-fluid rounded">
+                            <h4 class="image-title mt-3">Main Scene from Silksong</h4>
+                            <p class="image-description">A captivating scene from the heart of Silksong, featuring intricate character designs and atmospheric lighting.</p>
+                        </div>
+                    </div>
                 </div>
             </section>
         </div>
@@ -77,6 +338,14 @@
     <footer style="padding:20px 0; border-top:1px solid #111;">
         <div class="container-xl text-center text-muted">&copy; Weaver's Sanctum</div>
     </footer>
+
+    <!-- Mobile Banner -->
+    <div id="mobileBanner" class="mobile-banner show">
+        <div class="container-xl banner-content">
+            <p class="banner-text">Welcome to Weaver's Sanctum! Explore the threads of fate.</p>
+            <button id="closeBanner" class="banner-close">&times;</button>
+        </div>
+    </div>
 
     <script>
     // Get elements
@@ -119,47 +388,39 @@
     </script>
 
     <script>
-    (function(){
-        const grid = document.getElementById('videoGrid');
+    // Video autoplay on scroll functionality
+    const videos = document.querySelectorAll('video');
 
-        // Try to fetch directory listing (works if your server shows an index)
-        function tryDirectoryList(){
-            return fetch('../Videos/').then(r => {
-                if(!r.ok) throw new Error('no dir');
-                return r.text();
-            }).then(html => {
-                const parser = new DOMParser();
-                const doc = parser.parseFromString(html,'text/html');
-                const links = Array.from(doc.querySelectorAll('a'))
-                    .map(a => a.getAttribute('href'))
-                    .filter(h => /\.(mp4|webm|ogg|mov)$/i.test(h));
-                return links.map(h => (h.startsWith('http')||h.startsWith('/')) ? h : '../Videos/'+h);
-            });
-        }
+    function isElementInViewport(el) {
+        const rect = el.getBoundingClientRect();
+        return (
+            rect.top >= 0 &&
+            rect.left >= 0 &&
+            rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) &&
+            rect.right <= (window.innerWidth || document.documentElement.clientWidth)
+        );
+    }
 
-        function fallbackList(){
-            return ['../Videos/YouTube_Citadel-Cutscene-Hollow-Knight-Silksong_Media_hiY-OTuHPlo_001_1080p.mp4','../Videos/YouTube_Citadel-Cutscene-Hollow-Knight-Silksong_Media_hiY-OTuHPlo_001_1080p.mp4','Videos\YTDown.com_YouTube_Hollow-Knight-Silksong-Sea-of-Sorrow-Tra_Media_XFSZ28wSTx0_001_1080p.mp4'];
-        }
+    function handleScroll() {
+        videos.forEach(video => {
+            if (isElementInViewport(video)) {
+                video.play();
+            } else {
+                video.pause();
+            }
+        });
+    }
 
-        function addVideo(src){
-            const card = document.createElement('div');
-            card.className = 'video-card';
-            const v = document.createElement('video');
-            v.controls = true; v.src = src; v.preload = 'metadata';
-            v.addEventListener('error', ()=>{ card.style.opacity = 0.55; });
-            const caption = document.createElement('div');
-            caption.style.marginTop = '8px';
-            caption.style.color = '#ddd';
-            caption.textContent = src.split('/').pop();
-            card.appendChild(v); card.appendChild(caption);
-            grid.appendChild(card);
-        }
+    window.addEventListener('scroll', handleScroll);
+    window.addEventListener('load', handleScroll);
 
-        tryDirectoryList().then(list => {
-            if(list && list.length) list.forEach(addVideo);
-            else fallbackList().forEach(addVideo);
-        }).catch(()=>{ fallbackList().forEach(addVideo); });
-    })();
+    // Mobile banner close functionality
+    const closeBannerBtn = document.getElementById('closeBanner');
+    const mobileBanner = document.getElementById('mobileBanner');
+
+    closeBannerBtn.addEventListener('click', () => {
+        mobileBanner.classList.remove('show');
+    });
     </script>
 
 </body>
