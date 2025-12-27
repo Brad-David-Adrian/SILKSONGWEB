@@ -14,9 +14,29 @@
         .cinzel { font-family: 'Cinzel', serif; }
         nav { z-index:100; background:rgba(10,10,10,0.95); backdrop-filter: blur(8px); border-bottom:1px solid #222; }
         .video-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); gap:18px; }
-        .video-card { background:linear-gradient(180deg,#0b0b0b,#0f0f0f); padding:12px; border:1px solid #222; border-radius:8px; }
+        .video-card { background:linear-gradient(180deg,#0b0b0b,#0f0f0f); padding:12px; border:1px solid #222; border-radius:8px; transition: all 0.3s ease; }
         .video-card video { width:100%; border-radius:6px; display:block; }
         .muted-note { color:#999; font-size:13px; }
+
+        .loading-spinner {
+            width: 50px;
+            height: 50px;
+            border: 3px solid #222;
+            border-top: 3px solid var(--amber-glow);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .video-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(139, 29, 29, 0.3);
+        }
     </style>
 </head>
 <body>
@@ -34,13 +54,22 @@
 
     <main style="padding-top:80px; padding-bottom:40px;">
         <div class="container-xl">
-            <header class="mb-4">
-                <h1 class="cinzel">Videos</h1>
-                <p class="muted-note">This page attempts to list video files placed in the <strong>Videos</strong> folder. If your server exposes a directory index it'll auto-detect files; otherwise it falls back to common filenames.</p>
+            <header class="mb-5 text-center animate-fade-in">
+                <h1 class="cinzel fs-1 fw-bold text-uppercase tracking-widest" style="color: var(--silk-red);">Videos</h1>
+                <p class="muted-note fs-5">Witness the threads of fate woven into motion. Explore video content from the depths of Pharloom.</p>
             </header>
 
-            <section id="gallery">
-                <div id="videoGrid" class="video-grid"></div>
+            <section id="gallery" class="animate-fade-in">
+                <div id="loadingIndicator" class="text-center py-5">
+                    <div class="loading-spinner"></div>
+                    <p class="mt-3 text-muted">Weaving videos from the void...</p>
+                </div>
+                <div id="videoGrid" class="video-grid" style="display: none;"></div>
+                <div id="noVideosMessage" class="text-center py-5" style="display: none;">
+                    <div class="fs-1 mb-3" style="color: var(--silk-red);">📹</div>
+                    <h3 class="cinzel">No Videos Found</h3>
+                    <p class="muted-note">Place video files in the Videos folder to see them here.</p>
+                </div>
             </section>
         </div>
     </main>
@@ -48,6 +77,46 @@
     <footer style="padding:20px 0; border-top:1px solid #111;">
         <div class="container-xl text-center text-muted">&copy; Weaver's Sanctum</div>
     </footer>
+
+    <script>
+    // Get elements
+    const hamburger = document.getElementById('hamburger');
+    const mobileMenu = document.getElementById('mobileMenu');
+    const backdrop = document.getElementById('backdrop');
+    const mobileLinks = mobileMenu.querySelectorAll('a');
+
+    // Toggle menu function
+    function toggleMenu() {
+        hamburger.classList.toggle('active');
+        mobileMenu.classList.toggle('active');
+        backdrop.classList.toggle('hidden');
+
+        // Prevent body scroll when menu is open
+        document.body.style.overflow = mobileMenu.classList.contains('active') ? 'hidden' : '';
+    }
+
+    // Open/close menu on hamburger click
+    hamburger.addEventListener('click', toggleMenu);
+
+    // Close menu when backdrop is clicked
+    backdrop.addEventListener('click', toggleMenu);
+
+    // Close menu when a link is clicked
+    mobileLinks.forEach(link => {
+        link.addEventListener('click', () => {
+            if (mobileMenu.classList.contains('active')) {
+                toggleMenu();
+            }
+        });
+    });
+
+    // Close menu on window resize to desktop size
+    window.addEventListener('resize', () => {
+        if (window.innerWidth >= 768 && mobileMenu.classList.contains('active')) {
+            toggleMenu();
+        }
+    });
+    </script>
 
     <script>
     (function(){
@@ -69,7 +138,7 @@
         }
 
         function fallbackList(){
-            return ['../Videos/sample1.mp4','../Videos/sample2.mp4','../Videos/sample3.mp4'];
+            return ['../Videos/YouTube_Citadel-Cutscene-Hollow-Knight-Silksong_Media_hiY-OTuHPlo_001_1080p.mp4','../Videos/YouTube_Citadel-Cutscene-Hollow-Knight-Silksong_Media_hiY-OTuHPlo_001_1080p.mp4','Videos\YTDown.com_YouTube_Hollow-Knight-Silksong-Sea-of-Sorrow-Tra_Media_XFSZ28wSTx0_001_1080p.mp4'];
         }
 
         function addVideo(src){
