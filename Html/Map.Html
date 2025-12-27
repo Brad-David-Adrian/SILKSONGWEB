@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Map | Pharloom (JS Stitched)</title>
+    <title>Map | Pharloom (Mouse Zoom)</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -11,12 +11,13 @@
     <link href="https://fonts.googleapis.com/css2?family=IM+Fell+English:ital@0;1&family=Cinzel:wght@400;700&display=swap" rel="stylesheet">
     
     <style>
-        /* Estilos básicos integrados para que funcione al copiar y pegar */
         body { background-color: #0b0b0b; color: #eee; font-family: 'IM Fell English', serif; overflow: hidden; margin: 0; padding: 0; }
         .cinzel { font-family: 'Cinzel', serif; }
         .glow-hover:hover { text-shadow: 0 0 10px #8b1d1d; }
         .nav-link { color: #ccc; text-decoration: none; transition: color 0.3s; }
         .nav-link:hover { color: #ffb443; }
+        
+        /* Mobile Menu */
         .hamburger { width: 30px; height: 20px; position: relative; cursor: pointer; background: none; border: none; padding: 0; display: flex; flex-direction: column; justify-content: space-between; }
         .hamburger span { display: block; width: 100%; height: 2px; background-color: #ffb443; transition: all 0.3s ease; }
         .hamburger.active span:nth-child(1) { transform: translateY(9px) rotate(45deg); }
@@ -24,6 +25,10 @@
         .hamburger.active span:nth-child(3) { transform: translateY(-9px) rotate(-45deg); }
         #mobileMenu { transform: translateX(-100%); transition: transform 0.3s ease-in-out; }
         #mobileMenu.active { transform: translateX(0); }
+
+        /* Cursor personalizado para indicar que se puede mover */
+        #mapWrapper { cursor: grab; }
+        #mapWrapper:active { cursor: grabbing; }
     </style>
 </head>
 <body>
@@ -34,11 +39,7 @@
             
             <div class="d-none d-md-flex align-items-center gap-3 fs-6 text-uppercase fw-bold tracking-[0.2em]">
                 <a href="../index.html#hero" class="nav-link hover:text-[#ffb443]">Sanctum</a>
-                <a href="../index.html#lore" class="nav-link hover:text-[#ffb443]">Lore</a>
-                <a href="../index.html#features" class="nav-link hover:text-[#ffb443]">Threads</a>
-                <a href="Galery.html" class="nav-link hover:text-[#ffb443]">Explore Pharloom</a>
                 <a href="Map.Html" class="nav-link hover:text-[#ffb443]">Map</a>
-                <a href="Contact.html" class="nav-link hover:text-[#ffb443]">Bind Your Song</a>
                 <a href="#" class="text-[#ffb443] fs-5 hover:scale-110 transition-transform">🔔</a>
             </div>
             
@@ -49,26 +50,21 @@
     <div id="mobileMenu" class="d-md-none position-fixed top-0 start-0 w-100 h-100 d-none" style="z-index: 99; background: rgba(10, 10, 10, 0.98);">
         <div class="container-xl mx-auto d-flex flex-column align-items-center justify-content-center h-100 gap-5">
             <a href="../index.html#hero" class="nav-link fs-3">Sanctum</a>
-            <a href="../index.html#lore" class="nav-link fs-3">Lore</a>
-            <a href="../index.html#features" class="nav-link fs-3">Threads</a>
-            <a href="Galery.html" class="nav-link fs-3">Explore Pharloom</a>
             <a href="Map.Html" class="nav-link fs-3">Map</a>
-            <a href="Contact.html" class="nav-link fs-3">Bind Your Song</a>
         </div>
     </div>
 
     <div id="mapWrapper" style="position:fixed; top:60px; left:0; width:100vw; height:calc(100vh - 60px); z-index:1; background:#050505; overflow:hidden;">
-        <svg id="pharloomMap" xmlns="http://www.w3.org/2000/svg" style="width:100%; height:100%; display:block; touch-action: none;">
+        <svg id="pharloomMap" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1000" style="width:100%; height:100%; display:block; touch-action: none;">
             <g class="svg-pan-zoom_viewport">
                 <g id="mapTilesLayer"></g>
-                
                 <g id="markers"></g>
             </g>
         </svg>
     </div>
 
     <div id="mapTip" style="position:fixed; left:20px; bottom:20px; z-index:200; color:#888; font-size:12px; background:rgba(0,0,0,0.5); padding:5px 10px; border-radius:4px; pointer-events:none;">
-        Doble click para añadir marcador / Rueda para zoom
+        Usa la rueda del ratón para Zoom | Doble Click para Marcador
     </div>
 
     <div id="tooltip" style="position:fixed; z-index:220; display:none; background:rgba(10,10,10,0.9); padding:12px; border: 1px solid #ffb443; border-radius:4px; color:#fff; min-width:200px;">
@@ -76,28 +72,33 @@
         <div id="tooltipDesc" class="small text-light font-monospace"></div>
     </div>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/svg-pan-zoom/3.6.1/svg-pan-zoom.min.js"></script>
+    <style>
+        #zoomControls { position: fixed; right: 16px; top: 80px; z-index:250; display:flex; flex-direction:column; gap:8px; }
+        .zoom-btn { background:#111; color:#ffb443; border:1px solid #333; padding:8px 10px; border-radius:6px; font-weight:bold; cursor:pointer; box-shadow:0 2px 6px rgba(0,0,0,0.6); }
+        .zoom-btn:hover { background:#0d0d0d; transform:translateY(-1px); }
+
+        #mapTilesLayer {
+            transition: transform 0.1s ease-out;
+        }
+    </style>
 
     <script>
     (() => {
-        // --- CONFIGURACIÓN DE LOS FRAGMENTOS ---
-        // Se ha ajustado basándose en los nombres de archivo proporcionados:
-        // Columna 0, 1, 2 y Fila 0, 1.
+        // --- CONFIGURACIÓN ---
         const mapConfig = {
             basePath: '../Images/', 
             tiles: [
-                // Fila Superior (Row 0) -> Coordenadas Y=0
-                { file: '6_0_0.png', col: 0, row: 0 }, // Izquierda Arriba
-                { file: '6_1_0.png', col: 1, row: 0 }, // Centro Arriba (es JPG)
-                { file: '6_2_0.png', col: 2, row: 0 }, // Derecha Arriba
-
-                // Fila Inferior (Row 1) -> Coordenadas Y=1
-                { file: '6_0_1.png', col: 0, row: 1 }, // Izquierda Abajo
-                { file: '6_1_1.png', col: 1, row: 1 }, // Centro Abajo (es JPG)
-                { file: '6_2_1.png', col: 2, row: 1 }  // Derecha Abajo
+                // Fila 0 (Arriba)
+                { file: '6_0_0.png', col: 0, row: 0 },
+                { file: '6_1_0.png', col: 1, row: 0 },
+                { file: '6_2_0.png', col: 2, row: 0 },
+                // Fila 1 (Abajo)
+                { file: '6_0_1.png', col: 0, row: 1 },
+                { file: '6_1_1.png', col: 1, row: 1 },
+                { file: '6_2_1.png', col: 2, row: 1 }
             ],
-            cols: 3, // El mapa tiene 3 columnas de ancho (0, 1, 2)
-            rows: 2  // El mapa tiene 2 filas de alto (0, 1)
+            cols: 3, 
+            rows: 2 
         };
 
         const svg = document.getElementById('pharloomMap');
@@ -108,24 +109,21 @@
         let panZoomInstance = null;
         let markersData = [];
 
-        // 1. CARGA INTELIGENTE DE IMAGENES (JS STITCHING)
+        // 1. CARGA DE IMÁGENES
         function loadMapTiles() {
-            // Cargamos la primera imagen para obtener las dimensiones base
             const firstTile = new Image();
             firstTile.src = mapConfig.basePath + mapConfig.tiles[0].file;
             
             firstTile.onload = () => {
                 const w = firstTile.naturalWidth;
                 const h = firstTile.naturalHeight;
-                
-                console.log(`Tile size detected: ${w}x${h}`);
-                
-                // Configuramos el SVG basado en cols y rows definidos
+
+                // Configurar tamaño del SVG
                 const totalWidth = w * mapConfig.cols;
                 const totalHeight = h * mapConfig.rows;
                 svg.setAttribute('viewBox', `0 0 ${totalWidth} ${totalHeight}`);
 
-                // Inyectamos las imágenes en el SVG en sus coordenadas correctas
+                // Inyectar imágenes
                 mapConfig.tiles.forEach(tile => {
                     const imgNS = document.createElementNS('http://www.w3.org/2000/svg', 'image');
                     const fullPath = mapConfig.basePath + tile.file;
@@ -134,27 +132,26 @@
                     imgNS.setAttribute('y', tile.row * h);
                     imgNS.setAttribute('width', w);
                     imgNS.setAttribute('height', h);
-                    // Optimizaciones de renderizado
-                    imgNS.style.pointerEvents = "none"; 
-                    imgNS.style.userSelect = "none";
-                    
+
+                    // IMPORTANTE: pointer-events none para que el ratón "atraviese" la imagen
+                    // y el evento de zoom funcione en el SVG contenedor.
+                    imgNS.style.pointerEvents = "none";
+
                     mapTilesLayer.appendChild(imgNS);
-                    console.log('Tile loaded: ' + fullPath);
                 });
 
-                // Una vez montado el mapa, iniciamos el zoom y los marcadores
                 initPanZoomAndUI();
+
                 loadMarkers();
                 renderAll();
             };
-
+            
             firstTile.onerror = () => {
-                console.error("Error loading tile: " + firstTile.src);
-                alert("Error: No se encuentra la imagen " + firstTile.src + ". Revisa la carpeta ../Images/");
+                console.error("No se pudo cargar: " + firstTile.src);
             };
         }
 
-        // 2. LÓGICA DE MARCADORES (Igual que antes)
+        // 2. MARCADORES
         function saveMarkers() { localStorage.setItem('pharloom_markers', JSON.stringify(markersData)); }
         function loadMarkers() {
             try {
@@ -167,7 +164,6 @@
             const g = document.createElementNS('http://www.w3.org/2000/svg','g');
             g.setAttribute('cursor','pointer');
             
-            // Círculo exterior (glow)
             const circle = document.createElementNS('http://www.w3.org/2000/svg','circle');
             circle.setAttribute('cx', m.x); circle.setAttribute('cy', m.y);
             circle.setAttribute('r', 10);
@@ -175,14 +171,13 @@
             circle.setAttribute('stroke', '#000');
             circle.setAttribute('stroke-width', '2');
             
-            // Etiqueta de texto
             const label = document.createElementNS('http://www.w3.org/2000/svg','text');
             label.setAttribute('x', m.x + 15);
             label.setAttribute('y', m.y + 5);
             label.setAttribute('fill','#fff');
             label.setAttribute('font-family', 'Cinzel, serif');
             label.setAttribute('font-weight', 'bold');
-            label.setAttribute('font-size','24'); // Texto más grande para mapas grandes
+            label.setAttribute('font-size','24');
             label.style.textShadow = "2px 2px 4px #000";
             label.textContent = m.title;
 
@@ -191,26 +186,18 @@
 
             g.addEventListener('click', (ev) => {
                 ev.stopPropagation();
-                const ttitle = document.getElementById('tooltipTitle');
-                const tdesc = document.getElementById('tooltipDesc');
-                if (ttitle && tdesc) {
-                    ttitle.textContent = m.title;
-                    tdesc.textContent = m.desc || "Sin descripción";
-                    tooltip.style.display = 'block';
-                    const offsetX = ev.clientX + 10;
-                    const offsetY = ev.clientY + 10;
-                    tooltip.style.left = Math.min(offsetX, window.innerWidth - 250) + 'px';
-                    tooltip.style.top = Math.min(offsetY, window.innerHeight - 120) + 'px';
-                }
+                document.getElementById('tooltipTitle').textContent = m.title;
+                document.getElementById('tooltipDesc').textContent = m.desc || "";
+                tooltip.style.display = 'block';
+                tooltip.style.left = (ev.clientX + 10) + 'px';
+                tooltip.style.top = (ev.clientY + 10) + 'px';
             });
             
-            // Click derecho para borrar
             g.addEventListener('contextmenu', (ev) => {
                 ev.preventDefault();
-                if(confirm('¿Borrar marcador "' + m.title + '"?')) {
+                if(confirm('¿Borrar marcador?')) {
                     markersData = markersData.filter(x => x.id !== m.id);
-                    saveMarkers();
-                    renderAll();
+                    saveMarkers(); renderAll();
                 }
             });
 
@@ -222,53 +209,135 @@
             markersData.forEach(m => createMarker(m));
         }
 
-        // 3. INICIALIZACIÓN DE PAN/ZOOM
+        // 3. INICIALIZAR ZOOM Y PANNING PERSONALIZADO
+        let scale = 1;
+        let translateX = 0;
+        let translateY = 0;
+        let isDragging = false;
+        let lastX = 0;
+        let lastY = 0;
+
+        const minScale = 0.1;
+        const maxScale = 20;
+
+        function updateTransform() {
+            mapTilesLayer.style.transform = `translate(${translateX}px, ${translateY}px) scale(${scale})`;
+            markersGroup.style.transform = `translate(${translateX}px, ${translateY}px) scale(${scale})`;
+        }
+
+        function zoom(factor, centerX, centerY) {
+            const newScale = Math.max(minScale, Math.min(maxScale, scale * factor));
+
+            if (newScale !== scale) {
+                // Adjust translation to zoom towards the mouse position
+                const scaleChange = newScale / scale;
+                translateX = centerX - (centerX - translateX) * scaleChange;
+                translateY = centerY - (centerY - translateY) * scaleChange;
+                scale = newScale;
+                updateTransform();
+            }
+        }
+
+        function pan(deltaX, deltaY) {
+            translateX += deltaX;
+            translateY += deltaY;
+            updateTransform();
+        }
+
         function initPanZoomAndUI() {
-            panZoomInstance = svgPanZoom('#pharloomMap', {
-                zoomEnabled: true,
-                controlIconsEnabled: false,
-                fit: true,
-                center: true,
-                minZoom: 0.1, // Permitir alejar mucho para ver todo el mapa
-                maxZoom: 10
+
+            // Mouse wheel zoom
+            svg.addEventListener('wheel', (e) => {
+                e.preventDefault();
+                const rect = svg.getBoundingClientRect();
+                const centerX = e.clientX - rect.left;
+                const centerY = e.clientY - rect.top;
+                const factor = e.deltaY > 0 ? 0.9 : 1.1;
+                zoom(factor, centerX, centerY);
             });
 
-            // Listener para añadir marcador
+            // Mouse pan
+            svg.addEventListener('mousedown', (e) => {
+                if (e.button === 0) { // Left mouse button
+                    isDragging = true;
+                    lastX = e.clientX;
+                    lastY = e.clientY;
+                    svg.style.cursor = 'grabbing';
+                }
+            });
+
+            svg.addEventListener('mousemove', (e) => {
+                if (isDragging) {
+                    const deltaX = e.clientX - lastX;
+                    const deltaY = e.clientY - lastY;
+                    pan(deltaX, deltaY);
+                    lastX = e.clientX;
+                    lastY = e.clientY;
+                }
+            });
+
+            svg.addEventListener('mouseup', () => {
+                isDragging = false;
+                svg.style.cursor = 'grab';
+            });
+
+            svg.addEventListener('mouseleave', () => {
+                isDragging = false;
+                svg.style.cursor = 'grab';
+            });
+
+            // Utility: convert client coordinates to SVG coordinates
+            function clientToSVGCoords(clientX, clientY) {
+                const rect = svg.getBoundingClientRect();
+                const svgX = (clientX - rect.left - translateX) / scale;
+                const svgY = (clientY - rect.top - translateY) / scale;
+                return { x: svgX, y: svgY };
+            }
+
+            // Añadir marcador con Doble Click
             svg.addEventListener('dblclick', (e) => {
-                if (!panZoomInstance) return;
-                const rect = svg.parentElement.getBoundingClientRect();
-                const pan = panZoomInstance.getPan();
-                const zoom = panZoomInstance.getZoom();
-                
-                // Cálculo preciso de coordenadas relativas al SVG
-                const x = (e.clientX - rect.left - pan.x) / zoom;
-                const y = (e.clientY - rect.top - pan.y) / zoom;
+                const pt = clientToSVGCoords(e.clientX, e.clientY);
+                const x = Math.round(pt.x);
+                const y = Math.round(pt.y);
 
                 const title = prompt('Nombre del lugar:');
                 if (!title) return;
-                
                 const desc = prompt('Descripción (opcional):');
-                const m = { id: Date.now(), x: Math.round(x), y: Math.round(y), title, desc };
-                
-                markersData.push(m);
-                saveMarkers();
-                renderAll();
-                console.log('Marker added:', m);
+                markersData.push({ id: Date.now(), x: Math.round(x), y: Math.round(y), title, desc });
+                saveMarkers(); renderAll();
             });
 
-            // Ocultar tooltip al hacer click en el mapa vacío
+            // Ocultar tooltip al hacer click fuera
             svg.addEventListener('click', () => { tooltip.style.display = 'none'; });
         }
 
-        // Menu Mobile Toggle
+        // Toggle Menú Móvil
         const hb = document.getElementById('hamburger');
         const mm = document.getElementById('mobileMenu');
-        hb.addEventListener('click', () => {
-            hb.classList.toggle('active');
-            mm.classList.toggle('active');
-        });
+        hb.addEventListener('click', () => { hb.classList.toggle('active'); mm.classList.toggle('active'); });
 
-        // ARRANCAR
+        // Add simple zoom controls for testing/backup
+        const controls = document.createElement('div');
+        controls.id = 'zoomControls';
+        controls.innerHTML = '<button id="zoomIn" class="zoom-btn">＋</button><button id="zoomOut" class="zoom-btn">－</button><button id="resetZoom" class="zoom-btn">Reset</button>';
+        document.body.appendChild(controls);
+
+        // Make zoom controls work with custom zoom system
+        let zoomControls = {
+            zoomIn: () => zoom(1.2, svg.clientWidth / 2, svg.clientHeight / 2),
+            zoomOut: () => zoom(0.8, svg.clientWidth / 2, svg.clientHeight / 2),
+            resetZoom: () => {
+                scale = 1;
+                translateX = 0;
+                translateY = 0;
+                updateTransform();
+            }
+        };
+
+        document.getElementById('zoomIn').addEventListener('click', zoomControls.zoomIn);
+        document.getElementById('zoomOut').addEventListener('click', zoomControls.zoomOut);
+        document.getElementById('resetZoom').addEventListener('click', zoomControls.resetZoom);
+
         loadMapTiles();
 
     })();
