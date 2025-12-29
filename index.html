@@ -199,6 +199,9 @@
     </style>
 </head>
 <body class="antialiased bg-dark text-light">
+    <!-- Background Animation Canvas -->
+    <canvas id="amberCanvas" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: -1;"></canvas>
+
     <!-- Floating Silk Threads -->
     <div class="silk-thread" style="top: 20%; left: 10%; width: 200px; height: 2px;"></div>
     <div class="silk-thread" style="top: 40%; right: 15%; width: 150px; height: 2px;"></div>
@@ -419,6 +422,7 @@
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
     <script type="module" src="../Js/index.js"></script>
+    <script src="Js/Ambers.js"></script>
 
     <!-- Cookie Management Script -->
     <script>
