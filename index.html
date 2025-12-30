@@ -28,7 +28,10 @@
             color: var(--pale-silk);
             font-family: 'IM Fell English', serif;
             overflow-x: hidden;
-            min-height: 3000px;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            /* allow footer to flow after content (no fixed footer) */
         }
 
         .cinzel { font-family: 'Cinzel', serif; }
@@ -196,6 +199,13 @@
             background-size: 400% 400%;
             animation: animatedBackground 15s ease infinite;
         }
+
+        /* Ensure footer sits after page content when using flex layout */
+        footer {
+            margin-top: auto;
+            position: relative;
+            z-index: 50;
+        }
     </style>
 </head>
 <body class="antialiased bg-dark text-light">
@@ -330,42 +340,75 @@
     <!-- Carousel Section -->
             <div class="col-12 col-md-6 silksong-border w-100 bg-[#1a0a0a] position-relative" style="min-height: 600px;">
                 <div id="heroCarousel" class="carousel slide position-absolute top-0 start-0 w-100 h-100" data-bs-ride="carousel">
+                    <ol class="carousel-indicators">
+                        <li data-bs-target="#heroCarousel" data-bs-slide-to="0" class="active"></li>
+                        <li data-bs-target="#heroCarousel" data-bs-slide-to="1"></li>
+                        <li data-bs-target="#heroCarousel" data-bs-slide-to="2"></li>
+                        <li data-bs-target="#heroCarousel" data-bs-slide-to="3"></li>
+                        <li data-bs-target="#heroCarousel" data-bs-slide-to="4"></li>
+                    </ol>
                     <div class="carousel-inner h-100">
                         <div class="carousel-item active h-100">
-                            <div class="d-flex align-items-center justify-content-center h-100 bg-dark" style="background-image: url('ImgGaleria/hollow_knight_silksong_launch_10_2b733987-8b57-44de-bf19-1536f6b40913.jpg'); background-size: cover; background-position: center; background-repeat: no-repeat;">
+                            <div class="d-flex align-items-center justify-content-center h-100 bg-dark" style="background-image: url('Images%20for%20the%20Carrusel/Hollow-Knight-Silksong-1024x576.jpg'); background-size: cover; background-position: center; background-repeat: no-repeat;">
                                 <div class="text-center text-white animate-fade-in">
                                     <h3 class="text-[#ffb443] fs-6 text-uppercase tracking-[0.5em] mb-2 cinzel fw-bold">Pilgrimage to the Peak</h3>
                                     <h1 class="fs-3 fw-bold tracking-[0.1em] text-[#8b1d1d] mb-3 text-uppercase cinzel" style="text-shadow: 0 0 15px rgba(139, 29, 29, 0.5);">
                                         PHARLOOM
                                     </h1>
-                                    <a href="#contact" class="cta-btn fs-6">
-                                        Descend into the Loom
+                                    <a href="Html/Form.html" class="cta-btn fs-6">
+                                        Bind Your Song
                                     </a>
                                 </div>
                             </div>
                         </div>
                         <div class="carousel-item h-100">
-                            <div class="d-flex align-items-center justify-content-center h-100 bg-dark" style="background-image: url('ImgGaleria/Hollow_Knight_Silksong_Main_06-scaled.webp'); background-size: cover; background-position: center; background-repeat: no-repeat;">
+                            <div class="d-flex align-items-center justify-content-center h-100 bg-dark" style="background-image: url('Images%20for%20the%20Carrusel/hollow-knight-silksong-image.jpg'); background-size: cover; background-position: center; background-repeat: no-repeat;">
                                 <div class="text-center text-white animate-fade-in">
                                     <h3 class="text-[#ffb443] fs-6 text-uppercase tracking-[0.5em] mb-2 cinzel fw-bold">Explore the Depths</h3>
                                     <h1 class="fs-3 fw-bold tracking-[0.1em] text-[#8b1d1d] mb-3 text-uppercase cinzel" style="text-shadow: 0 0 15px rgba(139, 29, 29, 0.5);">
                                         SILKSONG
                                     </h1>
-                                    <a href="#lore" class="cta-btn fs-6">
+                                    <a href="Html/Lore.html" class="cta-btn fs-6">
                                         Discover the Lore
                                     </a>
                                 </div>
                             </div>
                         </div>
                         <div class="carousel-item h-100">
-                            <div class="d-flex align-items-center justify-content-center h-100 bg-dark" style="background-image: url('ImgGaleria/hollow-knight-silksong-parrying.avif'); background-size: cover; background-position: center; background-repeat: no-repeat;">
+                            <div class="d-flex align-items-center justify-content-center h-100 bg-dark" style="background-image: url('Images%20for%20the%20Carrusel/Hollow-Knight-Silksong-Infos-Header-1.jpg'); background-size: cover; background-position: center; background-repeat: no-repeat;">
                                 <div class="text-center text-white animate-fade-in">
                                     <h3 class="text-[#ffb443] fs-6 text-uppercase tracking-[0.5em] mb-2 cinzel fw-bold">Bind Your Fate</h3>
                                     <h1 class="fs-3 fw-bold tracking-[0.1em] text-[#8b1d1d] mb-3 text-uppercase cinzel" style="text-shadow: 0 0 15px rgba(139, 29, 29, 0.5);">
                                         WEAVER'S SANCTUM
                                     </h1>
-                                    <a href="#features" class="cta-btn fs-6">
-                                        Learn the Threads
+                                    <a href="Html/Map.html" class="cta-btn fs-6">
+                                        Follow the Bell Beast 
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="carousel-item h-100">
+                            <div class="d-flex align-items-center justify-content-center h-100 bg-dark" style="background-image: url('Images%20for%20the%20Carrusel/silksong005.webp'); background-size: cover; background-position: center; background-repeat: no-repeat;">
+                                <div class="text-center text-white animate-fade-in">
+                                    <h3 class="text-[#ffb443] fs-6 text-uppercase tracking-[0.5em] mb-2 cinzel fw-bold">Witness the Journey</h3>
+                                    <h1 class="fs-3 fw-bold tracking-[0.1em] text-[#8b1d1d] mb-3 text-uppercase cinzel" style="text-shadow: 0 0 15px rgba(139, 29, 29, 0.5);">
+                                        GALLERY
+                                    </h1>
+                                    <a href="Html/Galery.html" class="cta-btn fs-6">
+                                        Explore Pharloom
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="carousel-item h-100">
+                            <div class="d-flex align-items-center justify-content-center h-100 bg-dark" style="background-image: url('Images%20for%20the%20Carrusel/hollow.avif'); background-size: cover; background-position: center; background-repeat: no-repeat;">
+                                <div class="text-center text-white animate-fade-in">
+                                    <h3 class="text-[#ffb443] fs-6 text-uppercase tracking-[0.5em] mb-2 cinzel fw-bold">Hear the Echoes</h3>
+                                    <h1 class="fs-3 fw-bold tracking-[0.1em] text-[#8b1d1d] mb-3 text-uppercase cinzel" style="text-shadow: 0 0 15px rgba(139, 29, 29, 0.5);">
+                                        VIDEOS
+                                    </h1>
+                                    <a href="Html/Video.html" class="cta-btn fs-6">
+                                        Watch the Tales
                                     </a>
                                 </div>
                             </div>
@@ -395,33 +438,15 @@
     <!-- Footer -->
     <footer class="bg-black py-5 px-3 border-top border-[#8b1d1d]">
         <div class="container-xl mx-auto row g-5 text-center text-md-start">
-            <div class="col-12 col-md-4">
-                <h5 class="cinzel text-[#8b1d1d] fs-5 tracking-widest mb-4">THE CITADEL</h5>
-                <ul class="list-unstyled d-flex flex-column gap-3 fs-6 opacity-50 tracking-wider text-uppercase">
-                    <li><a href="#" class="hover:text-[#ffb443]">Deep Docks</a></li>
-                    <li><a href="#" class="hover:text-[#ffb443]">The Bone Bottom</a></li>
-                    <li><a href="#" class="hover:text-[#ffb443]">Greymoor</a></li>
-                </ul>
-            </div>
-            <div class="col-12 col-md-4">
-                <h5 class="cinzel text-[#8b1d1d] fs-5 tracking-widest mb-4">WEAVER'S TOOLS</h5>
-                <ul class="list-unstyled d-flex flex-column gap-3 fs-6 opacity-50 tracking-wider text-uppercase">
-                    <li><a href="#" class="hover:text-[#ffb443]">Silk Binding</a></li>
-                    <li><a href="#" class="hover:text-[#ffb443]">Song Amplification</a></li>
-                    <li><a href="#" class="hover:text-[#ffb443]">Needle Casting</a></li>
-                </ul>
-            </div>
-            <div class="col-12 col-md-4 d-flex flex-column align-items-center align-items-md-end">
-                <div class="fs-1 text-[#8b1d1d] mb-4">🕷️</div>
                 <p class="fs-6 text-uppercase tracking-[0.4em] opacity-30 text-[#e2d1c3]">
-                    &copy; 1884 Pharloom Correspondence
+                    &copy; 2025 Pharloom Correspondence
                 </p>
             </div>
         </div>
     </footer>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
-    <script type="module" src="../Js/index.js"></script>
+    <script type="module" src="Js/index.js"></script>
     <script src="Js/Ambers.js"></script>
 
     <!-- Cookie Management Script -->
