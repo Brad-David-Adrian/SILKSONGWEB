@@ -11,43 +11,54 @@
     <link href="https://fonts.googleapis.com/css2?family=IM+Fell+English:ital@0;1&family=Cinzel:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
+        /* =====================================================
+           CSS VARIABLES - Color Theme for Silksong Aesthetic
+           ===================================================== */
         :root {
-            --silk-red: #8b1d1d;
-            --silk-bright: #cc2b2b;
-            --void-black: #0a0a0a;
-            --pale-silk: #e2d1c3;
-            --amber-glow: #ffb443;
+            --silk-red: #8b1d1d;           /* Deep burgundy for main accent */
+            --silk-bright: #cc2b2b;        /* Bright red for highlights */
+            --void-black: #0a0a0a;         /* Almost pure black for background */
+            --pale-silk: #e2d1c3;          /* Cream/beige for text */
+            --amber-glow: #ffb443;         /* Golden amber for interactive elements */
         }
 
+        /* =====================================================
+           BODY - Global Layout & Background
+           ===================================================== */
         body {
             background-color: var(--void-black);
+            /* Layered backgrounds: radial gradient + texture pattern */
             background-image:
                 radial-gradient(circle at 50% 50%, #1a0a0a 0%, #050505 100%),
                 url('https://www.transparenttextures.com/patterns/dark-matter.png');
             color: var(--pale-silk);
             font-family: 'IM Fell English', serif;
             overflow-x: hidden;
+            /* Flex layout: allows footer to stay at bottom */
             display: flex;
             flex-direction: column;
             min-height: 100vh;
-            /* allow footer to flow after content (no fixed footer) */
         }
 
         .cinzel { font-family: 'Cinzel', serif; }
 
-        /* Navigation Styles */
+        /* =====================================================
+           NAVIGATION - Fixed Header Bar & Link Effects
+           ===================================================== */
         nav {
             background: rgba(10, 10, 10, 0.9);
             border-bottom: 1px solid rgba(139, 29, 29, 0.3);
             backdrop-filter: blur(10px);
         }
 
+        /* Navigation links with underline hover effect */
         .nav-link {
             position: relative;
             transition: all 0.3s;
             letter-spacing: 0.2em;
         }
 
+        /* Animated underline that appears on hover */
         .nav-link::after {
             content: '';
             position: absolute;
@@ -69,7 +80,9 @@
             text-shadow: 0 0 10px var(--amber-glow);
         }
 
-        /* Border Effects */
+        /* =====================================================
+           BORDER EFFECTS - Silksong-style decorative borders
+           ===================================================== */
         .silksong-border {
             border: 2px solid var(--silk-red);
             box-shadow: 0 0 15px rgba(139, 29, 29, 0.4), inset 0 0 20px rgba(0,0,0,0.8);
@@ -77,6 +90,7 @@
             background: #0a0a0a;
         }
 
+        /* Decorative corner ornaments using pseudo-elements */
         .silksong-border::before, .silksong-border::after {
             content: '';
             position: absolute;
@@ -90,40 +104,10 @@
         .silksong-border::before { top: -4px; left: -4px; border-right: 0; border-bottom: 0; }
         .silksong-border::after { bottom: -4px; right: -4px; border-left: 0; border-top: 0; }
 
-        /* Enhanced Silk Animation Effects */
-        .silk-thread {
-            position: absolute;
-            background: var(--silk-red);
-            pointer-events: none;
-            z-index: 40;
-            transition: all 1.2s cubic-bezier(0.23, 1, 0.32, 1);
-            opacity: 0;
-            box-shadow: 0 0 4px var(--silk-red);
-        }
 
-        .silk-thread.horizontal { height: 1px; width: 0; left: 0; }
-        .silk-thread.vertical { width: 1px; height: 0; top: 0; }
-
-        @keyframes threadPulse {
-            0%, 100% { opacity: 0.7; filter: brightness(1); }
-            50% { opacity: 1; filter: brightness(1.5); box-shadow: 0 0 8px var(--silk-bright); }
-        }
-
-        @keyframes threadVibrate {
-            0%, 100% { transform: translate(0, 0); }
-            25% { transform: translate(1px, -1px); }
-            75% { transform: translate(-1px, 1px); }
-        }
-
-        .silk-thread.weaving {
-            opacity: 0.8;
-            animation: threadPulse 2s infinite ease-in-out, threadVibrate 0.1s infinite;
-        }
-
-        .silk-thread.horizontal.weaving { width: 100%; }
-        .silk-thread.vertical.weaving { height: 100%; }
-
-        /* Input Styles */
+        /* =====================================================
+           FORM ELEMENTS - Input & Textarea Styling
+           ===================================================== */
         input, textarea {
             background: rgba(139, 29, 29, 0.05);
             border: 1px solid rgba(139, 29, 29, 0.3);
@@ -134,13 +118,16 @@
             color: var(--pale-silk);
         }
 
+        /* Focus state - highlights with amber glow */
         input:focus, textarea:focus {
             border-color: var(--amber-glow);
             background: rgba(255, 180, 67, 0.05);
             box-shadow: 0 0 10px rgba(255, 180, 67, 0.1);
         }
 
-        /* Button Effects */
+        /* =====================================================
+           BUTTONS - Call-to-Action Button Styling
+           ===================================================== */
         .cta-btn {
             background: black;
             border: 1px solid var(--silk-red);
@@ -154,6 +141,7 @@
             display: inline-block;
         }
 
+        /* Hover state - amber glow and lift effect */
         .cta-btn:hover {
             border-color: var(--amber-glow);
             color: var(--amber-glow);
@@ -161,13 +149,16 @@
             transform: translateY(-2px);
         }
 
-        /* Decorations */
+        /* =====================================================
+           DECORATIONS - Dividers & Floating Elements
+           ===================================================== */
         .section-divider {
             height: 2px;
             background: linear-gradient(90deg, transparent, var(--silk-red), transparent);
             margin: 4rem 0;
         }
 
+        /* Floating animation for decorative elements */
         .floating {
             animation: float 6s ease-in-out infinite;
         }
@@ -178,6 +169,7 @@
             100% { transform: translateY(0px); }
         }
 
+        /* Fade-in animation for page load */
         @keyframes fade-in {
             from { opacity: 0; transform: translateY(20px); }
             to { opacity: 1; transform: translateY(0); }
@@ -187,6 +179,7 @@
             animation: fade-in 1s ease-out forwards;
         }
 
+        /* Animated background shift for hero section */
         @keyframes animatedBackground {
             0% { background-position: 0% 50%; }
             50% { background-position: 100% 50%; }
@@ -199,68 +192,164 @@
             animation: animatedBackground 15s ease infinite;
         }
 
-        /* Ensure footer sits after page content when using flex layout */
+        /* =====================================================
+           FOOTER - Sticky footer using flex layout
+           ===================================================== */
         footer {
             margin-top: auto;
             position: relative;
             z-index: 50;
         }
 
-        /* Hamburger Menu Styles */
+        /* =====================================================
+           HAMBURGER MENU - Mobile Navigation Toggle
+           ===================================================== */
+        /* Hamburger icon container - three horizontal lines */
         .hamburger {
             width: 30px;
             height: 20px;
             position: relative;
             cursor: pointer;
-            background: none;
-            border: none;
-            padding: 0;
+            background: none;               /* No background fill */
+            border: none;                   /* No border styling */
+            padding: 0;                     /* No internal padding */
             display: flex;
             flex-direction: column;
-            justify-content: space-between;
+            justify-content: space-between; /* Space lines evenly */
         }
 
+        /* Individual lines of hamburger icon */
         .hamburger span {
             display: block;
             width: 100%;
             height: 2px;
-            background-color: #ffb443;
-            transition: all 0.3s ease;
+            background-color: var(--amber-glow); /* Golden yellow lines */
+            transition: all 0.3s ease;           /* Smooth animation on click */
         }
 
+        /* Active state: transform lines into X shape */
         .hamburger.active span:nth-child(1) {
-            transform: translateY(9px) rotate(45deg);
+            transform: translateY(9px) rotate(45deg);  /* Top line rotates down-right */
         }
 
         .hamburger.active span:nth-child(2) {
-            opacity: 0;
+            opacity: 0;  /* Middle line fades out */
         }
 
         .hamburger.active span:nth-child(3) {
-            transform: translateY(-9px) rotate(-45deg);
+            transform: translateY(-9px) rotate(-45deg); /* Bottom line rotates up-left */
         }
 
+        /* Mobile menu container - hidden by default */
         #mobileMenu {
-            display: none;
+            display: none;  /* Hidden until active */
         }
 
+        /* Mobile menu active state - show menu */
         #mobileMenu.active {
-            display: flex;
+            display: flex;  /* Show when .active class is added */
+        }
+
+        /* =====================================================
+           LORE CONTENT STYLING - Section containers & typography
+           ===================================================== */
+        /* Enhanced typography for story text - improved readability */
+        .lore-text {
+            line-height: 1.8;                              /* Increased line spacing for readability */
+            text-shadow: 0 1px 2px rgba(0,0,0,0.5);        /* Subtle shadow for depth */
+            font-size: 1.1rem;                             /* Slightly larger text */
+        }
+
+        /* Large decorative first letter - classic typography technique */
+        .lore-text:first-letter {
+            font-size: 3rem;                               /* 3x larger than body text */
+            float: left;                                   /* Text wraps around it */
+            margin-right: 0.5rem;
+            margin-top: 0.2rem;
+            color: var(--amber-glow);                      /* Golden color for accent */
+            font-weight: bold;
+        }
+
+        /* Lore section containers - styled boxes for content grouping */
+        .lore-section {
+            background: linear-gradient(135deg, rgba(10,10,10,0.8), rgba(26,10,10,0.6));  /* Diagonal gradient: black to dark red */
+            border-radius: 10px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 8px 32px rgba(139,29,29,0.2);  /* Red-tinted shadow for depth */
+        }
+
+        /* Lore section headings - red with glow effect and underline */
+        .lore-heading {
+            color: var(--silk-red);                              /* Burgundy color */
+            text-shadow: 0 0 15px var(--silk-red);               /* Red glow around text */
+            border-bottom: 2px solid var(--amber-glow);          /* Golden underline */
+            padding-bottom: 0.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        /* Timeline items - vertical bar with accent color */
+        .timeline-item {
+            background: rgba(255,180,67,0.05);                   /* Very subtle amber background */
+            border-left: 4px solid var(--amber-glow);            /* Left border accent */
+            padding: 1rem;
+            margin-bottom: 1rem;
+            transition: all 0.3s;                                 /* Smooth hover effect */
+        }
+
+        /* Timeline item hover state - subtle shift and background change */
+        .timeline-item:hover {
+            background: rgba(255,180,67,0.1);                     /* More visible amber background on hover */
+            transform: translateX(5px);                           /* Slight rightward shift */
+        }
+
+        /* Deep dive lore section typography - enhanced readability */
+        .deep-dive-text {
+            line-height: 1.7;                                     /* Improved line spacing */
+            font-size: 1rem;
+            color: var(--pale-silk);
+        }
+
+        /* Subsection headings within deep dive */
+        .deep-dive-text h4 {
+            color: var(--amber-glow);                             /* Golden headings */
+            margin-top: 2rem;                                     /* Space from previous content */
+            margin-bottom: 1rem;
+            font-weight: bold;
+        }
+
+        /* Custom list styling - no default bullets */
+        .deep-dive-text ul {
+            list-style: none;                                     /* Remove default bullets */
+            padding-left: 0;                                      /* Remove default indentation */
+        }
+
+        .deep-dive-text li {
+            margin-bottom: 0.5rem;
+            padding-left: 1.5rem;
+            position: relative;
+        }
+
+        .deep-dive-text li::before {
+            content: '🪡';
+            position: absolute;
+            left: 0;
+            color: var(--silk-red);
         }
     </style>
 </head>
 <body class="antialiased bg-dark text-light">
-    <!-- Background Animation Canvas -->
+    <!-- Amber particle effect canvas - animated background with floating particles -->
     <canvas id="amberCanvas" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: -1;"></canvas>
 
-    <!-- Floating Silk Threads -->
+    <!-- DECORATIVE SILK THREADS - Static positioned threads with animation on scroll -->
     <div class="silk-thread" style="top: 20%; left: 10%; width: 200px; height: 2px;"></div>
     <div class="silk-thread" style="top: 40%; right: 15%; width: 150px; height: 2px;"></div>
     <div class="silk-thread" style="top: 60%; left: 20%; width: 180px; height: 2px;"></div>
     <div class="silk-thread" style="top: 80%; right: 10%; width: 220px; height: 2px;"></div>
     <div class="silk-thread" style="top: 30%; left: 70%; width: 160px; height: 2px;"></div>
 
-    <!-- Floating Particles -->
+    <!-- FLOATING PARTICLES - Creates depth effect with staggered animation delays -->
     <div class="particle" style="left: 10%; animation-delay: 0s;"></div>
     <div class="particle" style="left: 20%; animation-delay: 1s;"></div>
     <div class="particle" style="left: 30%; animation-delay: 2s;"></div>
@@ -271,15 +360,15 @@
     <div class="particle" style="left: 80%; animation-delay: 7s;"></div>
     <div class="particle" style="left: 90%; animation-delay: 8s;"></div>
 
-    <!-- Navigation -->
+    <!-- NAVIGATION BAR - Fixed header with responsive menu (hamburger on mobile) -->
     <nav class="position-fixed top-0 start-0 w-100" style="z-index: 100; background: rgba(10, 10, 10, 0.95); backdrop-filter: blur(10px);" class="border-bottom border-[#8b1d1d] px-3 py-2">
         <div class="container-xl mx-auto d-flex justify-content-between align-items-center">
-            <!-- Logo/Brand -->
+            <!-- Site Logo/Title -->
             <div class="cinzel fs-5 fw-bold tracking-[0.3em] text-[#8b1d1d] glow-hover cursor-default">
                 WEAVER'S SANCTUM
             </div>
 
-            <!-- Desktop Navigation Links -->
+            <!-- Desktop Navigation Menu - Hidden on screens smaller than 768px -->
             <div class="d-none d-md-flex align-items-center gap-3 fs-6 text-uppercase fw-bold tracking-[0.2em]">
                 <a href="../index.html" class="nav-link hover:text-[#ffb443]"><i class="fas fa-home me-1"></i>Sanctum</a>
                 <a href="../Html/Lore.html" class="nav-link hover:text-[#ffb443]"><i class="fas fa-book me-1"></i>Lore</a>
@@ -290,7 +379,7 @@
                 <a href="#" class="text-[#ffb443] fs-5 hover:scale-110 transition-transform">🔔</a>
             </div>
 
-            <!-- Mobile Hamburger Button -->
+            <!-- Mobile Hamburger Menu Button - Only visible on screens smaller than 768px -->
             <button id="hamburger" class="d-md-none hamburger" style="z-index: 102;">
                 <span></span>
                 <span></span>
@@ -299,7 +388,7 @@
         </div>
     </nav>
 
-    <!-- Mobile Menu -->
+    <!-- Mobile Menu - Overlay menu that appears on hamburger click (hidden on desktop) -->
     <div id="mobileMenu" class="d-md-none position-fixed top-0 start-0 w-100 h-100 d-none" style="z-index: 101; background: rgba(10, 10, 10, 0.95); backdrop-filter: blur(10px);">
         <div class="container-xl mx-auto d-flex flex-column align-items-center justify-content-center h-100 gap-5">
             <a href="../index.html" class="nav-link fs-3">Sanctum</a>
@@ -311,57 +400,13 @@
         </div>
     </div>
 
-    <!-- Backdrop -->
+    <!-- Backdrop overlay behind mobile menu for dismissal -->
     <div id="backdrop" class="d-md-none position-fixed top-0 start-0 w-100 h-100 d-none" style="z-index: 99; background: rgba(0, 0, 0, 0.5);"></div>
 
-       <!-- Add hamburger and mobile menu CSS -->
-       <style>
-           .hamburger {
-               width: 30px;
-               height: 20px;
-               position: relative;
-               cursor: pointer;
-               background: none;
-               border: none;
-               padding: 0;
-               display: flex;
-               flex-direction: column;
-               justify-content: space-between;
-           }
-
-           .hamburger span {
-               display: block;
-               width: 100%;
-               height: 2px;
-               background-color: #ffb443;
-               transition: all 0.3s ease;
-           }
-
-           .hamburger.active span:nth-child(1) {
-               transform: translateY(9px) rotate(45deg);
-           }
-
-           .hamburger.active span:nth-child(2) {
-               opacity: 0;
-           }
-
-           .hamburger.active span:nth-child(3) {
-               transform: translateY(-9px) rotate(-45deg);
-           }
-
-           #mobileMenu {
-               display: none;
-           }
-
-           #mobileMenu.active {
-               display: flex;
-           }
-       </style>
-
-    <!-- Spacer so content doesn't hide under fixed nav -->
+    <!-- Spacer for fixed navigation -->
     <div class="h-20"></div>
 
-    <!-- Hero Section -->
+    <!-- HERO SECTION - Main intro with animated background and decorative elements -->
     <section class="hero-background min-vh-100 d-flex align-items-center position-relative overflow-hidden">
         <div class="container-xl mx-auto px-3 py-5 text-center">
             <div class="animate-fade-in">
@@ -378,16 +423,14 @@
             </div>
         </div>
 
-        <!-- Floating Silk Threads in Hero -->
         <div class="silk-thread horizontal weaving" style="top: 30%; left: 0;"></div>
         <div class="silk-thread horizontal weaving" style="top: 70%; left: 0;"></div>
         <div class="silk-thread vertical weaving" style="left: 20%; top: 0;"></div>
         <div class="silk-thread vertical weaving" style="left: 80%; top: 0;"></div>
     </section>
 
-    <!-- Carousel Section -->
-    <section class="container-xl mx-auto px-3 py-5">
-        <h3 class="cinzel fs-2 text-center text-uppercase fw-bold mb-5" style="color: var(--silk-red);">Echoes of the Loom</h3>
+    <section class="lore-section container-xl mx-auto px-3 py-5">
+        <h3 class="cinzel fs-2 text-center lore-heading text-uppercase fw-bold mb-5" style="color: var(--silk-red);">Echoes of the Loom</h3>
         <div id="loreCarousel" class="carousel slide" data-bs-ride="carousel">
             <div class="carousel-indicators">
                 <button type="button" data-bs-target="#loreCarousel" data-bs-slide-to="0" class="active"></button>
@@ -419,7 +462,7 @@
                         <img src="../Lore/how-would-you-rank-every-higher-being-spoilers-for-silksong-v0-pgdqk8rcn5tf1.jpg" class="d-block w-100 rounded" alt="Higher Beings" style="max-height: 400px; object-fit: cover;">
                         <div class="mt-3">
                             <h5 class="cinzel text-uppercase" style="color: var(--amber-glow);">Higher Beings</h5>
-                            <p class="opacity-75">Ranking the insondable entities of the universe.</p>
+                            <p class="opacity-75">Ranking the unfathomable entities of the universe.</p>
                         </div>
                     </div>
                 </div>
@@ -442,13 +485,12 @@
         </div>
     </section>
 
-    <!-- Revamped Lore Section -->
-    <section id="lore" class="container-xl mx-auto px-3 py-5">
+    <section id="lore" class="lore-section container-xl mx-auto px-3 py-5">
         <div class="row g-5 align-items-center">
             <div class="col-12 col-md-7">
-                <h1 class="cinzel fs-1 text-[#8b1d1d] tracking-widest text-uppercase fw-bold mb-3">Lore of Pharloom</h1>
-                <p class="fs-5 opacity-75 mb-3">Pharloom is a place where song and silk bind destiny. The Weavers draw threads from the seam between night and memory, stitching together stories, bargains, and oaths. This page collects the pillars, turning points, and artifacts of that craft.</p>
-                <p class="fs-5 opacity-75 mb-4">Below you'll find the Three Pillars that guide the Weavers, a concise timeline of Pryramic Ages, and a small gallery of relics recovered from the Loom.</p>
+                <h1 class="cinzel fs-1 lore-heading tracking-widest text-uppercase fw-bold mb-3">Lore of Pharloom</h1>
+                <p class="lore-text fs-5 opacity-75 mb-3">Pharloom is a place where song and silk bind destiny. The Weavers draw threads from the seam between night and memory, stitching together stories, bargains, and oaths. This page collects the pillars, turning points, and artifacts of that craft.</p>
+                <p class="lore-text fs-5 opacity-75 mb-4">Below you'll find the Three Pillars that guide the Weavers, a concise timeline of Pryramic Ages, and a small gallery of relics recovered from the Loom.</p>
                 <div class="d-flex gap-3">
                     <a href="../Html/Contact.html" class="cta-btn">Bind Your Song</a>
                     <a href="../index.html" class="btn btn-outline-secondary">Return to Sanctum</a>
@@ -460,10 +502,11 @@
         </div>
     </section>
 
-    <!-- The Three Pillars -->
-    <section class="container-xl mx-auto px-3 py-5">
-        <h3 class="cinzel fs-2 text-[#8b1d1d] tracking-widest text-uppercase fw-bold mb-4 text-center">The Three Pillars</h3>
+    <!-- THREE PILLARS SECTION - Core philosophical themes of the Silksong universe -->
+    <section id="pillars" class="lore-section container-xl mx-auto px-3 py-5">
+        <h3 class="cinzel fs-2 lore-heading text-[#8b1d1d] tracking-widest text-uppercase fw-bold mb-4 text-center">The Three Pillars</h3>
         <div class="row g-4">
+            <!-- Pillar 1: The Needle - Precision and Intent -->
             <div class="col-12 col-md-4">
                 <div class="silksong-border p-4 h-100 d-flex flex-column justify-content-start">
                     <div class="fs-1 text-[#ffb443] mb-3">🪡</div>
@@ -471,6 +514,7 @@
                     <p class="opacity-75">Precision and intent. The Needle pierces ambiguity and binds vows with a single, deliberate stitch.</p>
                 </div>
             </div>
+            <!-- Pillar 2: The Song - Melody and Meaning -->
             <div class="col-12 col-md-4">
                 <div class="silksong-border p-4 h-100 d-flex flex-column justify-content-start">
                     <div class="fs-1 text-[#ffb443] mb-3">🔔</div>
@@ -478,6 +522,7 @@
                     <p class="opacity-75">Melody carries meaning — a single line can echo truths through the Loom and awaken latent bindings.</p>
                 </div>
             </div>
+            <!-- Pillar 3: The Silk - Preservation and History -->
             <div class="col-12 col-md-4">
                 <div class="silksong-border p-4 h-100 d-flex flex-column justify-content-start">
                     <div class="fs-1 text-[#ffb443] mb-3">🕸️</div>
@@ -488,29 +533,33 @@
         </div>
     </section>
 
-    <!-- Timeline -->
-    <section class="container-xl mx-auto px-3 py-5">
-        <h3 class="cinzel fs-2 text-[#8b1d1d] tracking-widest text-uppercase fw-bold mb-4">Timeline — Key Ages</h3>
+    <!-- TIMELINE SECTION - Key historical periods in Pharloom history -->
+    <section class="lore-section container-xl mx-auto px-3 py-5">
+        <h3 class="cinzel fs-2 lore-heading tracking-widest text-uppercase fw-bold mb-4">Timeline — Key Ages</h3>
         <ul class="list-unstyled">
-            <li class="d-flex gap-3 mb-4">
+            <!-- First Age: Creation and Foundation -->
+            <li class="timeline-item d-flex gap-3 mb-4">
                 <div class="fw-bold text-[#ffb443]" style="min-width:140px">Age of First Loom</div>
                 <div class="opacity-75">The Weavers learned to pull threads from the dusk. The first bindings created the early laws of Pharloom.</div>
             </li>
-            <li class="d-flex gap-3 mb-4">
+            <!-- Second Age: Expansion and Deals -->
+            <li class="timeline-item d-flex gap-3 mb-4">
                 <div class="fw-bold text-[#ffb443]">Age of Bargains</div>
                 <div class="opacity-75">Citadels rose as deals bound nations. Song and contract became indistinguishable under the Loom's sight.</div>
             </li>
-            <li class="d-flex gap-3 mb-4">
+            <!-- Third Age: Decline and Change -->
+            <li class="timeline-item d-flex gap-3 mb-4">
                 <div class="fw-bold text-[#ffb443]">Age of Frayed Edges</div>
                 <div class="opacity-75">Threads weakened at the borders; a new generation of Weavers sought to mend the world or unravel it.</div>
             </li>
         </ul>
     </section>
 
-    <!-- Gallery -->
-    <section class="container-xl mx-auto px-3 py-5">
-        <h3 class="cinzel fs-2 text-[#8b1d1d] tracking-widest text-uppercase fw-bold mb-4">The Crests of Pharloom</h3>
+    <!-- GALLERY SECTION - Relics and crests from the Loom world -->
+    <section class="lore-section container-xl mx-auto px-3 py-5">
+        <h3 class="cinzel fs-2 lore-heading text-[#8b1d1d] tracking-widest text-uppercase fw-bold mb-4">The Crests of Pharloom</h3>
         <div class="row g-2">
+            <!-- Crest Gallery - 7 image grid -->
             <div class="col-6 col-md-3"><img src="../Crests/3-How-to-unlock-the-crest-of-shaman-Silksong-guide-YouTube-0-1-10.jpeg" alt="relic" class="img-fluid rounded silksong-border" style="height: 200px; width: 100%; object-fit: cover;"></div>
             <div class="col-6 col-md-3"><img src="../Crests/architect-crest-in-silksong-featured-image.avif" alt="relic" class="img-fluid rounded silksong-border" style="height: 200px; width: 100%; object-fit: cover;"></div>
             <div class="col-6 col-md-3"><img src="../Crests/guide-to-all-7-crests-in-silksong.webp" alt="relic" class="img-fluid rounded silksong-border" style="height: 200px; width: 100%; object-fit: cover;"></div>
@@ -521,96 +570,89 @@
         </div>
     </section>
 
-    <!-- Call to Action -->
-    <section class="container-xl mx-auto px-3 py-5 text-center">
+    <section class="lore-section container-xl mx-auto px-3 py-5 text-center">
         <div class="silksong-border d-inline-block p-4">
-            <h4 class="cinzel fs-4 text-[#8b1d1d] mb-3">Seek an Audience</h4>
+            <h4 class="cinzel fs-4 lore-heading text-[#8b1d1d] mb-3">Seek an Audience</h4>
             <p class="opacity-75 mb-3">If something in Pharloom calls to you, weave your message and the Weavers will listen.</p>
             <a href="../Html/Contact.html" class="cta-btn">Bind Your Song</a>
         </div>
     </section>
 
-    <!-- Deep Dive: Expanded Lore (Spanish) -->
-    <section id="deep-lore" class="container-xl mx-auto px-3 py-5">
-        <h3 class="cinzel fs-2 text-[#8b1d1d] tracking-widest text-uppercase fw-bold mb-4">Profundización: Historia de Telalejana</h3>
+    <!-- DEEP DIVE LORE SECTION - Comprehensive narrative analysis of Silksong story -->
+    <section id="deep-lore" class="lore-section container-xl mx-auto px-3 py-5">
+        <h3 class="cinzel fs-2 lore-heading text-[#8b1d1d] tracking-widest text-uppercase fw-bold mb-4">The Kingdom's Fall: A Deep Dive</h3>
 
-        <p class="mb-3">Ya dejamos atrás el reino condenado de Hallownest y es hora de conocer la historia de Telalejana, una civilización que brilló con fuerza solo para caer víctima de su propia ambición y manipulación. Aunque el ‘lore’ de Silksong es menos ambiguo que el de Hollow Knight —lo que se debe en gran parte a que, a diferencia del Caballero, Hornet puede hablar— entender exactamente qué pasó con La Ciudadela y por qué las cosas está tan mal requiere un análisis a fondo de la historia y sus finales, vamos a explicarles todo lo que pasó con este reino y sus habitantes.</p>
+        <!-- Introduction explaining the section's purpose -->
+        <p class="deep-dive-text mb-3">We have left behind the doomed kingdom of Hallownest. Now, it is time to uncover the story of Pharloom—a civilization that shone brightly only to fall victim to its own ambition and manipulation. Although Silksong's lore is less ambiguous than Hollow Knight's—largely because Hornet, unlike the Knight, can speak—understanding exactly what happened to the Citadel and why the land has withered requires an in-depth analysis. Here, we explain the history of this kingdom and its inhabitants.</p>
 
-        <h4 class="fs-4 mt-4">Contenido</h4>
-        <ul class="opacity-75 mb-3">
-            <li>La Ciudadela</li>
-            <li>Gran Madre Seda y el origen de las tejedoras</li>
-            <li>La corrupción de La Ciudadela: capitalismo y religión</li>
-            <li>La caída de Telalejana</li>
-            <li>Crisis de fe</li>
-            <li>Los finales de Silksong explicados</li>
-            <li>La hija fiel</li>
-            <li>Más análisis a fondo en GamerFocus</li>
+        <!-- Table of Contents for Deep Dive -->
+        <h4 class="deep-dive-text fs-4 mt-4">Contents</h4>
+        <ul class="deep-dive-text opacity-75 mb-3">
+            <li>The Citadel</li>
+            <li>The Silk Mother and the Origin of the Weavers</li>
+            <li>The Corruption of the Citadel: Gold and Worship</li>
+            <li>The Fall of Pharloom</li>
+            <li>Crisis of Faith</li>
+            <li>Silksong's Endings Explained</li>
+            <li>The Faithful Daughter</li>
         </ul>
 
-        <p class="opacity-75">Sobra decir que este artículo está lleno de ‘spoilers’. Solo les recomendamos leerlo si ya se pasaron el juego (acto 3 incluido) o no les importa conocer de antemano piezas clave de la historia. Aprovechamos también para invitarlos a leer nuestra reseña de este título.</p>
+        <!-- Spoiler Warning -->
+        <p class="deep-dive-text opacity-75"><em>Warning: This section contains potential spoilers. We recommend reading only if you have completed the game or do not mind learning key story elements in advance.</em></p>
 
-        <h4 class="fs-5 mt-4">Resumen base</h4>
-        <p class="opacity-75">Antes de comenzar, es buena idea recordar cuál es la historia base del juego. Todo comienza con Hornet prisionera de una caravana. Un pequeño bicho luminoso se acerca al carruaje en el que ella se encuentra y rompe el sello mágico que la mantiene prisionera. Al liberarse, destruye la caravana y a los insectos que la llevaban. Ahora está en una tierra extraña llamada Telalejana y su principal objetivo es descubrir quiénes eran sus captores, por qué la atraparon, a dónde la llevaban y bajo órdenes de quién.</p>
+        <h4 class="deep-dive-text fs-5 mt-4">Basic Summary</h4>
+        <p class="deep-dive-text opacity-75">The story begins with Hornet held prisoner by a caravan. A small luminous bug approaches her cage, breaking the seal that binds her. Upon freeing herself, she destroys the caravan and the insects guarding it. She finds herself in a strange land called Pharloom (formerly referred to in translations as Telalejana). Her main objective is to discover who her captors were, why they captured her, and under whose orders they served.</p>
 
-        <h4 class="fs-5 mt-4">La Ciudadela</h4>
-        <p class="opacity-75">Todo en Telalejana gira en torno a La Ciudadela, el centro económico, político y religioso del reino. Todos los insectos del reino “sienten” la obligación de hacer una peregrinación a este lugar y se les promete que una vez lleguen a su destino, encontrarán un lugar de luz y riquezas donde no existe el sufrimiento. Pero la ruta está llena de peligros y solamente los “dignos” pueden cruzar sus puertas.</p>
+        <h4 class="deep-dive-text fs-5 mt-4">The Citadel</h4>
+        <p class="deep-dive-text opacity-75">Everything in Pharloom revolves around the Citadel, the kingdom's economic, political, and religious center. All insects in the land feel a compulsion to make a pilgrimage to this place, promised that upon arrival, they will find a land of light and riches devoid of suffering. However, the route is perilous, and only the 'worthy' may cross its gates.</p>
 
-        <p class="opacity-75">Cuando Hornet llega a Telalejana, sospecha inmediatamente de la naturaleza de La Ciudadela, especialmente cuando descubre que ese era el lugar al que sus secuestradores pretendían llevarla. El camino está lleno de insectos agresivos que fueron víctima de “el embrujo del hilo”, una condición que les hace perder la mente en medio de su peregrinación y que se dediquen a atacar a los demás peregrinos. También encuentra que la Ciudadela ha construido sitios de descanso para quienes van camino hacia ella, pero usarlas requiere pagar con Rosarios, la moneda de este reino.</p>
+        <p class="deep-dive-text opacity-75">When Hornet arrives in Pharloom, she immediately suspects the true nature of the Citadel. The path is teeming with aggressive insects, victims of a madness—often called the "Silk's Curse"—that causes them to lose their minds during their pilgrimage and attack others. She also discovers that while the Citadel has built rest sites, using them requires payment in Rosaries, the currency of this kingdom.</p>
 
-        <p class="opacity-75">Cuando llegamos a La Ciudadela descubrimos —como seguramente ya sospechábamos— que no es ningún paraíso. La capital de Telalejana ha caído. Está llena de bichos afectados por el embrujo y los pocos peregrinos que logran llegar hasta allí deben refugiarse de peligros aún más grandes que los que habían afuera.</p>
+        <p class="deep-dive-text opacity-75">Upon reaching the Citadel, we discover that it is no paradise. The capital of Pharloom has fallen. It is overrun by bugs affected by the curse, and the few pilgrims who manage to reach it must take refuge from dangers far greater than those in the wastelands below.</p>
 
-        <h4 class="fs-5 mt-4">Gran Madre Seda y el origen de las tejedoras</h4>
-        <p class="opacity-75">En el universo de Hollow Knight y Silksong, los “dioses” son conocidos como “seres superiores” o “seres insondables”. Así como en el juego anterior toda la tragedia de la caída de Hallownest giraba en torno a uno de estos seres conocido como Destello (The Radiance), en éste todo tiene su origen en la Gran Madre Seda.</p>
+        <h4 class="deep-dive-text fs-5 mt-4">The Silk Mother and the Origin of the Weavers</h4>
+        <p class="deep-dive-text opacity-75">In the universe of Hollow Knight and Silksong, gods are known as "Higher Beings." Just as the tragedy of Hallownest revolved around the Radiance, Pharloom's history originates from the Great Silk Mother. </p>
 
-        <p class="opacity-75">El propósito de los dioses es ser adorados. Ella buscaba súbditos, pero era incapaz de crear lo que ella consideraba “vida verdadera” con su seda. En cambio, la usó para evolucionar bichos inferiores (Telácnidas) y así dar forma a las Tejedoras, una tribu de arañas con gran poder en su seda que adoraron a la Gran Madre Seda con sus canciones. Podemos ver esta historia de una forma muy ambigua tras derrotar a Pecadora Original en La Losa.</p>
+        <p class="deep-dive-text opacity-75">The purpose of these gods is to be worshipped. She sought subjects but was unable to create what she considered 'true life' with her silk alone. Instead, she used it to evolve lesser arachnids, thus shaping the Weavers—a tribe of spiders with great power over silk who worshipped the Great Mother with their songs. </p>
 
-        <p class="opacity-75">Con el paso del tiempo, las Tejedoras ansiaron ser libres de su diosa, así que la envolvieron en un capullo de seda para que durmiera para siempre. Pero el poder de un ser superior no se contiene fácilmente, así que fundaron la Ciudadela y toda una religión en torno a hacer un peregrinaje hacia ella. Las oraciones y cantos de los peregrinos mantuvieron a la diosa dormida, pero las tejedoras seguían sintiendo su influencia y poder. Temerosas, se escondieron y comenzaron a experimentar. Querían crear artilugios que les permitiera apaciguar para siempre a su creadora y convertirse ellas misma en diosas.</p>
+        <p class="deep-dive-text opacity-75">Over time, the Weavers longed to be free from their goddess. They wrapped her in a silk cocoon, forcing her into an eternal slumber. However, the power of a Higher Being is not easily contained. To maintain the seal, they founded the Citadel and a religion centered on pilgrimage. The prayers and songs of the pilgrims kept the goddess asleep, but the Weavers continued to feel her influence. Fearful, they hid and began experimenting, hoping to create artifacts that would pacify their creator forever and allow them to ascend.</p>
 
-        <p class="opacity-75">Viendo que sus esfuerzos eran en vano, la gran mayoría de las Tejedoras decidieron abandonar Telalejana. Para reemplazarlas, implementaron un sistema en La Ciudadela administrado por los Directores, los Guardianes y los Arquitectos. Ellos estaban al tanto del objetivo de la falsa religión, pero fueron rápidamente corrompidos por el poder y la avaricia.</p>
+        <p class="deep-dive-text opacity-75">Realizing their efforts were in vain, the vast majority of the Weavers abandoned Pharloom. To replace them, a new system of administration was implemented in the Citadel, led by Judges, Guardians, and Architects. Though they were aware of the false religion's true purpose, they were quickly corrupted by power and greed.</p>
 
-        <h4 class="fs-5 mt-4">La corrupción de La Ciudadela: capitalismo y religión</h4>
-        <p class="opacity-75">Los nuevos líderes de La Ciudadela comenzaron a abusar de su poder para controlar por completo a los peregrinos que llegaban, despojarlos de su dinero (Rosarios) y obligarlos a trabajar sin descanso, convenciéndolos de que de esa forma demostraban su fe absoluta a la Ciudadela y alcanzarían la salvación.</p>
+        <h4 class="deep-dive-text fs-5 mt-4">Greed and Corruption</h4>
+        <p class="deep-dive-text opacity-75">The new leadership abused their power, extracting wealth from pilgrims and forcing endless labor under the guise of demonstrating faith. Evidence is everywhere: toll stations, paid rest stops, and confession booths requiring payment. Pilgrims labor endlessly for rewards that never come, while the elite live in luxury. The Judges even experimented on pilgrims, injecting silk into their bodies to extend their lives and bind them eternally, or extracting their life force to create animated servants.</p>
 
-        <p class="opacity-75">Las muestras del nivel de abuso están por todo el juego: vías campana y bancos de descanso de pago, confesionarios “de pago” y peregrinos que trabajan sin descanso esperando una recompensa que nunca llegará. Mientras tanto, las altas castas gozaban en los lujos y la decadencia. Los guardianes perseguían a los que dudaban y los directores experimentaban con peregrinos, inyectando seda en sus corazas o arrancando su fuerza vital para crear esclavos.</p>
+        <h4 class="deep-dive-text fs-5 mt-4">The Fall of Pharloom</h4>
+        <p class="deep-dive-text opacity-75">Pilgrims injected with silk began falling under the Mother's control. Many descended into madness, attacking their companions. The Citadel descended into chaos and collapsed completely. Only a few remained, mindlessly performing their duties out of blind faith. Yet the pilgrimages continued; their prayers kept the Mother bound. In her dreams, the goddess created two new beings: Lace and Ghost—fragile creatures of silk who question their own existence.</p>
 
-        <h4 class="fs-5 mt-4">La caída de Telalejana</h4>
-        <p class="opacity-75">Los peregrinos con seda inyectada en sus corazas comenzaron a caer bajo el control de la Gran Madre Seda y muchos de los que estaban en medio de su peregrinaje hacia la Ciudadela comenzaron a perder la cabeza debido al Embrujo, atacando a sus compañeros. La Ciudadela se sumergió en caos y colapsó por completo. Solo quedaron unas pocas mentes medio cuerdas que seguían cumpliendo sus tareas por fe ciega.</p>
+        <h4 class="deep-dive-text fs-5 mt-4">A Child's Resolve</h4>
+        <p class="deep-dive-text opacity-75">Hornet is part Weaver, part Higher Being—torn between helping Pharloom's inhabitants and succumbing to her divine nature to dominate. She respects local beliefs but remains critical of the Citadel. Sherma, a devout pilgrim, embodies how faith adapts to survive: rather than denying horrors, he reinterprets his beliefs to help others.</p>
 
-        <p class="opacity-75">A pesar de la caída, los peregrinajes continuaron: sus oraciones todavía mantenían a la Gran Madre Seda dentro de su capullo. En sus sueños la diosa dio forma a Lace y Fantasma, seres creados con seda que no se consideran “vivos”. El coro de la Ciudadela partió hacia reinos cercanos en busca de las traidoras, entre las que se encontraba Hornet.</p>
+        <h4 class="deep-dive-text fs-5 mt-4">The Endings Explained</h4>
+        <p class="deep-dive-text opacity-75"><strong>The Weaver Queen:</strong> Defeat the Mother directly. Hornet absorbs her divine power and succumbs to her Higher Being nature. <strong>Silk Binding:</strong> Help most inhabitants. Attempt to trap the Mother in the Abyss; the plan fails, and the Void invades Pharloom, showing that toppling oppression brings new horrors. <strong>Sister of the Void:</strong> Rescue Lace from the Abyss. <strong>Twisted Child:</strong> Hornet binds herself to the Mother, creating a new Higher Being. <strong>Age of Change:</strong> A mysterious ending tied to the Fungal Lord.</p>
 
-        <h4 class="fs-5 mt-4">Crisis de fe</h4>
-        <p class="opacity-75">Hornet es descendiente de tejedoras y de un ser superior, y al recorrer Telalejana se debate entre ayudar a sus habitantes y sucumbir a su naturaleza de dominar. Mantiene respeto por muchas creencias locales, pero se muestra crítica frente a la Ciudadela. Sherma, un peregrino devoto, ejemplifica cómo la fe puede adaptarse para sobrevivir: no niega lo que ve, sino que reinterpreta su fe para ayudar a otros.</p>
-
-        <h4 class="fs-5 mt-4">Los finales de Silksong explicados</h4>
-        <p class="opacity-75">Si despertamos a la Gran Madre Seda y la derrotamos directamente, se desbloquea el final Reina Tejedora, donde Hornet absorbe poder divino y sucumbe a su lado insondable. Si en cambio ayudamos a la mayoría de habitantes y cumplimos deseos, aparece el final Atadura de seda en el que se intenta encerrar a la diosa en el Abismo; ese plan fracasa y el Vacío invade Telalejana, mostrando que derrocar la opresión puede traer nuevos horrores.</p>
-
-        <p class="opacity-75">Otros finales: Hermana del vacío (salvar a Lace), Niña retorcida (Hornet se enlaza a la diosa formando un nuevo ser) y Cambio de era (relacionado con el Señor Hongo). Cada final ofrece matices distintos sobre poder, redención y consecuencias.</p>
-
-        <h4 class="fs-5 mt-4">La hija fiel</h4>
-        <p class="opacity-75">Lace y Fantasma lamentan su destino. Lace cree ser la hija que la Gran Madre desea y, cuando la diosa es arrastrada al Abismo junto con Lace, la diosa intenta proteger a su hija con un capullo, resistiéndose al Vacío. Esa resistencia genera terremotos y destrucción en Telalejana: la relación entre progenitor y descendiente es el núcleo emocional que explica gran parte del desenlace.</p>
-
-        <p class="opacity-75">Tras tantas mentiras y manipulaciones, el tema central es que un padre hará lo que sea para salvar a su hijo —un motivo recurrente en la franquicia— y que, detrás de la crítica al imperialismo, al capitalismo y a la religión, existe una historia de apego y sacrificio.</p>
-
-        <p class="mt-4 opacity-75">Más análisis y debate sobre interpretaciones se pueden encontrar en artículos como los de GamerFocus y múltiples comunidades que desglosan diálogos, finales alternativos y referencias cruzadas con <em>Hollow Knight</em>.</p>
+        <h4 class="deep-dive-text fs-5 mt-4">A Father's Love</h4>
+        <p class="deep-dive-text opacity-75">Lace and Ghost lament their existence, never considering themselves truly alive. Lace believes she is the daughter the Mother truly desires. When the goddess is dragged into the Abyss with Lace, she shields her daughter with a cocoon, resisting the Void itself. This resistance causes earthquakes and devastation across Pharloom. Behind all the themes of imperialism, greed, and false religion lies a simpler truth: a parent will do anything to save their child—a recurring motif in the franchise that gives emotional weight to Silksong's sprawling tale.</p>
     </section>
 
-    <!-- Section Divider -->
     <div class="section-divider"></div>
 
-    <!-- Footer -->
+    <!-- FOOTER SECTION - Site information, navigation, and copyright -->
     <footer class="bg-dark text-light py-5">
         <div class="container-xl mx-auto px-3">
             <div class="row g-4">
+                <!-- Footer Column 1: Branding & Social -->
                 <div class="col-12 col-md-4">
                     <div class="cinzel fs-4 fw-bold text-uppercase mb-3" style="color: var(--silk-red);">Weaver's Sanctum</div>
                     <p class="opacity-75 mb-3">A sanctuary for those who seek the threads of destiny and the songs of forgotten ages.</p>
+                    <!-- Social Media Links -->
                     <div class="d-flex gap-3">
                         <a href="#" class="text-light fs-4"><i class="fab fa-twitter"></i></a>
                         <a href="#" class="text-light fs-4"><i class="fab fa-discord"></i></a>
                         <a href="#" class="text-light fs-4"><i class="fab fa-youtube"></i></a>
                     </div>
                 </div>
+                <!-- Footer Column 2: Navigation Links -->
                 <div class="col-12 col-md-4">
                     <h5 class="cinzel text-uppercase mb-3" style="color: var(--amber-glow);">Navigation</h5>
                     <ul class="list-unstyled">
@@ -622,6 +664,7 @@
                         <li class="mb-2"><a href="../Html/Contact.html" class="text-light text-decoration-none">Bind Your Song</a></li>
                     </ul>
                 </div>
+                <!-- Footer Column 3: Core Themes -->
                 <div class="col-12 col-md-4">
                     <h5 class="cinzel text-uppercase mb-3" style="color: var(--amber-glow);">The Three Pillars</h5>
                     <ul class="list-unstyled">
@@ -632,36 +675,41 @@
                 </div>
             </div>
             <hr class="my-4" style="border-color: rgba(139, 29, 29, 0.3);">
+            <!-- Copyright Notice -->
             <div class="text-center opacity-75">
                 <p class="mb-0">&copy; 2024 Weaver's Sanctum. All threads are woven with care.</p>
             </div>
         </div>
     </footer>
 
+<!-- =====================================================
+     JAVASCRIPT - Page functionality and animations
+     ===================================================== -->
 <script>
-    // Get elements
+    /* MOBILE MENU TOGGLE - Hamburger menu interaction */
+    // Get DOM elements for menu functionality
     const hamburger = document.getElementById('hamburger');
     const mobileMenu = document.getElementById('mobileMenu');
     const backdrop = document.getElementById('backdrop');
     const mobileLinks = mobileMenu.querySelectorAll('a');
 
-    // Toggle menu function
+    /* Toggle menu function - adds/removes active class */
     function toggleMenu() {
-        hamburger.classList.toggle('active');
-        mobileMenu.classList.toggle('active');
-        backdrop.classList.toggle('d-none');
+        hamburger.classList.toggle('active');      /* Transform hamburger to X shape */
+        mobileMenu.classList.toggle('active');      /* Show/hide mobile menu */
+        backdrop.classList.toggle('d-none');        /* Show/hide backdrop overlay */
 
-        // Prevent body scroll when menu is open
+        /* Prevent body scroll when menu is open */
         document.body.style.overflow = mobileMenu.classList.contains('active') ? 'hidden' : '';
     }
 
-    // Open/close menu on hamburger click
+    /* Open/close menu on hamburger click */
     hamburger.addEventListener('click', toggleMenu);
 
-    // Close menu when backdrop is clicked
+    /* Close menu when backdrop is clicked */
     backdrop.addEventListener('click', toggleMenu);
 
-    // Close menu when a link is clicked
+    /* Close menu when any link is clicked */
     mobileLinks.forEach(link => {
         link.addEventListener('click', () => {
             if (mobileMenu.classList.contains('active')) {
@@ -670,14 +718,16 @@
         });
     });
 
-    // Close menu on window resize to desktop size
+    /* Close menu on window resize to desktop size */
     window.addEventListener('resize', () => {
         if (window.innerWidth >= 768 && mobileMenu.classList.contains('active')) {
             toggleMenu();
         }
     });
 
-    // Amber Canvas Animation
+    /* =====================================================
+       CANVAS PARTICLE ANIMATION - Ambient floating particles
+       ===================================================== */
     const canvas = document.getElementById('amberCanvas');
     const ctx = canvas.getContext('2d');
     canvas.width = window.innerWidth;
@@ -685,66 +735,83 @@
 
     let particles = [];
 
+    /* Create particle object with random properties */
     function createParticle() {
         return {
-            x: Math.random() * canvas.width,
-            y: Math.random() * canvas.height,
-            vx: (Math.random() - 0.5) * 0.5,
-            vy: (Math.random() - 0.5) * 0.5,
-            size: Math.random() * 2 + 1,
-            opacity: Math.random() * 0.3 + 0.2
+            x: Math.random() * canvas.width,              /* Random starting x position */
+            y: Math.random() * canvas.height,             /* Random starting y position */
+            vx: (Math.random() - 0.5) * 0.5,              /* Random horizontal velocity */
+            vy: (Math.random() - 0.5) * 0.5,              /* Random vertical velocity */
+            size: Math.random() * 2 + 1,                  /* Size between 1-3 pixels */
+            opacity: Math.random() * 0.3 + 0.2            /* Opacity between 0.2-0.5 */
         };
     }
 
+    /* Initialize 100 particles */
     for (let i = 0; i < 100; i++) {
         particles.push(createParticle());
     }
 
+    /* Main particle animation loop */
     function animateParticles() {
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        ctx.clearRect(0, 0, canvas.width, canvas.height); /* Clear previous frame */
         particles.forEach(p => {
+            /* Update particle position */
             p.x += p.vx;
             p.y += p.vy;
+            
+            /* Bounce particles off canvas edges */
             if (p.x < 0 || p.x > canvas.width) p.vx *= -1;
             if (p.y < 0 || p.y > canvas.height) p.vy *= -1;
+            
+            /* Draw particle as amber circle */
             ctx.beginPath();
             ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
-            ctx.fillStyle = `rgba(255, 180, 67, ${p.opacity})`;
+            ctx.fillStyle = `rgba(255, 180, 67, ${p.opacity})`;  /* Golden amber color */
             ctx.fill();
         });
-        requestAnimationFrame(animateParticles);
+        requestAnimationFrame(animateParticles);  /* Continue animation next frame */
     }
 
+    /* Start particle animation */
     animateParticles();
 
-    // Silk Thread Animation Trigger
+    /* =====================================================
+       SILK THREAD ANIMATION - Decorative thread activation
+       ===================================================== */
     function triggerSilkAnimation() {
         const threads = document.querySelectorAll('.silk-thread');
+        /* Animate each thread with staggered delay */
         threads.forEach((thread, index) => {
             setTimeout(() => {
-                thread.classList.add('weaving');
-            }, index * 500);
+                thread.classList.add('weaving');  /* Trigger animation via CSS class */
+            }, index * 500);  /* 500ms delay between threads */
         });
     }
 
-    // Trigger on page load
+    /* Trigger silk animation on page load */
     window.addEventListener('load', () => {
-        setTimeout(triggerSilkAnimation, 1000);
+        setTimeout(triggerSilkAnimation, 1000);  /* Wait 1 second after load */
     });
 
-    // Particle Floating Animation
+    /* =====================================================
+       PARTICLE FLOATING ANIMATION - Assign animation to particle elements
+       ===================================================== */
     const particleElements = document.querySelectorAll('.particle');
     particleElements.forEach((particle, index) => {
+        /* Staggered animation: duration increases with index */
         particle.style.animation = `float ${6 + index * 0.5}s ease-in-out infinite`;
+        /* Staggered start times for wave effect */
         particle.style.animationDelay = `${index * 0.5}s`;
     });
 
-    // Resize canvas on window resize
+    /* Canvas Resize Handler - Maintain canvas size on window resize */
     window.addEventListener('resize', () => {
-        canvas.width = window.innerWidth;
-        canvas.height = window.innerHeight;
+        canvas.width = window.innerWidth;   /* Update canvas width */
+        canvas.height = window.innerHeight; /* Update canvas height */
     });
 </script>
+<!-- Bootstrap JS Bundle - Required for interactive components -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
