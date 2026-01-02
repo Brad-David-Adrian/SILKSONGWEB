@@ -740,6 +740,7 @@
     function toggleMenu() {
         hamburger.classList.toggle('active');      /* Toggle hamburger to X shape */
         mobileMenu.classList.toggle('active');      /* Toggle mobile menu visibility */
+        mobileMenu.classList.toggle('d-none');
         backdrop.classList.toggle('d-none');        /* Toggle backdrop visibility */
 
         /* Prevent body scroll when menu is open, allow scroll when closed */
