@@ -118,7 +118,7 @@
             position: absolute;
             background: var(--silk-red);
             pointer-events: none;
-            z-index: 40;
+            z-index: -1;
             transition: all 1.2s cubic-bezier(0.23, 1, 0.32, 1);
             opacity: 0;
             box-shadow: 0 0 4px var(--silk-red);
@@ -161,6 +161,9 @@
             outline: none;
             transition: all 0.3s;
             color: var(--pale-silk);
+            pointer-events: auto;
+            position: relative;
+            z-index: 100;
         }
 
         /* Focus state - highlights with amber glow */
@@ -369,7 +372,7 @@
 
     <!-- Spacer for fixed navigation -->
     <div class="h-5"></div>
-    <section id="contact" class="min-vh-100 d-flex flex-column align-items-center justify-content-center py-5 px-3">
+    <section id="contact" class="min-vh-100 d-flex flex-column align-items-center justify-content-center py-5 px-3 position-relative">
         <header class="mb-5 text-center" style="z-index: 10; max-width: 33.333333%;">
             <h3 class="fs-2 fs-md-1 fw-bold tracking-[0.2em] text-[#8b1d1d] mb-4 text-uppercase cinzel">
                 Bind Your Song
@@ -382,46 +385,38 @@
         <div id="form-container" class="w-100 silksong-border p-4 p-md-5 position-relative overflow-hidden" style="max-width: 50rem;">
 
 <!-- Silk Threads (JS populated) -->
-            <div id="thread-loom" class="position-absolute top-0 start-0 w-100 h-100 pointer-events-none" style="z-index: 40;"></div>
+            <div id="thread-loom" class="position-absolute top-0 start-0 w-100 h-100 pointer-events-none" style="z-index: -1;"></div>
 
             <form id="contact-form" action="https://postman-echo.com/post" method="POST" class="d-flex flex-column gap-4 relative" style="z-index: 50;">
                 <div class="row g-4">
                     <div class="col-12 col-md-6">
-                        <div class="form-floating">
-                            <input type="text" class="form-control bg-dark text-light border-secondary" id="name" name="name" required placeholder="Ex: Hornet">
-                            <label for="name" class="text-[#8b1d1d] fw-bold">The Pilgrim's Name</label>
-                        </div>
+                        <label for="name" class="text-[#8b1d1d] fw-bold">The Pilgrim's Name</label>
+                        <input type="text" class="form-control bg-dark text-light border-secondary" id="name" name="name" required placeholder="Ex: Hornet">
                         <div class="error-message" id="name-error"></div>
                     </div>
                     <div class="col-12 col-md-6">
-                        <div class="form-floating">
-                            <input type="text" class="form-control bg-dark text-light border-secondary" id="surname" name="surname" required placeholder="Ex: Protector">
-                            <label for="surname" class="text-[#8b1d1d] fw-bold">The Pilgrim's Surname</label>
-                        </div>
+                        <label for="surname" class="text-[#8b1d1d] fw-bold">The Pilgrim's Surname</label>
+                        <input type="text" class="form-control bg-dark text-light border-secondary" id="surname" name="surname" required placeholder="Ex: Protector">
                         <div class="error-message" id="surname-error"></div>
                     </div>
                 </div>
 
                 <div class="row g-4">
                     <div class="col-12 col-md-6">
-                        <div class="form-floating">
-                            <input type="email" class="form-control bg-dark text-light border-secondary" id="email" name="email" required placeholder="hornet@citadel.com">
-                            <label for="email" class="text-[#8b1d1d] fw-bold">Soul's Address</label>
-                        </div>
+                        <label for="email" class="text-[#8b1d1d] fw-bold">Soul's Address</label>
+                        <input type="email" class="form-control bg-dark text-light border-secondary" id="email" name="email" required placeholder="hornet@citadel.com">
                         <div class="error-message" id="email-error"></div>
                     </div>
                     <div class="col-12 col-md-6">
-                        <div class="form-floating">
-                            <input type="tel" class="form-control bg-dark text-light border-secondary" id="phone" name="phone" placeholder="+1-555-123-4567">
-                            <label for="phone" class="text-[#8b1d1d] fw-bold">Thread of Communication</label>
-                        </div>
+                        <label for="phone" class="text-[#8b1d1d] fw-bold">Thread of Communication</label>
+                        <input type="tel" class="form-control bg-dark text-light border-secondary" id="phone" name="phone" placeholder="+1-555-123-4567">
                         <div class="error-message" id="phone-error"></div>
                     </div>
                 </div>
 
-                <div class="form-floating">
-                    <input type="text" class="form-control bg-dark text-light border-secondary" id="subject" name="subject" list="subject-options" placeholder="A request for the Weavers">
+                <div>
                     <label for="subject" class="text-[#8b1d1d] fw-bold">The Song's Topic</label>
+                    <input type="text" class="form-control bg-dark text-light border-secondary" id="subject" name="subject" list="subject-options" placeholder="A request for the Weavers">
                     <datalist id="subject-options">
                         <option value="A request for the Weavers">
                         <option value="Inquiry about Pharloom">
@@ -433,9 +428,9 @@
                 </div>
                 <div class="error-message" id="subject-error"></div>
 
-                <div class="form-floating">
-                    <textarea class="form-control bg-dark text-light border-secondary resize-none" id="message" name="message" style="height: 120px;" required placeholder="Speak your truth into the loom..."></textarea>
+                <div>
                     <label for="message" class="text-[#8b1d1d] fw-bold">The Request</label>
+                    <textarea class="form-control bg-dark text-light border-secondary resize-none" id="message" name="message" style="height: 120px;" required placeholder="Speak your truth into the loom..."></textarea>
                 </div>
                 <div class="error-message" id="message-error"></div>
 

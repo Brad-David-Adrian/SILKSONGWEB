@@ -141,6 +141,8 @@ $(function() {
         }).fail(function(err) {
             // Error de envío
             alert('El telar ha tropezado. No se pudo enlazar tu hilo; intenta de nuevo.');
+            // Restaurar pointer-events en caso de error
+            $form.css('pointer-events', 'auto');
         }).always(function() {
             // Restaurar estado visual
             $loadingOverlay.removeClass('active');
