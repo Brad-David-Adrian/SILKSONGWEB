@@ -91,14 +91,16 @@ $(function() {
         clearErrors();
 
         // Recolectar valores y normalizar (trim)
-        const fullname = $('#fullname').val().trim();
+        const name = $('#name').val().trim();
+        const surname = $('#surname').val().trim();
+        const fullname = (name + ' ' + surname).trim();
         const email = $('#email').val().trim();
-        const address = $('#address').val().trim();
         const phone = $('#phone').val().trim();
         const message = $('#message').val().trim();
 
         // Validación secuencial — se detiene en el primer fallo
-        if (!fullname) { focusAndShow('fullname', 'El nombre es obligatorio.'); return; }
+        if (!name) { focusAndShow('name', 'El nombre es obligatorio.'); return; }
+        if (!surname) { focusAndShow('surname', 'El apellido es obligatorio.'); return; }
         if (!email) { focusAndShow('email', 'El email es obligatorio.'); return; }
         if (!validateEmail(email)) { focusAndShow('email', 'Introduce un email válido.'); return; }
         if (!validatePhone(phone)) { focusAndShow('phone', 'Teléfono inválido.'); return; }
