@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="scroll-smooth">
 
 <head>
     <meta charset="UTF-8">
@@ -10,8 +10,243 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=IM+Fell+English:ital@0;1&family=Cinzel:wght@400;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="../Css/Index.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
+        /* =====================================================
+           GLOBAL STYLES - This <style> block contains all CSS for the page
+           It includes variables, layout, animations, and component styling
+           ===================================================== */
+
+        /* =====================================================
+           CSS VARIABLES - Color Theme for Silksong Aesthetic
+           These variables are reused throughout the CSS for consistency
+           ===================================================== */
+        :root {
+            --silk-red: #8b1d1d;           /* Deep burgundy for main accent */
+            --silk-bright: #cc2b2b;        /* Bright red for highlights */
+            --void-black: #0a0a0a;         /* Almost pure black for background */
+            --pale-silk: #e2d1c3;          /* Cream/beige for text */
+            --amber-glow: #ffb443;         /* Golden amber for interactive elements */
+        }
+
+        /* =====================================================
+           BODY - Global Layout & Background
+           ===================================================== */
+        body {
+            background-color: var(--void-black);
+            /* Layered backgrounds: radial gradient + texture pattern */
+            background-image:
+                radial-gradient(circle at 50% 50%, #1a0a0a 0%, #050505 100%),
+                url('https://www.transparenttextures.com/patterns/dark-matter.png');
+            color: var(--pale-silk);
+            font-family: 'IM Fell English', serif;
+            overflow-x: hidden;
+            /* Flex layout: allows footer to stay at bottom */
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        .cinzel { font-family: 'Cinzel', serif; }
+
+        /* =====================================================
+           NAVIGATION - Fixed Header Bar & Link Effects
+           ===================================================== */
+        nav {
+            background: rgba(10, 10, 10, 0.9);
+            border-bottom: 1px solid rgba(139, 29, 29, 0.3);
+            backdrop-filter: blur(10px);
+        }
+
+        /* Navigation links with underline hover effect */
+        .nav-link {
+            position: relative;
+            transition: all 0.3s;
+            letter-spacing: 0.2em;
+        }
+
+        /* Animated underline that appears on hover */
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 50%;
+            width: 0;
+            height: 1px;
+            background: var(--amber-glow);
+            transition: all 0.3s;
+            transform: translateX(-50%);
+        }
+
+        .nav-link:hover::after {
+            width: 100%;
+        }
+
+        .nav-link:hover {
+            color: var(--amber-glow);
+            text-shadow: 0 0 10px var(--amber-glow);
+        }
+
+        /* =====================================================
+           BORDER EFFECTS - Silksong-style decorative borders
+           ===================================================== */
+        .silksong-border {
+            border: 2px solid var(--silk-red);
+            box-shadow: 0 0 15px rgba(139, 29, 29, 0.4), inset 0 0 20px rgba(0,0,0,0.8);
+            position: relative;
+            background: #0a0a0a;
+        }
+
+        /* Decorative corner ornaments using pseudo-elements */
+        .silksong-border::before, .silksong-border::after {
+            content: '';
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            border: 2px solid var(--amber-glow);
+            filter: drop-shadow(0 0 5px var(--amber-glow));
+            z-index: 10;
+        }
+
+        .silksong-border::before { top: -4px; left: -4px; border-right: 0; border-bottom: 0; }
+        .silksong-border::after { bottom: -4px; right: -4px; border-left: 0; border-top: 0; }
+
+        /* =====================================================
+           SILK THREAD ANIMATIONS - Floating decorative threads
+           ===================================================== */
+        .silk-thread {
+            position: absolute;
+            background: var(--silk-red);
+            pointer-events: none;
+            z-index: 40;
+            transition: all 1.2s cubic-bezier(0.23, 1, 0.32, 1);
+            opacity: 0;
+            box-shadow: 0 0 4px var(--silk-red);
+        }
+
+        /* Thread orientation classes */
+        .silk-thread.horizontal { height: 1px; width: 0; left: 0; }
+        .silk-thread.vertical { width: 1px; height: 0; top: 0; }
+
+        /* Pulse animation - brightness and opacity changes */
+        @keyframes threadPulse {
+            0%, 100% { opacity: 0.7; filter: brightness(1); }
+            50% { opacity: 1; filter: brightness(1.5); box-shadow: 0 0 8px var(--silk-bright); }
+        }
+
+        /* Vibrate animation - slight jitter effect */
+        @keyframes threadVibrate {
+            0%, 100% { transform: translate(0, 0); }
+            25% { transform: translate(1px, -1px); }
+            75% { transform: translate(-1px, 1px); }
+        }
+
+        /* Active weaving state - combines both animations */
+        .silk-thread.weaving {
+            opacity: 0.8;
+            animation: threadPulse 2s infinite ease-in-out, threadVibrate 0.1s infinite;
+        }
+
+        .silk-thread.horizontal.weaving { width: 100%; }
+        .silk-thread.vertical.weaving { height: 100%; }
+
+        /* =====================================================
+           FORM ELEMENTS - Input & Textarea Styling
+           ===================================================== */
+        input, textarea {
+            background: rgba(139, 29, 29, 0.05);
+            border: 1px solid rgba(139, 29, 29, 0.3);
+            border-bottom: 2px solid var(--silk-red);
+            padding: 1rem;
+            outline: none;
+            transition: all 0.3s;
+            color: var(--pale-silk);
+        }
+
+        /* Focus state - highlights with amber glow */
+        input:focus, textarea:focus {
+            border-color: var(--amber-glow);
+            background: rgba(255, 180, 67, 0.05);
+            box-shadow: 0 0 10px rgba(255, 180, 67, 0.1);
+        }
+
+        /* =====================================================
+           BUTTONS - Call-to-Action Button Styling
+           ===================================================== */
+        .cta-btn {
+            background: black;
+            border: 1px solid var(--silk-red);
+            color: var(--pale-silk);
+            letter-spacing: 0.3em;
+            text-transform: uppercase;
+            padding: 1rem 2rem;
+            transition: all 0.3s;
+            position: relative;
+            overflow: hidden;
+            display: inline-block;
+        }
+
+        /* Hover state - amber glow and lift effect */
+        .cta-btn:hover {
+            border-color: var(--amber-glow);
+            color: var(--amber-glow);
+            box-shadow: 0 0 20px rgba(255, 180, 67, 0.3);
+            transform: translateY(-2px);
+        }
+
+        /* =====================================================
+           DECORATIONS - Dividers & Floating Elements
+           ===================================================== */
+        .section-divider {
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--silk-red), transparent);
+            margin: 4rem 0;
+        }
+
+        /* Floating animation for decorative elements */
+        .floating {
+            animation: float 6s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+            100% { transform: translateY(0px); }
+        }
+
+        /* Fade-in animation for page load */
+        @keyframes fade-in {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .animate-fade-in {
+            animation: fade-in 1s ease-out forwards;
+        }
+
+        /* Animated background shift for hero section */
+        @keyframes animatedBackground {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .hero-background {
+            background: linear-gradient(-45deg, rgba(0,0,0,0.7), rgba(26,10,10,0.7), rgba(0,0,0,0.7));
+            background-size: 400% 400%;
+            animation: animatedBackground 15s ease infinite;
+        }
+
+        /* =====================================================
+           FOOTER - Sticky footer using flex layout
+           ===================================================== */
+        footer {
+            margin-top: auto;
+            position: relative;
+            z-index: 50;
+        }
+
+        /* Form-specific styles */
         .error-message {
             color: #dc3545;
             font-size: 0.875rem;
@@ -22,15 +257,78 @@
             border-color: #dc3545;
             box-shadow: 0 0 0 0.2rem rgba(220, 53, 69, 0.25);
         }
+
+        /* Hamburger menu styles */
+        .hamburger {
+            width: 30px;
+            height: 20px;
+            position: relative;
+            cursor: pointer;
+            background: none;
+            border: none;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .hamburger span {
+            display: block;
+            width: 100%;
+            height: 2px;
+            background-color: #ffb443;
+            transition: all 0.3s ease;
+        }
+
+        .hamburger.active span:nth-child(1) {
+            transform: translateY(9px) rotate(45deg);
+        }
+
+        .hamburger.active span:nth-child(2) {
+            opacity: 0;
+        }
+
+        .hamburger.active span:nth-child(3) {
+            transform: translateY(-9px) rotate(-45deg);
+        }
+
+        #mobileMenu {
+            display: none;
+        }
+
+        #mobileMenu.active {
+            display: flex;
+        }
     </style>
 </head>
 
-<body>
+<body class="antialiased bg-dark text-light">
+    <!-- CANVAS ANIMATION - Amber particle effect as background -->
+    <canvas id="amberCanvas" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: -1;"></canvas>
+
+    <!-- DECORATIVE SILK THREADS - Static positioned threads with animation on scroll -->
+    <div class="silk-thread" style="top: 20%; left: 10%; width: 200px; height: 2px;"></div>
+    <div class="silk-thread" style="top: 40%; right: 15%; width: 150px; height: 2px;"></div>
+    <div class="silk-thread" style="top: 60%; left: 20%; width: 180px; height: 2px;"></div>
+    <div class="silk-thread" style="top: 80%; right: 10%; width: 220px; height: 2px;"></div>
+    <div class="silk-thread" style="top: 30%; left: 70%; width: 160px; height: 2px;"></div>
+
+    <!-- FLOATING PARTICLES - Creates depth effect with staggered animation delays -->
+    <div class="particle" style="left: 10%; animation-delay: 0s;"></div>
+    <div class="particle" style="left: 20%; animation-delay: 1s;"></div>
+    <div class="particle" style="left: 30%; animation-delay: 2s;"></div>
+    <div class="particle" style="left: 40%; animation-delay: 3s;"></div>
+    <div class="particle" style="left: 50%; animation-delay: 4s;"></div>
+    <div class="particle" style="left: 60%; animation-delay: 5s;"></div>
+    <div class="particle" style="left: 70%; animation-delay: 6s;"></div>
+    <div class="particle" style="left: 80%; animation-delay: 7s;"></div>
+    <div class="particle" style="left: 90%; animation-delay: 8s;"></div>
+
     <!-- Navigation -->
-    <nav class="position-fixed top-0 start-0 w-100" style="z-index: 100; background: rgba(10, 10, 10, 0.95); backdrop-filter: blur(10px);" class="border-bottom border-[#8b1d1d] px-3 py-2">
+    <nav class="position-fixed top-0 start-0 w-100 border-bottom border-[#8b1d1d] px-3 py-2" style="z-index: 100; background: rgba(10, 10, 10, 0.95); backdrop-filter: blur(10px);">
         <div class="container-xl mx-auto d-flex justify-content-between align-items-center">
             <!-- Logo/Brand -->
-            <div class="cinzel fs-5 fw-bold tracking-[0.3em] text-[#8b1d1d] glow-hover cursor-default">
+            <div class="cinzel fs-5 fw-bold tracking-[0.3em] text-[#8b1d1d] glow-hover cursor-default glow-text">
                 WEAVER'S SANCTUM
             </div>
 
@@ -69,52 +367,8 @@
     <!-- Backdrop -->
     <div id="backdrop" class="d-md-none position-fixed top-0 start-0 w-100 h-100 d-none" style="z-index: 99; background: rgba(0, 0, 0, 0.5);"></div>
 
-       <!-- Add hamburger and mobile menu CSS -->
-       <style>
-           .hamburger {
-               width: 30px;
-               height: 20px;
-               position: relative;
-               cursor: pointer;
-               background: none;
-               border: none;
-               padding: 0;
-               display: flex;
-               flex-direction: column;
-               justify-content: space-between;
-           }
-
-           .hamburger span {
-               display: block;
-               width: 100%;
-               height: 2px;
-               background-color: #ffb443;
-               transition: all 0.3s ease;
-           }
-
-           .hamburger.active span:nth-child(1) {
-               transform: translateY(9px) rotate(45deg);
-           }
-
-           .hamburger.active span:nth-child(2) {
-               opacity: 0;
-           }
-
-           .hamburger.active span:nth-child(3) {
-               transform: translateY(-9px) rotate(-45deg);
-           }
-
-           #mobileMenu {
-               display: none;
-           }
-
-           #mobileMenu.active {
-               display: flex;
-           }
-       </style>
-
-    <!-- Spacer so content doesn't hide under fixed nav -->
-    <div class="h-20"></div>
+    <!-- Spacer for fixed navigation -->
+    <div class="h-5"></div>
     <section id="contact" class="min-vh-100 d-flex flex-column align-items-center justify-content-center py-5 px-3">
         <header class="mb-5 text-center" style="z-index: 10; max-width: 33.333333%;">
             <h3 class="fs-2 fs-md-1 fw-bold tracking-[0.2em] text-[#8b1d1d] mb-4 text-uppercase cinzel">
@@ -125,7 +379,7 @@
             </p>
         </header>
 
-        <div id="form-container" class="w-100" style="max-width: 50rem;" class="silksong-border p-4 p-md-5 position-relative overflow-hidden">
+        <div id="form-container" class="w-100 silksong-border p-4 p-md-5 position-relative overflow-hidden" style="max-width: 50rem;">
 
 <!-- Silk Threads (JS populated) -->
             <div id="thread-loom" class="position-absolute top-0 start-0 w-100 h-100 pointer-events-none" style="z-index: 40;"></div>
@@ -258,30 +512,249 @@
         </section>
     </section>
 
+    <!-- FOOTER SECTION - Site information, navigation, and copyright -->
+    <footer class="bg-dark text-light py-5">
+        <div class="container-xl mx-auto px-3">
+            <div class="row g-4">
+                <!-- Footer Column 1: Branding & Social -->
+                <div class="col-12 col-md-4">
+                    <div class="cinzel fs-4 fw-bold text-uppercase mb-3" style="color: var(--silk-red);">Weaver's Sanctum</div>
+                    <p class="opacity-75 mb-3">A sanctuary for those who seek the threads of destiny and the songs of forgotten ages.</p>
+                    <!-- Social Media Links -->
+                    <div class="d-flex gap-3">
+                        <a href="#" class="text-light fs-4"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="text-light fs-4"><i class="fab fa-discord"></i></a>
+                        <a href="#" class="text-light fs-4"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+                <!-- Footer Column 2: Navigation Links -->
+                <div class="col-12 col-md-4">
+                    <h5 class="cinzel text-uppercase mb-3" style="color: var(--amber-glow);">Navigation</h5>
+                    <ul class="list-unstyled">
+                        <li class="mb-2"><a href="../index.html" class="text-light text-decoration-none">Sanctum</a></li>
+                        <li class="mb-2"><a href="../Html/Lore.html" class="text-light text-decoration-none">Lore</a></li>
+                        <li class="mb-2"><a href="../Html/Galery.html" class="text-light text-decoration-none">Explore Pharloom</a></li>
+                        <li class="mb-2"><a href="../Html/Map.html" class="text-light text-decoration-none">Map</a></li>
+                        <li class="mb-2"><a href="../Html/Video.html" class="text-light text-decoration-none">Videos</a></li>
+                        <li class="mb-2"><a href="../Html/Contact.html" class="text-light text-decoration-none">Bind Your Song</a></li>
+                    </ul>
+                </div>
+                <!-- Footer Column 3: Core Themes -->
+                <div class="col-12 col-md-4">
+                    <h5 class="cinzel text-uppercase mb-3" style="color: var(--amber-glow);">The Three Pillars</h5>
+                    <ul class="list-unstyled">
+                        <li class="mb-2"><span style="color: var(--amber-glow);">🪡</span> The Needle</li>
+                        <li class="mb-2"><span style="color: var(--amber-glow);">🔔</span> The Song</li>
+                        <li class="mb-2"><span style="color: var(--amber-glow);">🕸️</span> The Silk</li>
+                    </ul>
+                </div>
+            </div>
+            <hr class="my-4" style="border-color: rgba(139, 29, 29, 0.3);">
+            <!-- Copyright Notice -->
+            <div class="text-center opacity-75">
+                <p class="mb-0">&copy; 2024 Weaver's Sanctum. All threads are woven with care.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Cookie Consent Banner -->
+    <div id="cookieBanner" class="position-fixed bottom-0 start-0 w-100 bg-dark border-top border-[#8b1d1d] p-3 d-none" style="z-index: 1000;">
+        <div class="container-xl mx-auto d-flex flex-column flex-md-row align-items-center justify-content-between gap-3">
+            <p class="mb-0 text-[#e2d1c3] opacity-75">This site uses cookies to enhance your experience. <a href="#" class="text-[#ffb443] text-decoration-underline" data-bs-toggle="modal" data-bs-target="#cookieModal">Learn more</a> or manage your preferences.</p>
+            <div class="d-flex gap-2">
+                <button id="declineCookies" class="btn btn-outline-secondary">Decline</button>
+                <button id="acceptCookies" class="cta-btn">Accept</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Cookie Settings Modal -->
+    <div class="modal fade" id="cookieModal" tabindex="-1" aria-labelledby="cookieModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content bg-dark text-light border border-[#8b1d1d]">
+                <div class="modal-header border-bottom border-[#8b1d1d]">
+                    <h5 class="modal-title cinzel text-uppercase" id="cookieModalLabel" style="color: var(--amber-glow);">Cookie Settings</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p class="mb-4">We use cookies to enhance your browsing experience, serve personalized content, and analyze our traffic. You can choose to accept or decline cookies below.</p>
+                    <div class="row g-3">
+                        <div class="col-12">
+                            <div class="d-flex justify-content-between align-items-center p-3 border border-[#8b1d1d] rounded">
+                                <div>
+                                    <h6 class="mb-1" style="color: var(--amber-glow);">Essential Cookies</h6>
+                                    <p class="mb-0 opacity-75 small">Required for the website to function properly.</p>
+                                </div>
+                                <span class="badge bg-success">Always Active</span>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="d-flex justify-content-between align-items-center p-3 border border-[#8b1d1d] rounded">
+                                <div>
+                                    <h6 class="mb-1" style="color: var(--amber-glow);">Analytics Cookies</h6>
+                                    <p class="mb-0 opacity-75 small">Help us understand how visitors interact with our website.</p>
+                                </div>
+                                <div class="form-check form-switch">
+                                    <input class="form-check-input" type="checkbox" id="analyticsCookies" checked>
+                                    <label class="form-check-label" for="analyticsCookies"></label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="d-flex justify-content-between align-items-center p-3 border border-[#8b1d1d] rounded">
+                                <div>
+                                    <h6 class="mb-1" style="color: var(--amber-glow);">Marketing Cookies</h6>
+                                    <p class="mb-0 opacity-75 small">Used to deliver personalized advertisements.</p>
+                                </div>
+                                <div class="form-check form-switch">
+                                    <input class="form-check-input" type="checkbox" id="marketingCookies" checked>
+                                    <label class="form-check-label" for="marketingCookies"></label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer border-top border-[#8b1d1d]">
+                    <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" class="cta-btn" id="acceptCookiesModal">Accept Selected</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap & Script Libraries -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
+    <script type="module" src="../Js/index.js"></script>
+    <script src="../Js/Ambers.js"></script>
+
+    <!-- =====================================================
+         COOKIE MANAGEMENT - User consent for tracking scripts
+         Manages user consent for third-party integrations (Facebook, Instagram)
+         ===================================================== -->
+    <script>
+    /* Cookie utility function - stores user preferences in browser
+       Takes cookie name, value, and number of days before expiration */
+    function setCookie(name, value, days) {
+        const expires = new Date();
+        expires.setTime(expires.getTime() + (days * 24 * 60 * 60 * 1000));  /* Calculate expiration date */
+        document.cookie = name + '=' + value + ';expires=' + expires.toUTCString() + ';path=/';
+    }
+
+    /* Retrieve cookie value by name - looks up stored user preferences
+       Returns cookie value if found, null if not found */
+    function getCookie(name) {
+        const nameEQ = name + '=';
+        const ca = document.cookie.split(';');  /* Split all cookies by semicolon */
+        for(let i = 0; i < ca.length; i++) {
+            let c = ca[i];
+            while (c.charAt(0) === ' ') c = c.substring(1, c.length);  /* Remove leading spaces */
+            if (c.indexOf(nameEQ) === 0) return c.substring(nameEQ.length, c.length);  /* Found cookie */
+        }
+        return null;  /* Cookie not found */
+    }
+
+    /* Cookie banner functionality and third-party service management
+       Runs when page finishes loading to set up cookie banner and event listeners */
+    document.addEventListener('DOMContentLoaded', function() {
+        /* Get references to cookie consent UI elements */
+        const cookieBanner = document.getElementById('cookieBanner');        /* Main banner */
+        const acceptBtn = document.getElementById('acceptCookies');          /* Accept button */
+        const declineBtn = document.getElementById('declineCookies');        /* Decline button */
+        const acceptModalBtn = document.getElementById('acceptCookiesModal'); /* Modal accept button */
+
+        /* Check if user has already made a choice about cookies */
+        const cookieConsent = getCookie('cookieConsent');
+
+        /* Show banner only if user hasn't made a choice yet */
+        if (!cookieConsent) {
+            cookieBanner.classList.remove('d-none');  /* Make banner visible */
+        }
+
+        /* Accept cookies - user accepts cookies and enables third-party integrations */
+        function acceptCookies() {
+            setCookie('cookieConsent', 'accepted', 365);  /* Store consent for 1 year */
+            cookieBanner.classList.add('d-none');           /* Hide banner */
+            enableThirdPartyServices();                      /* Load external scripts */
+        }
+
+        /* Decline cookies - user rejects cookies and third-party services are disabled */
+        function declineCookies() {
+            setCookie('cookieConsent', 'declined', 365);  /* Store decline for 1 year */
+            cookieBanner.classList.add('d-none');            /* Hide banner */
+            disableThirdPartyServices();                      /* Remove external scripts */
+        }
+
+        /* Add click event listeners to cookie consent buttons */
+        acceptBtn.addEventListener('click', acceptCookies);      /* Accept button */
+        acceptModalBtn.addEventListener('click', acceptCookies);  /* Modal accept button */
+        declineBtn.addEventListener('click', declineCookies);     /* Decline button */
+
+        /* Load external tracking and embed scripts when user accepts cookies */
+        function enableThirdPartyServices() {
+            /* Load Facebook SDK - allows embedding Facebook content and tracking */
+            if (!document.getElementById('facebook-jssdk')) {  /* Only load if not already present */
+                const fbScript = document.createElement('script');
+                fbScript.id = 'facebook-jssdk';
+                fbScript.src = 'https://connect.facebook.net/en_US/sdk.js';  /* Facebook SDK URL */
+                document.body.appendChild(fbScript);  /* Add script to page */
+            }
+
+            /* Load Instagram embed script - allows embedding Instagram posts */
+            if (!document.querySelector('script[src*="instagram.com/embed.js"]')) {  /* Check if not loaded */
+                const igScript = document.createElement('script');
+                igScript.src = 'https://www.instagram.com/embed.js';  /* Instagram SDK URL */
+                document.body.appendChild(igScript);  /* Add script to page */
+            }
+        }
+
+        /* Clean up third-party scripts when user declines cookies */
+        function disableThirdPartyServices() {
+            /* Find and remove Facebook script if it exists */
+            const fbScript = document.getElementById('facebook-jssdk');
+            /* Find and remove Instagram script if it exists */
+            const igScript = document.querySelector('script[src*="instagram.com/embed.js"]');
+
+            if (fbScript) fbScript.remove();  /* Remove Facebook SDK */
+            if (igScript) igScript.remove();  /* Remove Instagram SDK */
+        }
+
+        /* Enable services automatically if user previously gave consent */
+        if (cookieConsent === 'accepted') {
+            enableThirdPartyServices();  /* Load external scripts */
+        }
+    });
+    </script>
+
 <script>
-    // Get elements
-    const hamburger = document.getElementById('hamburger');
-    const mobileMenu = document.getElementById('mobileMenu');
-    const backdrop = document.getElementById('backdrop');
-    const mobileLinks = mobileMenu.querySelectorAll('a');
+    /* =====================================================
+       MOBILE MENU TOGGLE - Hamburger menu interaction
+       This script manages the mobile menu opening/closing functionality
+       ===================================================== */
 
-    // Toggle menu function
+    /* Get references to HTML elements needed for menu functionality */
+    const hamburger = document.getElementById('hamburger');  /* Hamburger button */
+    const mobileMenu = document.getElementById('mobileMenu');  /* Mobile menu overlay */
+    const backdrop = document.getElementById('backdrop');      /* Clickable backdrop */
+    const mobileLinks = mobileMenu.querySelectorAll('a');     /* All links in mobile menu */
+
+    /* Toggle menu function - opens/closes mobile menu by toggling CSS classes
+       Also toggles backdrop visibility and prevents body scroll when menu is open */
     function toggleMenu() {
-        hamburger.classList.toggle('active');
-        mobileMenu.classList.toggle('active');
-        backdrop.classList.toggle('d-none');
+        hamburger.classList.toggle('active');      /* Toggle hamburger to X shape */
+        mobileMenu.classList.toggle('active');      /* Toggle mobile menu visibility */
+        backdrop.classList.toggle('d-none');        /* Toggle backdrop visibility */
 
-        // Prevent body scroll when menu is open
+        /* Prevent body scroll when menu is open, allow scroll when closed */
         document.body.style.overflow = mobileMenu.classList.contains('active') ? 'hidden' : '';
     }
 
-    // Open/close menu on hamburger click
+    /* Open/close menu when hamburger button is clicked */
     hamburger.addEventListener('click', toggleMenu);
 
-    // Close menu when backdrop is clicked
+    /* Close menu when user clicks on the backdrop (outside the menu) */
     backdrop.addEventListener('click', toggleMenu);
 
-    // Close menu when a link is clicked
+    /* Close menu when user clicks on any navigation link in the mobile menu */
     mobileLinks.forEach(link => {
         link.addEventListener('click', () => {
             if (mobileMenu.classList.contains('active')) {
@@ -290,15 +763,132 @@
         });
     });
 
-    // Close menu on window resize to desktop size
+    /* Auto-close menu when window is resized to desktop size (768px+) */
     window.addEventListener('resize', () => {
         if (window.innerWidth >= 768 && mobileMenu.classList.contains('active')) {
             toggleMenu();
         }
     });
+
+    /* =====================================================
+       ACTIVE NAVIGATION HIGHLIGHT - Indicates current page
+       Adds 'active' class to the navigation link matching current page URL
+       ===================================================== */
+
+    /* Get current page URL path to determine which link should be active */
+    const currentPath = window.location.pathname;  /* Current page URL */
+    const navLinks = document.querySelectorAll('.nav-link');  /* All navigation links */
+
+    /* Loop through all navigation links */
+    navLinks.forEach(link => {
+        const href = link.getAttribute('href');  /* Get link's href attribute */
+        /* Check if link matches current page - handles both regular pages and index anchors */
+        if (href && (href === currentPath || (href.startsWith('#') && currentPath === '/index.html'))) {
+            link.classList.add('active');  /* Add active class to matching link */
+        }
+    });
 </script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-<script src="../Js/Form-Code.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
+<script type="module" src="../Js/index.js"></script>
+<script src="../Js/Ambers.js"></script>
+
+    <!-- =====================================================
+         COOKIE MANAGEMENT - User consent for tracking scripts
+         Manages user consent for third-party integrations (Facebook, Instagram)
+         ===================================================== -->
+    <script>
+    /* Cookie utility function - stores user preferences in browser
+       Takes cookie name, value, and number of days before expiration */
+    function setCookie(name, value, days) {
+        const expires = new Date();
+        expires.setTime(expires.getTime() + (days * 24 * 60 * 60 * 1000));  /* Calculate expiration date */
+        document.cookie = name + '=' + value + ';expires=' + expires.toUTCString() + ';path=/';
+    }
+
+    /* Retrieve cookie value by name - looks up stored user preferences
+       Returns cookie value if found, null if not found */
+    function getCookie(name) {
+        const nameEQ = name + '=';
+        const ca = document.cookie.split(';');  /* Split all cookies by semicolon */
+        for(let i = 0; i < ca.length; i++) {
+            let c = ca[i];
+            while (c.charAt(0) === ' ') c = c.substring(1, c.length);  /* Remove leading spaces */
+            if (c.indexOf(nameEQ) === 0) return c.substring(nameEQ.length, c.length);  /* Found cookie */
+        }
+        return null;  /* Cookie not found */
+    }
+
+    /* Cookie banner functionality and third-party service management
+       Runs when page finishes loading to set up cookie banner and event listeners */
+    document.addEventListener('DOMContentLoaded', function() {
+        /* Get references to cookie consent UI elements */
+        const cookieBanner = document.getElementById('cookieBanner');        /* Main banner */
+        const acceptBtn = document.getElementById('acceptCookies');          /* Accept button */
+        const declineBtn = document.getElementById('declineCookies');        /* Decline button */
+        const acceptModalBtn = document.getElementById('acceptCookiesModal'); /* Modal accept button */
+
+        /* Check if user has already made a choice about cookies */
+        const cookieConsent = getCookie('cookieConsent');
+
+        /* Show banner only if user hasn't made a choice yet */
+        if (!cookieConsent) {
+            cookieBanner.classList.remove('d-none');  /* Make banner visible */
+        }
+
+        /* Accept cookies - user accepts cookies and enables third-party integrations */
+        function acceptCookies() {
+            setCookie('cookieConsent', 'accepted', 365);  /* Store consent for 1 year */
+            cookieBanner.classList.add('d-none');           /* Hide banner */
+            enableThirdPartyServices();                      /* Load external scripts */
+        }
+
+        /* Decline cookies - user rejects cookies and third-party services are disabled */
+        function declineCookies() {
+            setCookie('cookieConsent', 'declined', 365);  /* Store decline for 1 year */
+            cookieBanner.classList.add('d-none');            /* Hide banner */
+            disableThirdPartyServices();                      /* Remove external scripts */
+        }
+
+        /* Add click event listeners to cookie consent buttons */
+        acceptBtn.addEventListener('click', acceptCookies);      /* Accept button */
+        acceptModalBtn.addEventListener('click', acceptCookies);  /* Modal accept button */
+        declineBtn.addEventListener('click', declineCookies);     /* Decline button */
+
+        /* Load external tracking and embed scripts when user accepts cookies */
+        function enableThirdPartyServices() {
+            /* Load Facebook SDK - allows embedding Facebook content and tracking */
+            if (!document.getElementById('facebook-jssdk')) {  /* Only load if not already present */
+                const fbScript = document.createElement('script');
+                fbScript.id = 'facebook-jssdk';
+                fbScript.src = 'https://connect.facebook.net/en_US/sdk.js';  /* Facebook SDK URL */
+                document.body.appendChild(fbScript);  /* Add script to page */
+            }
+
+            /* Load Instagram embed script - allows embedding Instagram posts */
+            if (!document.querySelector('script[src*="instagram.com/embed.js"]')) {  /* Check if not loaded */
+                const igScript = document.createElement('script');
+                igScript.src = 'https://www.instagram.com/embed.js';  /* Instagram SDK URL */
+                document.body.appendChild(igScript);  /* Add script to page */
+            }
+        }
+
+        /* Clean up third-party scripts when user declines cookies */
+        function disableThirdPartyServices() {
+            /* Find and remove Facebook script if it exists */
+            const fbScript = document.getElementById('facebook-jssdk');
+            /* Find and remove Instagram script if it exists */
+            const igScript = document.querySelector('script[src*="instagram.com/embed.js"]');
+
+            if (fbScript) fbScript.remove();  /* Remove Facebook SDK */
+            if (igScript) igScript.remove();  /* Remove Instagram SDK */
+        }
+
+        /* Enable services automatically if user previously gave consent */
+        if (cookieConsent === 'accepted') {
+            enableThirdPartyServices();  /* Load external scripts */
+        }
+    });
+    </script>
 </body>
 
 </html>

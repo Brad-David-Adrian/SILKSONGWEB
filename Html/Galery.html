@@ -902,6 +902,169 @@
             </p>
     </div>
 </footer>
+
+    <!-- Cookie Consent Banner -->
+    <div id="cookieBanner" class="position-fixed bottom-0 start-0 w-100 bg-dark border-top border-[#8b1d1d] p-3 d-none" style="z-index: 1000;">
+        <div class="container-xl mx-auto d-flex flex-column flex-md-row align-items-center justify-content-between gap-3">
+            <p class="mb-0 text-[#e2d1c3] opacity-75">This site uses cookies to enhance your experience. <a href="#" class="text-[#ffb443] text-decoration-underline" data-bs-toggle="modal" data-bs-target="#cookieModal">Learn more</a> or manage your preferences.</p>
+            <div class="d-flex gap-2">
+                <button id="declineCookies" class="btn btn-outline-secondary">Decline</button>
+                <button id="acceptCookies" class="cta-btn">Accept</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Cookie Settings Modal -->
+    <div class="modal fade" id="cookieModal" tabindex="-1" aria-labelledby="cookieModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content bg-dark text-light border border-[#8b1d1d]">
+                <div class="modal-header border-bottom border-[#8b1d1d]">
+                    <h5 class="modal-title cinzel text-uppercase" id="cookieModalLabel" style="color: var(--amber-glow);">Cookie Settings</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p class="mb-4">We use cookies to enhance your browsing experience, serve personalized content, and analyze our traffic. You can choose to accept or decline cookies below.</p>
+                    <div class="row g-3">
+                        <div class="col-12">
+                            <div class="d-flex justify-content-between align-items-center p-3 border border-[#8b1d1d] rounded">
+                                <div>
+                                    <h6 class="mb-1" style="color: var(--amber-glow);">Essential Cookies</h6>
+                                    <p class="mb-0 opacity-75 small">Required for the website to function properly.</p>
+                                </div>
+                                <span class="badge bg-success">Always Active</span>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="d-flex justify-content-between align-items-center p-3 border border-[#8b1d1d] rounded">
+                                <div>
+                                    <h6 class="mb-1" style="color: var(--amber-glow);">Analytics Cookies</h6>
+                                    <p class="mb-0 opacity-75 small">Help us understand how visitors interact with our website.</p>
+                                </div>
+                                <div class="form-check form-switch">
+                                    <input class="form-check-input" type="checkbox" id="analyticsCookies" checked>
+                                    <label class="form-check-label" for="analyticsCookies"></label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="d-flex justify-content-between align-items-center p-3 border border-[#8b1d1d] rounded">
+                                <div>
+                                    <h6 class="mb-1" style="color: var(--amber-glow);">Marketing Cookies</h6>
+                                    <p class="mb-0 opacity-75 small">Used to deliver personalized advertisements.</p>
+                                </div>
+                                <div class="form-check form-switch">
+                                    <input class="form-check-input" type="checkbox" id="marketingCookies" checked>
+                                    <label class="form-check-label" for="marketingCookies"></label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer border-top border-[#8b1d1d]">
+                    <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" class="cta-btn" id="acceptCookiesModal">Accept Selected</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- =====================================================
+         COOKIE MANAGEMENT - User consent for tracking scripts
+         Manages user consent for third-party integrations (Facebook, Instagram)
+         ===================================================== -->
+    <script>
+    /* Cookie utility function - stores user preferences in browser
+       Takes cookie name, value, and number of days before expiration */
+    function setCookie(name, value, days) {
+        const expires = new Date();
+        expires.setTime(expires.getTime() + (days * 24 * 60 * 60 * 1000));  /* Calculate expiration date */
+        document.cookie = name + '=' + value + ';expires=' + expires.toUTCString() + ';path=/';
+    }
+
+    /* Retrieve cookie value by name - looks up stored user preferences
+       Returns cookie value if found, null if not found */
+    function getCookie(name) {
+        const nameEQ = name + '=';
+        const ca = document.cookie.split(';');  /* Split all cookies by semicolon */
+        for(let i = 0; i < ca.length; i++) {
+            let c = ca[i];
+            while (c.charAt(0) === ' ') c = c.substring(1, c.length);  /* Remove leading spaces */
+            if (c.indexOf(nameEQ) === 0) return c.substring(nameEQ.length, c.length);  /* Found cookie */
+        }
+        return null;  /* Cookie not found */
+    }
+
+    /* Cookie banner functionality and third-party service management
+       Runs when page finishes loading to set up cookie banner and event listeners */
+    document.addEventListener('DOMContentLoaded', function() {
+        /* Get references to cookie consent UI elements */
+        const cookieBanner = document.getElementById('cookieBanner');        /* Main banner */
+        const acceptBtn = document.getElementById('acceptCookies');          /* Accept button */
+        const declineBtn = document.getElementById('declineCookies');        /* Decline button */
+        const acceptModalBtn = document.getElementById('acceptCookiesModal'); /* Modal accept button */
+
+        /* Check if user has already made a choice about cookies */
+        const cookieConsent = getCookie('cookieConsent');
+
+        /* Show banner only if user hasn't made a choice yet */
+        if (!cookieConsent) {
+            cookieBanner.classList.remove('d-none');  /* Make banner visible */
+        }
+
+        /* Accept cookies - user accepts cookies and enables third-party integrations */
+        function acceptCookies() {
+            setCookie('cookieConsent', 'accepted', 365);  /* Store consent for 1 year */
+            cookieBanner.classList.add('d-none');           /* Hide banner */
+            enableThirdPartyServices();                      /* Load external scripts */
+        }
+
+        /* Decline cookies - user rejects cookies and third-party services are disabled */
+        function declineCookies() {
+            setCookie('cookieConsent', 'declined', 365);  /* Store decline for 1 year */
+            cookieBanner.classList.add('d-none');            /* Hide banner */
+            disableThirdPartyServices();                      /* Remove external scripts */
+        }
+
+        /* Add click event listeners to cookie consent buttons */
+        acceptBtn.addEventListener('click', acceptCookies);      /* Accept button */
+        acceptModalBtn.addEventListener('click', acceptCookies);  /* Modal accept button */
+        declineBtn.addEventListener('click', declineCookies);     /* Decline button */
+
+        /* Load external tracking and embed scripts when user accepts cookies */
+        function enableThirdPartyServices() {
+            /* Load Facebook SDK - allows embedding Facebook content and tracking */
+            if (!document.getElementById('facebook-jssdk')) {  /* Only load if not already present */
+                const fbScript = document.createElement('script');
+                fbScript.id = 'facebook-jssdk';
+                fbScript.src = 'https://connect.facebook.net/en_US/sdk.js';  /* Facebook SDK URL */
+                document.body.appendChild(fbScript);  /* Add script to page */
+            }
+
+            /* Load Instagram embed script - allows embedding Instagram posts */
+            if (!document.querySelector('script[src*="instagram.com/embed.js"]')) {  /* Check if not loaded */
+                const igScript = document.createElement('script');
+                igScript.src = 'https://www.instagram.com/embed.js';  /* Instagram SDK URL */
+                document.body.appendChild(igScript);  /* Add script to page */
+            }
+        }
+
+        /* Clean up third-party scripts when user declines cookies */
+        function disableThirdPartyServices() {
+            /* Find and remove Facebook script if it exists */
+            const fbScript = document.getElementById('facebook-jssdk');
+            /* Find and remove Instagram script if it exists */
+            const igScript = document.querySelector('script[src*="instagram.com/embed.js"]');
+
+            if (fbScript) fbScript.remove();  /* Remove Facebook SDK */
+            if (igScript) igScript.remove();  /* Remove Instagram SDK */
+        }
+
+        /* Enable services automatically if user previously gave consent */
+        if (cookieConsent === 'accepted') {
+            enableThirdPartyServices();  /* Load external scripts */
+        }
+    });
+    </script>
 </body>
 
 </html>
