@@ -244,6 +244,53 @@
             position: relative;
             z-index: 50;
         }
+
+        /* =====================================================
+           HAMBURGER MENU STYLES - Mobile navigation button
+           ===================================================== */
+        .hamburger {
+            width: 30px;
+            height: 20px;
+            position: relative;
+            cursor: pointer;
+            background: none;
+            border: none;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .hamburger span {
+            display: block;
+            width: 100%;
+            height: 2px;
+            background-color: #ffb443;
+            transition: all 0.3s ease;
+        }
+
+        .hamburger.active span:nth-child(1) {
+            transform: translateY(9px) rotate(45deg);
+        }
+
+        .hamburger.active span:nth-child(2) {
+            opacity: 0;
+        }
+
+        .hamburger.active span:nth-child(3) {
+            transform: translateY(-9px) rotate(-45deg);
+        }
+
+        /* =====================================================
+           MOBILE MENU STYLES - Overlay navigation menu
+           ===================================================== */
+        .mobile-menu {
+            display: none;
+        }
+
+        .mobile-menu.active {
+            display: flex;
+        }
     </style>
 </head>
 <body class="antialiased bg-dark text-light">
@@ -297,7 +344,7 @@
     </nav>
 
     <!-- Mobile Menu - Overlay menu that appears on hamburger click (hidden on desktop) -->
-    <div id="mobileMenu" class="d-md-none position-fixed top-0 start-0 w-100 h-100 d-none" style="z-index: 101; background: rgba(10, 10, 10, 0.95); backdrop-filter: blur(10px);">
+    <div id="mobileMenu" class="mobile-menu d-md-none position-fixed top-0 start-0 w-100 h-100 d-none" style="z-index: 101; background: rgba(10, 10, 10, 0.95); backdrop-filter: blur(10px);">
         <div class="container-xl mx-auto d-flex flex-column align-items-center justify-content-center h-100 gap-5">
             <a href="index.html" class="nav-link fs-3">Sanctum</a>
             <a href="Html/Lore.html" class="nav-link fs-3">Lore</a>
@@ -331,8 +378,9 @@
     function toggleMenu() {
         hamburger.classList.toggle('active');      /* Toggle hamburger to X shape */
         mobileMenu.classList.toggle('active');      /* Toggle mobile menu visibility */
+        mobileMenu.classList.toggle('d-none');      /* Toggle mobile menu display */
         backdrop.classList.toggle('d-none');        /* Toggle backdrop visibility */
-        
+
         /* Prevent body scroll when menu is open, allow scroll when closed */
         document.body.style.overflow = mobileMenu.classList.contains('active') ? 'hidden' : '';
     }
