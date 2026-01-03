@@ -274,63 +274,88 @@
         }
 
         /* =====================================================
-           HAMBURGER MENU STYLES - Mobile navigation button
+           HAMBURGER MENU - Mobile Navigation Toggle
            ===================================================== */
+        /* Hamburger icon container - three horizontal lines */
         .hamburger {
             width: 30px;
             height: 20px;
             position: relative;
             cursor: pointer;
-            background: none;
-            padding: 0;
+            background: none;               /* No background fill */
+            border: none;                   /* No border styling */
+            padding: 0;                     /* No internal padding */
             display: flex;
             flex-direction: column;
-            justify-content: space-between;
+            justify-content: space-between; /* Space lines evenly */
         }
 
+        /* Individual lines of hamburger icon */
         .hamburger span {
             display: block;
             width: 100%;
             height: 2px;
-            background-color: #ffb443;
-            transition: all 0.3s ease;
+            background-color: var(--amber-glow); /* Golden yellow lines */
+            transition: all 0.3s ease;           /* Smooth animation on click */
         }
 
+        /* Active state: transform lines into X shape */
         .hamburger.active span:nth-child(1) {
-            transform: translateY(9px) rotate(45deg);
+            transform: translateY(9px) rotate(45deg);  /* Top line rotates down-right */
         }
 
         .hamburger.active span:nth-child(2) {
-            opacity: 0;
+            opacity: 0;  /* Middle line fades out */
         }
 
         .hamburger.active span:nth-child(3) {
-            transform: translateY(-9px) rotate(-45deg);
+            transform: translateY(-9px) rotate(-45deg); /* Bottom line rotates up-left */
         }
 
-        /* =====================================================
-           MOBILE MENU STYLES - Overlay navigation menu
-           ===================================================== */
+        /* Mobile menu container - hidden by default */
         .mobile-menu {
-            display: none;
+            display: none;  /* Hidden until active */
         }
 
+        /* Mobile menu active state - show menu */
         .mobile-menu.active {
-            display: flex;
+            display: flex;  /* Show when .active class is added */
         }
+
+        /* Force hamburger lines visible (high-specificity) */
+        #hamburger {
+            width: 30px;
+            height: 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            background: none;
+            border: none;
+            padding: 0;
+        }
+
+        #hamburger span {
+            display: block;
+            width: 25px;
+            height: 4px;
+            background: #ffb443 !important;
+            border-radius: 2px;
+            box-shadow: 0 0 2px rgba(255, 180, 67, 0.5);
+        }
+
     </style>
 </head>
 <body>
 
     <!-- Navigation -->
-    <nav class="position-fixed top-0 start-0 w-100" style="z-index: 100; background: rgba(10, 10, 10, 0.95); backdrop-filter: blur(10px);" class="border-bottom border-[#8b1d1d] px-3 py-2">
+    <nav class="position-fixed top-0 start-0 w-100 border-bottom border-[#8b1d1d] px-3 py-2" style="z-index: 100; background: rgba(10, 10, 10, 0.95); backdrop-filter: blur(10px);">
         <div class="container-xl mx-auto d-flex justify-content-between align-items-center">
             <!-- Logo/Brand -->
             <div class="cinzel fs-5 fw-bold tracking-[0.3em] text-[#8b1d1d] glow-hover cursor-default">
                 WEAVER'S SANCTUM
             </div>
 
-            <!-- Desktop Navigation Links -->
+            <!-- Desktop Navigation Menu - Hidden on screens smaller than 768px -->
             <div class="d-none d-md-flex align-items-center gap-3 fs-6 text-uppercase fw-bold tracking-[0.2em]">
                 <a href="../index.html" class="nav-link hover:text-[#ffb443]"><i class="fas fa-home me-1"></i>Sanctum</a>
                 <a href="../Html/Lore.html" class="nav-link hover:text-[#ffb443]"><i class="fas fa-book me-1"></i>Lore</a>
@@ -341,7 +366,7 @@
                 <a href="#" class="text-[#ffb443] fs-5 hover:scale-110 transition-transform">🔔</a>
             </div>
 
-            <!-- Mobile Hamburger Button -->
+            <!-- Mobile Hamburger Menu Button - Only visible on screens smaller than 768px -->
             <button id="hamburger" class="d-md-none hamburger" style="z-index: 102;">
                 <span></span>
                 <span></span>
@@ -350,8 +375,8 @@
         </div>
     </nav>
 
-    <!-- Mobile Menu -->
-    <div id="mobileMenu" class="mobile-menu d-md-none position-fixed top-0 start-0 w-100 h-100 d-none" style="z-index: 101; background: rgba(10, 10, 10, 0.95); backdrop-filter: blur(10px);">
+      <!-- Mobile Menu - Overlay menu that appears on hamburger click (hidden on desktop) -->
+    <div id="mobileMenu" class="d-md-none position-fixed top-0 start-0 w-100 h-100 d-none" style="z-index: 101; background: rgba(10, 10, 10, 0.95); backdrop-filter: blur(10px);">
         <div class="container-xl mx-auto d-flex flex-column align-items-center justify-content-center h-100 gap-5">
             <a href="../index.html" class="nav-link fs-3">Sanctum</a>
             <a href="../Html/Lore.html" class="nav-link fs-3">Lore</a>
@@ -362,7 +387,7 @@
         </div>
     </div>
 
-    <!-- Backdrop -->
+    <!-- Backdrop overlay behind mobile menu for dismissal -->
     <div id="backdrop" class="d-md-none position-fixed top-0 start-0 w-100 h-100 d-none" style="z-index: 98; background: rgba(0, 0, 0, 0.5);"></div>
 
     <main style="padding-top:80px; padding-bottom:40px;">
