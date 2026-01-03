@@ -246,6 +246,9 @@
 
         .mobile-menu.active {
             display: flex;
+            background: rgba(10, 10, 10, 0.95);
+            backdrop-filter: blur(10px);
+            z-index: 101;
         }
 
         /* Gallery Styles */
@@ -396,7 +399,7 @@
     </nav>
 
     <!-- Mobile Menu -->
-    <div id="mobileMenu" class="d-md-none position-fixed top-0 start-0 w-100 h-100 d-none" style="z-index: 101; background: rgba(10, 10, 10, 0.95); backdrop-filter: blur(10px);">
+    <div id="mobileMenu" class="d-md-none position-fixed top-0 start-0 w-100 h-100 d-none mobile-menu">
         <div class="container-xl mx-auto d-flex flex-column align-items-center justify-content-center h-100 gap-5">
             <a href="../index.html" class="nav-link fs-3">Sanctum</a>
             <a href="../Html/Lore.html" class="nav-link fs-3">Lore</a>
