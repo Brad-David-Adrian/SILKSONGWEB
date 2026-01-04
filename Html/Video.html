@@ -5,17 +5,42 @@
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <title>Videos | Weaver's Sanctum</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=IM+Fell+English:ital@0;1&family=Cinzel:wght@400;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="../Css/Index.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
+        /* =====================================================
+           GLOBAL STYLES - This <style> block contains all CSS for the page
+           It includes variables, layout, animations, and component styling
+           ===================================================== */
+
+        /* =====================================================
+           CSS VARIABLES - Color Theme for Silksong Aesthetic
+           These variables are reused throughout the CSS for consistency
+           ===================================================== */
+        :root {
+            --silk-red: #8b1d1d;           /* Deep burgundy for main accent */
+            --silk-bright: #cc2b2b;        /* Bright red for highlights */
+            --void-black: #0a0a0a;         /* Almost pure black for background */
+            --pale-silk: #e2d1c3;          /* Cream/beige for text */
+            --amber-glow: #ffb443;         /* Golden amber for interactive elements */
+        }
+
+        /* =====================================================
+           BODY - Global Layout & Background
+           ===================================================== */
         body {
-            background: radial-gradient(ellipse at center, #0a0a0a 0%, #050505 70%);
+            background-color: var(--void-black);
+            /* Layered backgrounds: radial gradient + texture pattern */
+            background-image:
+                radial-gradient(circle at 50% 50%, #1a0a0a 0%, #050505 100%),
+                url('https://www.transparenttextures.com/patterns/dark-matter.png');
             color: var(--pale-silk);
             font-family: 'IM Fell English', serif;
-            margin: 0;
             overflow-x: hidden;
+            /* Flex layout: allows footer to stay at bottom */
             display: flex;
             flex-direction: column;
             min-height: 100vh;
@@ -23,30 +48,260 @@
 
         .cinzel { font-family: 'Cinzel', serif; }
 
+        /* =====================================================
+           NAVIGATION - Fixed Header Bar & Link Effects
+           ===================================================== */
         nav {
-            z-index: 100;
-            background: rgba(10, 10, 10, 0.95);
+            background: rgba(10, 10, 10, 0.9);
+            border-bottom: 1px solid rgba(139, 29, 29, 0.3);
             backdrop-filter: blur(10px);
-            border-bottom: 1px solid var(--silk-red);
-            box-shadow: 0 2px 10px rgba(139, 29, 29, 0.1);
         }
 
-        /* Silk thread background pattern */
-        main::before {
+        /* Navigation links with underline hover effect */
+        .nav-link {
+            position: relative;
+            transition: all 0.3s;
+            letter-spacing: 0.2em;
+        }
+
+        /* Animated underline that appears on hover */
+        .nav-link::after {
             content: '';
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-image:
-                radial-gradient(circle at 20% 80%, rgba(139, 29, 29, 0.03) 0%, transparent 50%),
-                radial-gradient(circle at 80% 20%, rgba(255, 180, 67, 0.02) 0%, transparent 50%),
-                radial-gradient(circle at 40% 40%, rgba(139, 29, 29, 0.02) 0%, transparent 50%);
-            pointer-events: none;
-            z-index: -1;
+            position: absolute;
+            bottom: -5px;
+            left: 50%;
+            width: 0;
+            height: 1px;
+            background: var(--amber-glow);
+            transition: all 0.3s;
+            transform: translateX(-50%);
         }
 
+        .nav-link:hover::after {
+            width: 100%;
+        }
+
+        .nav-link:hover {
+            color: var(--amber-glow);
+            text-shadow: 0 0 10px var(--amber-glow);
+        }
+
+        /* =====================================================
+           BORDER EFFECTS - Silksong-style decorative borders
+           ===================================================== */
+        .silksong-border {
+            border: 2px solid var(--silk-red);
+            box-shadow: 0 0 15px rgba(139, 29, 29, 0.4), inset 0 0 20px rgba(0,0,0,0.8);
+            position: relative;
+            background: #0a0a0a;
+        }
+
+        /* Decorative corner ornaments using pseudo-elements */
+        .silksong-border::before, .silksong-border::after {
+            content: '';
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            border: 2px solid var(--amber-glow);
+            filter: drop-shadow(0 0 5px var(--amber-glow));
+            z-index: 10;
+        }
+
+        .silksong-border::before { top: -4px; left: -4px; border-right: 0; border-bottom: 0; }
+        .silksong-border::after { bottom: -4px; right: -4px; border-left: 0; border-top: 0; }
+
+        /* =====================================================
+           SILK THREAD ANIMATIONS - Floating decorative threads
+           ===================================================== */
+        .silk-thread {
+            position: absolute;
+            background: var(--silk-red);
+            pointer-events: none;
+            z-index: 40;
+            transition: all 1.2s cubic-bezier(0.23, 1, 0.32, 1);
+            opacity: 0;
+            box-shadow: 0 0 4px var(--silk-red);
+        }
+
+        /* Thread orientation classes */
+        .silk-thread.horizontal { height: 1px; width: 0; left: 0; }
+        .silk-thread.vertical { width: 1px; height: 0; top: 0; }
+
+        /* Pulse animation - brightness and opacity changes */
+        @keyframes threadPulse {
+            0%, 100% { opacity: 0.7; filter: brightness(1); }
+            50% { opacity: 1; filter: brightness(1.5); box-shadow: 0 0 8px var(--silk-bright); }
+        }
+
+        /* Vibrate animation - slight jitter effect */
+        @keyframes threadVibrate {
+            0%, 100% { transform: translate(0, 0); }
+            25% { transform: translate(1px, -1px); }
+            75% { transform: translate(-1px, 1px); }
+        }
+
+        /* Active weaving state - combines both animations */
+        .silk-thread.weaving {
+            opacity: 0.8;
+            animation: threadPulse 2s infinite ease-in-out, threadVibrate 0.1s infinite;
+        }
+
+        .silk-thread.horizontal.weaving { width: 100%; }
+        .silk-thread.vertical.weaving { height: 100%; }
+
+        /* =====================================================
+           FORM ELEMENTS - Input & Textarea Styling
+           ===================================================== */
+        input, textarea {
+            background: rgba(139, 29, 29, 0.05);
+            border: 1px solid rgba(139, 29, 29, 0.3);
+            border-bottom: 2px solid var(--silk-red);
+            padding: 1rem;
+            outline: none;
+            transition: all 0.3s;
+            color: var(--pale-silk);
+        }
+
+        /* Focus state - highlights with amber glow */
+        input:focus, textarea:focus {
+            border-color: var(--amber-glow);
+            background: rgba(255, 180, 67, 0.05);
+            box-shadow: 0 0 10px rgba(255, 180, 67, 0.1);
+        }
+
+        /* =====================================================
+           BUTTONS - Call-to-Action Button Styling
+           ===================================================== */
+        .cta-btn {
+            background: black;
+            border: 1px solid var(--silk-red);
+            color: var(--pale-silk);
+            letter-spacing: 0.3em;
+            text-transform: uppercase;
+            padding: 1rem 2rem;
+            transition: all 0.3s;
+            position: relative;
+            overflow: hidden;
+            display: inline-block;
+        }
+
+        /* Hover state - amber glow and lift effect */
+        .cta-btn:hover {
+            border-color: var(--amber-glow);
+            color: var(--amber-glow);
+            box-shadow: 0 0 20px rgba(255, 180, 67, 0.3);
+            transform: translateY(-2px);
+        }
+
+        /* =====================================================
+           DECORATIONS - Dividers & Floating Elements
+           ===================================================== */
+        .section-divider {
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--silk-red), transparent);
+            margin: 4rem 0;
+        }
+
+        /* Floating animation for decorative elements */
+        .floating {
+            animation: float 6s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+            100% { transform: translateY(0px); }
+        }
+
+        /* Fade-in animation for page load */
+        @keyframes fade-in {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .animate-fade-in {
+            animation: fade-in 1s ease-out forwards;
+        }
+
+        /* Animated background shift for hero section */
+        @keyframes animatedBackground {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .hero-background {
+            background: linear-gradient(-45deg, rgba(0,0,0,0.7), rgba(26,10,10,0.7), rgba(0,0,0,0.7));
+            background-size: 400% 400%;
+            animation: animatedBackground 15s ease infinite;
+        }
+
+        /* =====================================================
+           FOOTER - Sticky footer using flex layout
+           ===================================================== */
+        footer {
+            margin-top: auto;
+            position: relative;
+            z-index: 50;
+        }
+
+        /* =====================================================
+           HAMBURGER MENU STYLES - Mobile navigation button
+           ===================================================== */
+        .hamburger {
+            width: 30px;
+            height: 20px;
+            position: relative;
+            cursor: pointer;
+            background: none;
+            border: none;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .hamburger span {
+            display: block;
+            width: 100%;
+            height: 2px;
+            background-color: #ffb443;
+            transition: all 0.3s ease;
+        }
+
+        .hamburger.active span:nth-child(1) {
+            transform: translateY(9px) rotate(45deg);
+        }
+
+        .hamburger.active span:nth-child(2) {
+            opacity: 0;
+        }
+
+        .hamburger.active span:nth-child(3) {
+            transform: translateY(-9px) rotate(-45deg);
+        }
+
+        /* =====================================================
+           MOBILE MENU STYLES - Overlay navigation menu
+           ===================================================== */
+        .mobile-menu {
+            display: none;
+        }
+
+        .mobile-menu.active {
+            display: flex;
+        }
+
+        /* Backdrop overlay styles */
+        #backdrop {
+            display: none;
+        }
+
+        #backdrop.active {
+            display: block;
+        }
+
+        /* Video and image card styles */
         .video-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
@@ -272,77 +527,6 @@
                 display: block;
             }
         }
-
-        /* =====================================================
-           HAMBURGER MENU - Mobile Navigation Toggle
-           ===================================================== */
-        /* Hamburger icon container - three horizontal lines */
-        .hamburger {
-            width: 30px;
-            height: 20px;
-            position: relative;
-            cursor: pointer;
-            background: none;               /* No background fill */
-            border: none;                   /* No border styling */
-            padding: 0;                     /* No internal padding */
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between; /* Space lines evenly */
-        }
-
-        /* Individual lines of hamburger icon */
-        .hamburger span {
-            display: block;
-            width: 100%;
-            height: 2px;
-            background-color: var(--amber-glow); /* Golden yellow lines */
-            transition: all 0.3s ease;           /* Smooth animation on click */
-        }
-
-        /* Active state: transform lines into X shape */
-        .hamburger.active span:nth-child(1) {
-            transform: translateY(9px) rotate(45deg);  /* Top line rotates down-right */
-        }
-
-        .hamburger.active span:nth-child(2) {
-            opacity: 0;  /* Middle line fades out */
-        }
-
-        .hamburger.active span:nth-child(3) {
-            transform: translateY(-9px) rotate(-45deg); /* Bottom line rotates up-left */
-        }
-
-        /* Mobile menu container - hidden by default */
-        .mobile-menu {
-            display: none;  /* Hidden until active */
-        }
-
-        /* Mobile menu active state - show menu */
-        .mobile-menu.active {
-            display: flex;  /* Show when .active class is added */
-        }
-
-        /* Force hamburger lines visible (high-specificity) */
-        #hamburger {
-            width: 30px;
-            height: 20px;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            background: none;
-            border: none;
-            padding: 0;
-        }
-
-        #hamburger span {
-            display: block;
-            width: 25px;
-            height: 4px;
-            background: #ffb443 !important;
-            border-radius: 2px;
-            box-shadow: 0 0 2px rgba(255, 180, 67, 0.5);
-        }
-
     </style>
 </head>
 <body>
@@ -366,8 +550,8 @@
                 <a href="#" class="text-[#ffb443] fs-5 hover:scale-110 transition-transform">🔔</a>
             </div>
 
-            <!-- Mobile Hamburger Menu Button - Only visible on screens smaller than 768px -->
-            <button id="hamburger" class="d-md-none hamburger" style="z-index: 102;">
+            <!-- Mobile Hamburger Menu Button -->
+            <button id="hamburger" class="hamburger d-md-none">
                 <span></span>
                 <span></span>
                 <span></span>
@@ -376,7 +560,7 @@
     </nav>
 
       <!-- Mobile Menu - Overlay menu that appears on hamburger click (hidden on desktop) -->
-    <div id="mobileMenu" class="d-md-none position-fixed top-0 start-0 w-100 h-100 d-none" style="z-index: 101; background: rgba(10, 10, 10, 0.95); backdrop-filter: blur(10px);">
+    <div id="mobileMenu" class="mobile-menu position-fixed top-0 start-0 w-100 h-100" style="z-index: 101; background: rgba(10, 10, 10, 0.95); backdrop-filter: blur(10px);">
         <div class="container-xl mx-auto d-flex flex-column align-items-center justify-content-center h-100 gap-5">
             <a href="../index.html" class="nav-link fs-3">Sanctum</a>
             <a href="../Html/Lore.html" class="nav-link fs-3">Lore</a>
@@ -388,7 +572,7 @@
     </div>
 
     <!-- Backdrop overlay behind mobile menu for dismissal -->
-    <div id="backdrop" class="d-md-none position-fixed top-0 start-0 w-100 h-100 d-none" style="z-index: 98; background: rgba(0, 0, 0, 0.5);"></div>
+    <div id="backdrop" class="position-fixed top-0 start-0 w-100 h-100" style="z-index: 99; background: rgba(0, 0, 0, 0.5);"></div>
 
     <main style="padding-top:80px; padding-bottom:40px;">
         <div class="container-xl">
@@ -452,57 +636,11 @@
         <div class="container-xl text-center text-muted">&copy; Weaver's Sanctum</div>
     </footer>
 
-    <!-- Mobile Banner -->
-    <div id="mobileBanner" class="mobile-banner show">
-        <div class="container-xl banner-content">
-            <p class="banner-text">Welcome to Weaver's Sanctum! Explore the threads of fate.</p>
-            <button id="closeBanner" class="banner-close">&times;</button>
-        </div>
-    </div>
-
     <script>
-    // Get elements
-    const hamburger = document.getElementById('hamburger');
-    const mobileMenu = document.getElementById('mobileMenu');
-    const backdrop = document.getElementById('backdrop');
-    const mobileLinks = mobileMenu.querySelectorAll('a');
 
-    // Toggle menu function
-    function toggleMenu() {
-        hamburger.classList.toggle('active');
-        mobileMenu.classList.toggle('active');
-        mobileMenu.classList.toggle('d-none');
-        backdrop.classList.toggle('d-none');
-
-        // Prevent body scroll when menu is open
-        document.body.style.overflow = mobileMenu.classList.contains('active') ? 'hidden' : '';
-    }
-
-    // Open/close menu on hamburger click
-    hamburger.addEventListener('click', toggleMenu);
-
-    // Close menu when backdrop is clicked
-    backdrop.addEventListener('click', toggleMenu);
-
-    // Close menu when a link is clicked
-    mobileLinks.forEach(link => {
-        link.addEventListener('click', () => {
-            if (mobileMenu.classList.contains('active')) {
-                toggleMenu();
-            }
-        });
-    });
-
-    // Close menu on window resize to desktop size
-    window.addEventListener('resize', () => {
-        if (window.innerWidth >= 768 && mobileMenu.classList.contains('active')) {
-            toggleMenu();
-        }
-    });
-    </script>
-
-    <script>
-    // Video autoplay on scroll functionality
+    // =====================================================
+    // VIDEO AUTOPLAY ON SCROLL - Enhanced functionality
+    // =====================================================
     const videos = document.querySelectorAll('video');
 
     function isElementInViewport(el) {
@@ -528,12 +666,79 @@
     window.addEventListener('scroll', handleScroll);
     window.addEventListener('load', handleScroll);
 
-    // Mobile banner close functionality
-    const closeBannerBtn = document.getElementById('closeBanner');
-    const mobileBanner = document.getElementById('mobileBanner');
+    // =====================================================
+    // HAMBURGER MENU FUNCTIONALITY - Mobile navigation
+    // =====================================================
+    const hamburger = document.getElementById('hamburger');
+    const mobileMenu = document.getElementById('mobileMenu');
+    const backdrop = document.getElementById('backdrop');
+    const mobileLinks = mobileMenu.querySelectorAll('a');
 
-    closeBannerBtn.addEventListener('click', () => {
-        mobileBanner.classList.remove('show');
+    function toggleMenu() {
+        hamburger.classList.toggle('active');
+        mobileMenu.classList.toggle('active');
+        backdrop.classList.toggle('active');
+        document.body.style.overflow = mobileMenu.classList.contains('active') ? 'hidden' : '';
+    }
+
+    hamburger.addEventListener('click', toggleMenu);
+
+    // Close menu when clicking backdrop
+    backdrop.addEventListener('click', () => {
+        if (mobileMenu.classList.contains('active')) {
+            toggleMenu();
+        }
+    });
+
+    mobileLinks.forEach(link => {
+        link.addEventListener('click', () => {
+            if (mobileMenu.classList.contains('active')) {
+                toggleMenu();
+            }
+        });
+    });
+
+    window.addEventListener('resize', () => {
+        if (window.innerWidth >= 768 && mobileMenu.classList.contains('active')) {
+            toggleMenu();
+        }
+    });
+
+    // =====================================================
+    // SMOOTH SCROLLING - For navigation links
+    // =====================================================
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function (e) {
+            e.preventDefault();
+            const target = document.querySelector(this.getAttribute('href'));
+            if (target) {
+                target.scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'start'
+                });
+            }
+        });
+    });
+
+    // =====================================================
+    // INTERSECTION OBSERVER - For fade-in animations
+    // =====================================================
+    const observerOptions = {
+        threshold: 0.1,
+        rootMargin: '0px 0px -50px 0px'
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('animate-fade-in');
+            }
+        });
+    }, observerOptions);
+
+    // Observe all elements with animate-fade-in class
+    document.querySelectorAll('.animate-fade-in').forEach(el => {
+        observer.observe(el);
     });
     </script>
 
