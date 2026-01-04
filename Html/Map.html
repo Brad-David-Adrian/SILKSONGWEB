@@ -65,23 +65,19 @@
     <!-- Backdrop -->
     <div id="backdrop" class="d-md-none position-fixed top-0 start-0 w-100 h-100 d-none" style="z-index: 98; background: rgba(0, 0, 0, 0.5);"></div>
 
-    <div id="mapWrapper" style="position:fixed; top:60px; left:0; width:100vw; height:calc(100vh - 60px); z-index:1; background:#050505; overflow:hidden;">
+    <div id="mapWrapper" style="position:fixed; top:60px; left:0; right:0; bottom:var(--footer-height); z-index:1; background:#050505; overflow:hidden;">
         <svg id="pharloomMap" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1000" style="width:100%; height:100%; display:block; touch-action: none;">
             <g class="svg-pan-zoom_viewport">
                 <g id="mapTilesLayer"></g>
-                <g id="markers"></g>
             </g>
         </svg>
     </div>
 
-    <div id="mapTip" style="position:fixed; left:20px; bottom:20px; z-index:200; color:#888; font-size:12px; background:rgba(0,0,0,0.5); padding:5px 10px; border-radius:4px; pointer-events:none;">
-        Usa la rueda del ratón para Zoom | Doble Click para Marcador
+    <div id="mapTip" style="position:fixed; left:20px; bottom:calc(var(--footer-height) + 20px); z-index:200; color:#888; font-size:12px; background:rgba(0,0,0,0.5); padding:5px 10px; border-radius:4px; pointer-events:none;">
+        Usa la rueda del ratón para Zoom
     </div>
 
-    <div id="tooltip" style="position:fixed; z-index:220; display:none; background:rgba(10,10,10,0.9); padding:12px; border: 1px solid #ffb443; border-radius:4px; color:#fff; min-width:200px;">
-        <div id="tooltipTitle" class="fw-bold fs-5 text-warning mb-1"></div>
-        <div id="tooltipDesc" class="small text-light font-monospace"></div>
-    </div>
+    <!-- Marker tooltip removed -->
 
     <style>
         #zoomControls { position: fixed; right: 16px; top: 80px; z-index:250; display:flex; flex-direction:column; gap:8px; }
@@ -114,11 +110,8 @@
 
         const svg = document.getElementById('pharloomMap');
         const mapTilesLayer = document.getElementById('mapTilesLayer');
-        const markersGroup = document.getElementById('markers');
-        const tooltip = document.getElementById('tooltip');
         
         let panZoomInstance = null;
-        let markersData = [];
 
         // 1. CARGA DE IMÁGENES
         function loadMapTiles() {
@@ -152,72 +145,11 @@
                 });
 
                 initPanZoomAndUI();
-
-                loadMarkers();
-                renderAll();
             };
             
             firstTile.onerror = () => {
                 console.error("No se pudo cargar: " + firstTile.src);
             };
-        }
-
-        // 2. MARCADORES
-        function saveMarkers() { localStorage.setItem('pharloom_markers', JSON.stringify(markersData)); }
-        function loadMarkers() {
-            try {
-                const raw = localStorage.getItem('pharloom_markers');
-                if (raw) markersData = JSON.parse(raw);
-            } catch (e) { markersData = []; }
-        }
-
-        function createMarker(m) {
-            const g = document.createElementNS('http://www.w3.org/2000/svg','g');
-            g.setAttribute('cursor','pointer');
-            
-            const circle = document.createElementNS('http://www.w3.org/2000/svg','circle');
-            circle.setAttribute('cx', m.x); circle.setAttribute('cy', m.y);
-            circle.setAttribute('r', 10);
-            circle.setAttribute('fill', '#ffb443');
-            circle.setAttribute('stroke', '#000');
-            circle.setAttribute('stroke-width', '2');
-            
-            const label = document.createElementNS('http://www.w3.org/2000/svg','text');
-            label.setAttribute('x', m.x + 15);
-            label.setAttribute('y', m.y + 5);
-            label.setAttribute('fill','#fff');
-            label.setAttribute('font-family', 'Cinzel, serif');
-            label.setAttribute('font-weight', 'bold');
-            label.setAttribute('font-size','24');
-            label.style.textShadow = "2px 2px 4px #000";
-            label.textContent = m.title;
-
-            g.appendChild(circle);
-            g.appendChild(label);
-
-            g.addEventListener('click', (ev) => {
-                ev.stopPropagation();
-                document.getElementById('tooltipTitle').textContent = m.title;
-                document.getElementById('tooltipDesc').textContent = m.desc || "";
-                tooltip.style.display = 'block';
-                tooltip.style.left = (ev.clientX + 10) + 'px';
-                tooltip.style.top = (ev.clientY + 10) + 'px';
-            });
-            
-            g.addEventListener('contextmenu', (ev) => {
-                ev.preventDefault();
-                if(confirm('¿Borrar marcador?')) {
-                    markersData = markersData.filter(x => x.id !== m.id);
-                    saveMarkers(); renderAll();
-                }
-            });
-
-            markersGroup.appendChild(g);
-        }
-
-        function renderAll() {
-            markersGroup.innerHTML = '';
-            markersData.forEach(m => createMarker(m));
         }
 
         // 3. INICIALIZAR ZOOM Y PANNING PERSONALIZADO
@@ -233,7 +165,6 @@
 
         function updateTransform() {
             mapTilesLayer.style.transform = `translate(${translateX}px, ${translateY}px) scale(${scale})`;
-            markersGroup.style.transform = `translate(${translateX}px, ${translateY}px) scale(${scale})`;
         }
 
         function zoom(factor, centerX, centerY) {
@@ -305,21 +236,8 @@
                 return { x: svgX, y: svgY };
             }
 
-            // Añadir marcador con Doble Click
-            svg.addEventListener('dblclick', (e) => {
-                const pt = clientToSVGCoords(e.clientX, e.clientY);
-                const x = Math.round(pt.x);
-                const y = Math.round(pt.y);
-
-                const title = prompt('Nombre del lugar:');
-                if (!title) return;
-                const desc = prompt('Descripción (opcional):');
-                markersData.push({ id: Date.now(), x: Math.round(x), y: Math.round(y), title, desc });
-                saveMarkers(); renderAll();
-            });
-
-            // Ocultar tooltip al hacer click fuera
-            svg.addEventListener('click', () => { tooltip.style.display = 'none'; });
+            // Marker creation disabled: double-click to add markers removed.
+            // Map interactions: click does nothing special (tooltip removed).
         }
 
         // Toggle Menú Móvil
@@ -387,49 +305,5 @@
     })();
     </script>
 
-    <!-- FOOTER SECTION - Site information, navigation, and copyright -->
-    <footer class="bg-dark text-light py-5">
-        <div class="container-xl mx-auto px-3">
-            <div class="row g-4">
-                <!-- Footer Column 1: Branding & Social -->
-                <div class="col-12 col-md-4">
-                    <div class="cinzel fs-4 fw-bold text-uppercase mb-3" style="color: var(--silk-red);">Weaver's Sanctum</div>
-                    <p class="opacity-75 mb-3">A sanctuary for those who seek the threads of destiny and the songs of forgotten ages.</p>
-                    <!-- Social Media Links -->
-                    <div class="d-flex gap-3">
-                        <a href="#" class="text-light fs-4"><i class="fab fa-twitter"></i></a>
-                        <a href="#" class="text-light fs-4"><i class="fab fa-discord"></i></a>
-                        <a href="#" class="text-light fs-4"><i class="fab fa-youtube"></i></a>
-                    </div>
-                </div>
-                <!-- Footer Column 2: Navigation Links -->
-                <div class="col-12 col-md-4">
-                    <h5 class="cinzel text-uppercase mb-3" style="color: var(--amber-glow);">Navigation</h5>
-                    <ul class="list-unstyled">
-                        <li class="mb-2"><a href="../index.html" class="text-light text-decoration-none">Sanctum</a></li>
-                        <li class="mb-2"><a href="../Html/Lore.html" class="text-light text-decoration-none">Lore</a></li>
-                        <li class="mb-2"><a href="../Html/Galery.html" class="text-light text-decoration-none">Explore Pharloom</a></li>
-                        <li class="mb-2"><a href="../Html/Map.html" class="text-light text-decoration-none">Map</a></li>
-                        <li class="mb-2"><a href="../Html/Video.html" class="text-light text-decoration-none">Videos</a></li>
-                        <li class="mb-2"><a href="../Html/Contact.html" class="text-light text-decoration-none">Bind Your Song</a></li>
-                    </ul>
-                </div>
-                <!-- Footer Column 3: Core Themes -->
-                <div class="col-12 col-md-4">
-                    <h5 class="cinzel text-uppercase mb-3" style="color: var(--amber-glow);">The Three Pillars</h5>
-                    <ul class="list-unstyled">
-                        <li class="mb-2"><span style="color: var(--amber-glow);">🪡</span> The Needle</li>
-                        <li class="mb-2"><span style="color: var(--amber-glow);">🔔</span> The Song</li>
-                        <li class="mb-2"><span style="color: var(--amber-glow);">🕸️</span> The Silk</li>
-                    </ul>
-                </div>
-            </div>
-            <hr class="my-4" style="border-color: rgba(139, 29, 29, 0.3);">
-            <!-- Copyright Notice -->
-            <div class="text-center opacity-75">
-                <p class="mb-0">&copy; 2025 Weaver's Sanctum. All threads are woven with care.</p>
-            </div>
-        </div>
-    </footer>
 </body>
 </html>
