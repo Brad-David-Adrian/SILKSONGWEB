@@ -10,7 +10,7 @@ $(document).ready(function() {
     function setupThreads() {
         $threadLoom.empty();
         
-        const count = 30; // Increased thread count for density
+        const count = 15; // Reduced thread count to minimize overlap
         
         // Horizontal threads with randomized offsets and delays
         for (let i = 0; i < count; i++) {

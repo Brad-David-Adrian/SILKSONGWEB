@@ -147,14 +147,14 @@
             animation: threadPulse 2s infinite ease-in-out, threadVibrate 0.1s infinite;
         }
 
-        .silk-thread.horizontal.weaving { width: 100%; }
-        .silk-thread.vertical.weaving { height: 100%; }
+        .silk-thread.horizontal.weaving { width: 0; }
+        .silk-thread.vertical.weaving { height: 0; }
 
         /* =====================================================
            FORM ELEMENTS - Input & Textarea Styling
            ===================================================== */
         input, textarea {
-            background: rgba(139, 29, 29, 0.05);
+            background: rgba(10, 10, 10, 0.95);
             border: 1px solid rgba(139, 29, 29, 0.3);
             border-bottom: 2px solid var(--silk-red);
             padding: 1rem;
@@ -372,7 +372,7 @@
 
     <!-- Spacer for fixed navigation -->
     <div class="h-5"></div>
-    <section id="contact" class="min-vh-100 d-flex flex-column align-items-center justify-content-center py-5 px-3 position-relative">
+    <section id="contact" class="min-vh-100 d-flex flex-column align-items-center justify-content-center py-5 px-3 position-relative" style="padding-top: 5rem;">
         <header class="mb-5 text-center" style="z-index: 10; max-width: 33.333333%;">
             <h3 class="fs-2 fs-md-1 fw-bold tracking-[0.2em] text-[#8b1d1d] mb-4 text-uppercase cinzel">
                 Bind Your Song
@@ -623,7 +623,8 @@
     <!-- Bootstrap & Script Libraries -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
     <script type="module" src="../Js/index.js"></script>
-    <script src="../Js/Ambers.js"></script>
+<script src="../Js/Ambers.js"></script>
+<script src="../Js/Form-Code.js"></script>
 
     <!-- =====================================================
          COOKIE MANAGEMENT - User consent for tracking scripts

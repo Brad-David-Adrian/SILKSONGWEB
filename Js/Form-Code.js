@@ -34,27 +34,26 @@ $(function() {
 
     /**
      * Elimina el estado visual de error de todos los campos.
-     * Busca elementos con clase 'error-message' y limpia estilos de inputs.
+     * Limpia el contenido de los divs de error existentes y remueve clases de error de inputs.
      */
     function clearErrors() {
-        $('.error-message').remove(); // Asumiendo que usas esta clase para el texto
-        $form.find('input, textarea').removeClass('border-red-500 ring-2 ring-red-500'); // Ejemplo de clases Tailwind/CSS
+        $('.error-message').text('').hide(); // Limpia y oculta los mensajes de error existentes
+        $form.find('input, textarea').removeClass('is-invalid'); // Remueve clase Bootstrap de error
     }
 
     /**
-     * Muestra un error en el campo y pone el foco.
-     * Llama a `clearErrors()` antes (opcional, según UX deseada) o gestiona el error específico.
+     * Muestra un error en el campo usando el div de error existente y pone el foco.
      */
     function focusAndShow(id, msg) {
         const $field = $('#' + id);
-        
-        // Agrega estilo de error al input
-        $field.addClass('border-red-500 ring-2 ring-red-500');
-        
-        // Crea y añade el mensaje de error si no existe
-        const $err = $('<div class="error-message text-red-400 text-sm mt-1"></div>').text(msg);
-        $field.after($err);
-        
+        const $errorDiv = $('#' + id + '-error');
+
+        // Agrega clase Bootstrap de error al input
+        $field.addClass('is-invalid');
+
+        // Muestra el mensaje en el div de error existente
+        $errorDiv.text(msg).show();
+
         // Pone el foco en el campo
         $field.focus();
     }
@@ -109,7 +108,7 @@ $(function() {
         // UI: bloquear interacciones y animar telar
         $form.css('opacity', '0.3').css('pointer-events', 'none');
         $('.silk-thread').addClass('weaving');
-        $loadingOverlay.addClass('active');
+        $loadingOverlay.removeClass('d-none');
 
         // AJAX: serializa el formulario y lo envía al `action` configurado
         $.ajax({
@@ -137,7 +136,7 @@ $(function() {
 
             $aiReply.html(html);
             $form.hide().css('pointer-events', 'auto');
-            $resultView.removeClass('hidden');
+            $resultView.removeClass('d-none');
         }).fail(function(err) {
             // Error de envío
             alert('El telar ha tropezado. No se pudo enlazar tu hilo; intenta de nuevo.');
@@ -145,7 +144,7 @@ $(function() {
             $form.css('pointer-events', 'auto');
         }).always(function() {
             // Restaurar estado visual
-            $loadingOverlay.removeClass('active');
+            $loadingOverlay.addClass('d-none');
             $('.silk-thread').removeClass('weaving');
             $form.css('opacity', '1');
         });
